@@ -57,6 +57,20 @@ export const IMAGES = {
   warehouse:
     "https://image.qwenlm.ai/generated-images/96969773-b607-4ff9-8c29-42810c7c5710/_result.png",
   port: "https://image.qwenlm.ai/generated-images/3b892691-6840-44ec-8bd9-3af2d6f064c7/_result.png",
+  nonferrous:
+    "https://image.qwenlm.ai/generated-images/814cfd1f-2dc0-4210-9e4c-5b71ced3f424/_result.png",
+  loading:
+    "https://image.qwenlm.ai/generated-images/41dec6d2-1d0f-4b16-a56b-16e320c130f8/_result.png",
+};
+
+export const CAT_IMAGE: Record<string, string> = {
+  "iron-ore": IMAGES.hero,
+  "semi-finished": IMAGES.hero,
+  "long-structural": IMAGES.loading,
+  "flat-steel": IMAGES.warehouse,
+  copper: IMAGES.nonferrous,
+  aluminum: IMAGES.nonferrous,
+  ferroalloys: IMAGES.loading,
 };
 
 type Shipment = {

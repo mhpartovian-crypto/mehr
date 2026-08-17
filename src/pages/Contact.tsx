@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { useLang, waLink } from "../i18n";
+import { usePageMeta } from "../hooks/usePageMeta";
 import { CONTACT, TEAM } from "../data/site";
 import { Reveal, SectionHead } from "../components/Reveal";
 import { IconCheck, IconClock, IconMail, IconPhone, IconPin, IconWA } from "../components/Icons";
@@ -9,6 +10,7 @@ const inputCls =
 
 export default function Contact() {
   const { t } = useLang();
+  usePageMeta(t("seo.contact"), t("contact.sub"));
   const [name, setName] = useState("");
   const [contact, setContact] = useState("");
   const [subject, setSubject] = useState("");

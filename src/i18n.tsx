@@ -2,7 +2,6 @@ import {
   createContext,
   useContext,
   useEffect,
-  useMemo,
   useState,
   type ReactNode,
 } from "react";
@@ -10,852 +9,671 @@ import {
 export type Lang = "en" | "ru" | "ar";
 export type Loc = { en: string; ru: string; ar: string };
 
-const dict: Record<Lang, Record<string, string>> = {
-  en: {
-    "nav.home": "Home",
-    "nav.products": "Products",
-    "nav.blog": "Blog",
-    "nav.about": "About Us",
-    "nav.contact": "Contact",
-    "nav.quote": "Request a Quote",
-    "header.tag": "Export desk · Tehran — Bandar Abbas",
+type Dict = Record<string, Loc>;
 
-    "hero.kicker": "B2B EXPORT HOUSE · IRAN",
-    "hero.t1": "IRON. STEEL.",
-    "hero.t2": "COPPER. ALUMINUM.",
-    "hero.t3": "SHIPPED TO YOUR MARKET.",
-    "hero.sub":
-      "Persis Metal exports Iranian iron ore, semi-finished and flat steel, copper and aluminum — with integrated road, rail and sea logistics to Iraq, Afghanistan, CIS, China and beyond.",
-    "hero.ctaWa": "Chat on WhatsApp",
-    "hero.ctaQuote": "Request a Quote",
-    "hero.board.title": "ACTIVE SHIPMENTS",
-    "hero.board.sub": "export manifest — indicative",
-    "hero.col.product": "Product",
-    "hero.col.route": "Route",
-    "hero.col.terms": "Terms",
-    "st.loading": "LOADING",
-    "st.transit": "IN TRANSIT",
-    "st.booked": "BOOKED",
-    "hero.board.note": "Live desk view — buyer names withheld under NDA.",
+const D: Dict = {
+  /* header / nav */
+  "header.tag": {
+    en: "Export trading house — metals & minerals, Tehran",
+    ru: "Экспортный торговый дом — металлы и минералы, Тегеран",
+    ar: "دار تجارة التصدير — معادن وفلزات، طهران",
+  },
+  "nav.home": { en: "Home", ru: "Главная", ar: "الرئيسية" },
+  "nav.products": { en: "Products", ru: "Продукция", ar: "المنتجات" },
+  "nav.blog": { en: "Blog", ru: "Блог", ar: "المدونة" },
+  "nav.about": { en: "About Us", ru: "О компании", ar: "من نحن" },
+  "nav.contact": { en: "Contact", ru: "Контакты", ar: "اتصل بنا" },
+  "nav.quote": { en: "Request a Quote", ru: "Запросить цену", ar: "طلب عرض سعر" },
 
-    "stats.tons": "tonnes handled per year",
-    "stats.markets": "active export markets",
-    "stats.response": "average quote response",
-    "stats.mtc": "lots shipped with MTC + inspection",
+  "ticker.label": { en: "Catalogue", ru: "Каталог", ar: "الكتالوج" },
 
-    "ticker.label": "CATALOG & INDICATIVE GRADES",
-
-    "cat.kicker": "PRODUCT RANGE",
-    "cat.title": "From ore to coil — plus the non-ferrous edge.",
-    "cat.sub":
-      "Seven product families under one export contract. The iron-ore chain, steel long & flat, copper, aluminum and ferroalloys — items most Iranian traders simply don't stock.",
-    "cat.viewAll": "Browse all products",
-    "cat.items": "products",
-
-    "adv.kicker": "THE PERSIS ADVANTAGE",
-    "adv.title": "Built where traditional traders slow down.",
-    "adv.sub":
-      "We studied where steel export deals stall — paperwork, freight, response time — and engineered a desk that removes each bottleneck.",
-    "adv.colA": "Typical trader",
-    "adv.colB": "Persis Metal",
-    "adv.r1l": "Quote turnaround",
-    "adv.r1a": "2–3 business days",
-    "adv.r1b": "Under 4 hours, 7 days a week",
-    "adv.r2l": "Logistics",
-    "adv.r2a": "FOB only — you arrange freight",
-    "adv.r2b": "Road · rail · sea, FOB to DAP end-to-end",
-    "adv.r3l": "Quality paperwork",
-    "adv.r3a": "MTC — if you ask",
-    "adv.r3b": "Mill certificate + inspection on every lot",
-    "adv.r4l": "Market desks",
-    "adv.r4a": "One inbox for everyone",
-    "adv.r4b": "Iraq · CIS · Asia desks, in your language",
-    "adv.r5l": "Minimum order",
-    "adv.r5a": "Full container or vessel only",
-    "adv.r5b": "Consolidation from 100 t mixed loads",
-    "adv.r6l": "Product depth",
-    "adv.r6a": "A few steel items",
-    "adv.r6b": "Ore → billet → coil → Cu & Al, one contract",
-
-    "mkt.kicker": "EXPORT CORRIDORS",
-    "mkt.title": "We sell where others don't deliver.",
-    "mkt.sub":
-      "Dedicated corridors with known borders, transit times and payment practice — not just a port name on an invoice.",
-    "mkt.mode": "Mode",
-    "mkt.transit": "Transit",
-    "mkt.gate": "Gate",
-    "mkt.demand": "Core demand",
-    "mkt.days": "days",
-    "mkt.iraq": "Iraq",
-    "mkt.iraqD": "Rebar, sections, billet for reconstruction",
-    "mkt.afghan": "Afghanistan",
-    "mkt.afghanD": "Rebar, wire rod, beams — easy eastern borders",
-    "mkt.cis": "CIS — UZ · KZ · TM",
-    "mkt.cisD": "Billet, slab, pellet by rail via Sarakhs",
-    "mkt.china": "China",
-    "mkt.chinaD": "Pellet, concentrate, DRI — sea via Bandar Abbas",
-
-    "team.kicker": "SALES DESK",
-    "team.title": "Real people. Your language. On WhatsApp.",
-    "team.sub":
-      "Every market gets a named specialist — not a generic inbox. Chat, call or send an RFQ; expect a human reply, fast.",
-    "team.chat": "Chat on WhatsApp",
-    "team.langs": "Languages",
-    "team.markets": "Markets",
-    "team.role1": "Head of International Sales",
-    "team.role2": "CIS Markets Manager",
-    "team.role3": "Export Operations & Documents",
-    "team.m1": "Iraq & Persian Gulf",
-    "team.m2": "Uzbekistan · Kazakhstan · Turkmenistan",
-    "team.m3": "Logistics, inspection & documents worldwide",
-
-    "proc.kicker": "HOW WE WORK",
-    "proc.title": "From inquiry to Bill of Lading.",
-    "proc.sub":
-      "Six steps, zero mystery. You always know where your cargo and your documents are.",
-    "proc.s1t": "Send requirement",
-    "proc.s1d": "Product, grade, tonnage, destination",
-    "proc.s2t": "Offer in hours",
-    "proc.s2d": "Price, incoterm, delivery window",
-    "proc.s3t": "Contract & payment",
-    "proc.s3d": "LC, TT or regional instruments",
-    "proc.s4t": "Production & QC",
-    "proc.s4d": "Mill schedule, third-party inspection",
-    "proc.s5t": "Loading proof",
-    "proc.s5d": "Real photos & video before dispatch",
-    "proc.s6t": "Documents & delivery",
-    "proc.s6d": "MTC, CoO, B/L, packing list — tracked",
-
-    "cta.title": "Ready to price your next shipment?",
-    "cta.sub":
-      "Send product, specs and destination — our desk answers in under 4 working hours.",
-    "cta.btnWa": "WhatsApp the desk",
-    "cta.btnQuote": "Open the quote form",
-
-    "q.title": "Request a Quotation",
-    "q.sub":
-      "One form — routed straight to the right desk via WhatsApp. Fields marked * are required.",
-    "q.name": "Full name *",
-    "q.company": "Company",
-    "q.country": "Country *",
-    "q.email": "Email",
-    "q.wa": "WhatsApp number *",
-    "q.product": "Product *",
-    "q.selectProduct": "— select a product —",
-    "q.grade": "Grade / specification",
-    "q.gradePh": "e.g. S235JR · Fe 65% · 99.99%",
-    "q.qty": "Quantity (tonnes) *",
-    "q.incoterm": "Incoterm",
-    "q.dest": "Destination port / city *",
-    "q.msg": "Message",
-    "q.msgPh": "Target price, timeline, special requirements…",
-    "q.send": "Send inquiry via WhatsApp",
-    "q.alt": "Prefer email?",
-    "q.success":
-      "Your inquiry was prepared — WhatsApp is opening with all the details. Our desk replies within 4 working hours.",
-    "q.again": "Send another inquiry",
-    "q.benefits": "What you get back",
-    "q.b1": "Firm FOB/CIF price within 4 working hours",
-    "q.b2": "Delivery window for your corridor",
-    "q.b3": "MTC & inspection plan for the lot",
-
-    "p.back": "All products",
-    "p.overview": "Product overview",
-    "p.tech": "Technical specifications",
-    "p.chem": "Chemical composition",
-    "p.mech": "Dimensions & properties",
-    "p.standards": "Standards & grades",
-    "p.packing": "Packing & loading",
-    "p.moq": "MOQ",
-    "p.origin": "Origin",
-    "p.port": "Loading port",
-    "p.hs": "HS code",
-    "p.incoterms": "Incoterms",
-    "p.apps": "Applications",
-    "p.grade": "Typical grade",
-    "p.salesTitle": "Your sales contact",
-    "p.salesSub": "Direct line to the desk handling this product.",
-    "p.chat": "Chat on WhatsApp",
-    "p.call": "Call",
-    "p.analysisTitle": "Request analysis & certificates",
-    "p.analysisSub":
-      "Get the mill test certificate (MTC) and latest chemical analysis for this exact product — free, sent to your WhatsApp or email within one working day.",
-    "p.aName": "Name *",
-    "p.aCompany": "Company",
-    "p.aContact": "WhatsApp or email *",
-    "p.aDoc": "Documents needed",
-    "p.aSend": "Request via WhatsApp",
-    "p.aSuccess":
-      "Request prepared — WhatsApp is opening with your details. The analysis pack follows within one working day.",
-    "p.related": "More in this family",
-
-    "k.size": "Size",
-    "k.thickness": "Thickness",
-    "k.width": "Width",
-    "k.length": "Length",
-    "k.weight": "Weight",
-    "k.coilWeight": "Coil weight",
-    "k.purity": "Purity",
-    "k.density": "Bulk density",
-    "k.moisture": "Moisture",
-    "k.tensile": "Tensile strength",
-    "k.yield": "Yield strength",
-    "k.elongation": "Elongation",
-    "k.diameter": "Diameter",
-    "k.zinc": "Zinc coating",
-    "k.mesh": "Mesh size",
-    "k.strength": "Crush strength",
-
-    "origin.iran": "Iran",
-    "products.kicker": "FULL CATALOG",
-    "products.title": "Twenty-three export items. One desk.",
-    "products.sub":
-      "Filter by family — every card opens a full technical page with specs, certificates and a direct sales line.",
-    "products.all": "All families",
-    "products.count": "products",
-
-    "about.kicker": "ABOUT PERSIS METAL",
-    "about.title": "A mill-side trading desk, not a mailbox company.",
-    "about.p1":
-      "Persis Metal was founded in Tehran by traders who grew up inside Iran's steel and mining industry — on mill floors, at border crossings and in port terminals. We built the exporter we always wished to deal with: fast on price, obsessive about documents, and honest about transit times.",
-    "about.p2":
-      "Our edge is focus. While large traders chase every market, we run dedicated corridors — Iraq, Afghanistan, CIS and China — with known borders, payment practice and consolidated loading. And where others stop at steel, we continue into copper and aluminum.",
-    "about.missionK": "OUR MISSION",
-    "about.missionT": "Make Iranian metal easy to buy.",
-    "about.missionD":
-      "Transparent quotes, inspection-backed quality and logistics handled end-to-end — so a buyer in Tashkent or Basra orders Iranian steel as easily as local stock.",
-    "about.netK": "SOURCING NETWORK",
-    "about.netT": "Direct allocations from Iran's major mills",
-    "about.netD":
-      "We hold working relationships with the producers behind the product — so availability and mill certificates come from the source, not a chain of middlemen.",
-    "about.docK": "DOCUMENTS & COMPLIANCE",
-    "about.docT": "Every lot ships with a paper trail",
-    "about.d1": "Mill Test Certificate (MTC EN 10204 3.1)",
-    "about.d2": "SGS / third-party inspection on request",
-    "about.d3": "Certificate of Origin, B/L, packing list",
-    "about.d4": "Pre-shipment photos & video proof",
-    "about.statsK": "PERSIS IN NUMBERS",
-
-    "contact.kicker": "CONTACT",
-    "contact.title": "Talk to the desk, not a form robot.",
-    "contact.sub":
-      "WhatsApp is the fastest channel — our buyers' preference and ours. Prefer structure? The form routes your message to the right specialist.",
-    "contact.hq": "Head office",
-    "contact.port": "Port office",
-    "contact.addr1": "Koushk Tower, Argentina Sq., Tehran, Iran",
-    "contact.addr2": "Shahid Rajaee Port Complex, Bandar Abbas, Iran",
-    "contact.phone": "Phone",
-    "contact.email": "Email",
-    "contact.hours": "Working hours",
-    "contact.hoursV": "Sat–Thu · 9:00–18:00 (Tehran)",
-    "contact.deskK": "DIRECT DESKS",
-    "contact.fName": "Your name *",
-    "contact.fEmail": "Email or WhatsApp *",
-    "contact.fSubject": "Subject",
-    "contact.fMsg": "Message *",
-    "contact.fSend": "Send via WhatsApp",
-    "contact.fAlt": "or email",
-    "contact.fSuccess":
-      "Message prepared — WhatsApp is opening. We reply within working hours, usually much faster.",
-
-    "blog.title": "Market intelligence is moving here.",
-    "blog.sub":
-      "Weekly iron-ore, billet and non-ferrous price reports are being migrated from our WordPress desk. Until launch, our sales desk sends today's price list directly on WhatsApp — no waiting for a CMS.",
-    "blog.cta": "Get today's prices on WhatsApp",
-    "blog.back": "Back to products",
-
-    "footer.desc":
-      "Iranian export house for iron ore, steel, copper and aluminum — with integrated logistics across the region's key corridors.",
-    "footer.links": "Site",
-    "footer.cats": "Products",
-    "footer.contact": "Contact",
-    "footer.rights": "All rights reserved.",
-    "footer.tag": "Export desk · persismetal.com",
-    "footer.wa": "WhatsApp desk",
-    "footer.note":
-      "Specifications are typical mill values; final figures are confirmed per lot in the MTC.",
+  /* home — hero */
+  "hero.kicker": {
+    en: "Iranian metals & minerals · export desk",
+    ru: "Иранские металлы и минералы · отдел экспорта",
+    ar: "معادن وفلزات إيرانية · مكتب التصدير",
+  },
+  "hero.t1": {
+    en: "Iranian metals,",
+    ru: "Иранский металл,",
+    ar: "معادن إيران،",
+  },
+  "hero.t2": {
+    en: "delivered to your market.",
+    ru: "с доставкой на ваш рынок.",
+    ar: "تصل إلى سوقكم.",
+  },
+  "hero.sub": {
+    en: "From iron ore to copper cathode — 20+ product lines sourced directly from Iranian mills and mines, exported with integrated logistics and full documentation.",
+    ru: "От железной руды до медного катода — более 20 позиций напрямую от иранских комбинатов и рудников, с комплексной логистикой и полным пакетом документов.",
+    ar: "من خام الحديد إلى كاثود النحاس — أكثر من ٢٠ منتجًا مباشرة من المصانع والمناجم الإيرانية، مع لوجستيات متكاملة ووثائق كاملة.",
+  },
+  "hero.ctaWa": { en: "Chat on WhatsApp", ru: "Написать в WhatsApp", ar: "تواصل عبر واتساب" },
+  "hero.ctaQuote": { en: "Request a price", ru: "Запросить цену", ar: "طلب عرض سعر" },
+  "hero.chip1": { en: "Origin: Iran", ru: "Происхождение: Иран", ar: "المنشأ: إيران" },
+  "hero.chip2": { en: "MTC EN 10204 3.1", ru: "Сертификат EN 10204 3.1", ar: "شهادة فحص EN 10204 3.1" },
+  "hero.chip3": { en: "Fe · Cu · Al certified", ru: "Сертификаты Fe · Cu · Al", ar: "شهادات الحديد · النحاس · الألمنيوم" },
+  "hero.imgCap": {
+    en: "Billet 5SP — ready for loading, Bandar Abbas",
+    ru: "Заготовка 5SP — готова к погрузке, Бендер-Аббас",
+    ar: "بليت 5SP — جاهز للتحميل، بندر عباس",
+  },
+  "hero.reply": {
+    en: "Average reply time",
+    ru: "Среднее время ответа",
+    ar: "متوسط زمن الرد",
   },
 
-  ru: {
-    "nav.home": "Главная",
-    "nav.products": "Продукция",
-    "nav.blog": "Блог",
-    "nav.about": "О компании",
-    "nav.contact": "Контакты",
-    "nav.quote": "Запросить цену",
-    "header.tag": "Экспортный отдел · Тегеран — Бендер-Аббас",
+  /* stats */
+  "stats.kicker": { en: "Persis Metal in numbers", ru: "Persis Metal в цифрах", ar: "برسيس متال بالأرقام" },
+  "stats.t1": { en: "annual export capacity, t", ru: "годовой объём экспорта, т", ar: "طاقة التصدير السنوية، طن" },
+  "stats.t2": { en: "active export markets", ru: "активных рынков экспорта", ar: "سوقًا نشطًا للتصدير" },
+  "stats.t3": { en: "average reply time", ru: "среднее время ответа", ar: "متوسط زمن الرد" },
+  "stats.t4": { en: "shipments with MTC & full docs", ru: "поставок с MTC и документами", ar: "شحنات مع شهادة فحص ووثائق كاملة" },
 
-    "hero.kicker": "ЭКСПОРТНЫЙ ДОМ B2B · ИРАН",
-    "hero.t1": "ЖЕЛЕЗО. СТАЛЬ.",
-    "hero.t2": "МЕДЬ. АЛЮМИНИЙ.",
-    "hero.t3": "С ДОСТАВКОЙ НА ВАШ РЫНОК.",
-    "hero.sub":
-      "Persis Metal экспортирует иранскую железную руду, полуфабрикаты и плоский прокат, медь и алюминий — со сквозной логистикой авто, ж/д и морем в Ирак, Афганистан, СНГ, Китай и далее.",
-    "hero.ctaWa": "Написать в WhatsApp",
-    "hero.ctaQuote": "Запросить цену",
-    "hero.board.title": "АКТИВНЫЕ ОТГРУЗКИ",
-    "hero.board.sub": "экспортный манифест — ориентировочно",
-    "hero.col.product": "Продукт",
-    "hero.col.route": "Маршрут",
-    "hero.col.terms": "Условия",
-    "st.loading": "ПОГРУЗКА",
-    "st.transit": "В ПУТИ",
-    "st.booked": "ЗАБРОНИРОВАНО",
-    "hero.board.note": "Сводка отдела — имена покупателей скрыты NDA.",
+  /* catalogue — boxes */
+  "cat.kicker": { en: "Catalogue", ru: "Каталог", ar: "الكتالوج" },
+  "cat.title": { en: "Product range", ru: "Продуктовый ряд", ar: "تشكيلة المنتجات" },
+  "cat.sub": {
+    en: "Seven families, 23 export-ready specifications — every box below opens a full technical page with chemistry, dimensions and packing.",
+    ru: "Семь семейств, 23 экспортные спецификации — каждая карточка открывает полную техническую страницу с химией, размерами и упаковкой.",
+    ar: "سبع عائلات و٢٣ مواصفة جاهزة للتصدير — كل بطاقة تفتح صفحة فنية كاملة بالتركيب الكيميائي والأبعاد والتغليف.",
+  },
+  "cat.products": { en: "products", ru: "продукта", ar: "منتجات" },
+  "cat.open": { en: "Open family", ru: "Открыть семейство", ar: "افتح العائلة" },
 
-    "stats.tons": "тонн в год",
-    "stats.markets": "активных экспортных рынков",
-    "stats.response": "среднее время ответа",
-    "stats.mtc": "партий с MTC и инспекцией",
-
-    "ticker.label": "КАТАЛОГ И ТИПОВЫЕ МАРКИ",
-
-    "cat.kicker": "АССОРТИМЕНТ",
-    "cat.title": "От руды до рулона — плюс цветные металлы.",
-    "cat.sub":
-      "Семь семейств продукции в одном экспортном контракте. Цепочка железной руды, сортовой и плоский прокат, медь, алюминий и ферросплавы — то, чего нет у большинства трейдеров.",
-    "cat.viewAll": "Смотреть всю продукцию",
-    "cat.items": "продуктов",
-
-    "adv.kicker": "ПРЕИМУЩЕСТВА PERSIS",
-    "adv.title": "Сильны там, где традиционные трейдеры тормозят.",
-    "adv.sub":
-      "Мы изучили, где стопорятся экспортные сделки — документы, фрахт, скорость ответа — и построили отдел, устраняющий каждое узкое место.",
-    "adv.colA": "Обычный трейдер",
-    "adv.colB": "Persis Metal",
-    "adv.r1l": "Скорость котировки",
-    "adv.r1a": "2–3 рабочих дня",
-    "adv.r1b": "Менее 4 часов, 7 дней в неделю",
-    "adv.r2l": "Логистика",
-    "adv.r2a": "Только FOB — фрахт на вас",
-    "adv.r2b": "Авто · ж/д · море, от FOB до DAP под ключ",
-    "adv.r3l": "Документы качества",
-    "adv.r3a": "MTC — если попросить",
-    "adv.r3b": "Сертификат завода и инспекция каждой партии",
-    "adv.r4l": "Рыночные отделы",
-    "adv.r4a": "Одна почта для всех",
-    "adv.r4b": "Отделы Ирак · СНГ · Азия, на вашем языке",
-    "adv.r5l": "Минимальный заказ",
-    "adv.r5a": "Только полный контейнер или судно",
-    "adv.r5b": "Сборные грузы от 100 т",
-    "adv.r6l": "Глубина ассортимента",
-    "adv.r6a": "Несколько стальных позиций",
-    "adv.r6b": "Руда → заготовка → рулон → Cu и Al, один контракт",
-
-    "mkt.kicker": "ЭКСПОРТНЫЕ КОРИДОРЫ",
-    "mkt.title": "Работаем там, куда другие не доставляют.",
-    "mkt.sub":
-      "Выделенные коридоры с известными переходами, сроками и практикой платежей — не просто название порта в инвойсе.",
-    "mkt.mode": "Способ",
-    "mkt.transit": "Транзит",
-    "mkt.gate": "Переход",
-    "mkt.demand": "Основной спрос",
-    "mkt.days": "дней",
-    "mkt.iraq": "Ирак",
-    "mkt.iraqD": "Арматура, профили, заготовка для стройки",
-    "mkt.afghan": "Афганистан",
-    "mkt.afghanD": "Арматура, катанка, балки — простые восточные переходы",
-    "mkt.cis": "СНГ — УЗ · КЗ · ТМ",
-    "mkt.cisD": "Заготовка, сляб, окатыши по ж/д через Серахс",
-    "mkt.china": "Китай",
-    "mkt.chinaD": "Окатыши, концентрат, ГБЖ — морем через Бендер-Аббас",
-
-    "team.kicker": "ОТДЕЛ ПРОДАЖ",
-    "team.title": "Живые люди. Ваш язык. В WhatsApp.",
-    "team.sub":
-      "За каждым рынком закреплён специалист с именем — а не безликий ящик. Пишите, звоните или отправляйте запрос: ответит человек, быстро.",
-    "team.chat": "Написать в WhatsApp",
-    "team.langs": "Языки",
-    "team.markets": "Рынки",
-    "team.role1": "Руководитель международных продаж",
-    "team.role2": "Менеджер рынков СНГ",
-    "team.role3": "Экспортные операции и документы",
-    "team.m1": "Ирак и Персидский залив",
-    "team.m2": "Узбекистан · Казахстан · Туркменистан",
-    "team.m3": "Логистика, инспекция и документы по всему миру",
-
-    "proc.kicker": "КАК МЫ РАБОТАЕМ",
-    "proc.title": "От запроса до коносамента.",
-    "proc.sub":
-      "Шесть шагов, никакой неопределённости: вы всегда знаете, где груз и где документы.",
-    "proc.s1t": "Отправьте требование",
-    "proc.s1d": "Продукт, марка, тоннаж, назначение",
-    "proc.s2t": "Оферта за часы",
-    "proc.s2d": "Цена, инкотермс, сроки поставки",
-    "proc.s3t": "Контракт и оплата",
-    "proc.s3d": "LC, TT или региональные инструменты",
-    "proc.s4t": "Производство и контроль",
-    "proc.s4d": "График завода, независимая инспекция",
-    "proc.s5t": "Доказательство погрузки",
-    "proc.s5d": "Реальные фото и видео до отправки",
-    "proc.s6t": "Документы и доставка",
-    "proc.s6d": "MTC, CoO, B/L, упаковочный — с отслеживанием",
-
-    "cta.title": "Готовы оценить следующую партию?",
-    "cta.sub":
-      "Пришлите продукт, спецификацию и направление — ответим в течение 4 рабочих часов.",
-    "cta.btnWa": "Написать в WhatsApp",
-    "cta.btnQuote": "Открыть форму запроса",
-
-    "q.title": "Запрос котировки",
-    "q.sub":
-      "Одна форма — попадает нужному специалисту прямо в WhatsApp. Поля со * обязательны.",
-    "q.name": "Имя *",
-    "q.company": "Компания",
-    "q.country": "Страна *",
-    "q.email": "Email",
-    "q.wa": "Номер WhatsApp *",
-    "q.product": "Продукт *",
-    "q.selectProduct": "— выберите продукт —",
-    "q.grade": "Марка / спецификация",
-    "q.gradePh": "напр. S235JR · Fe 65% · 99.99%",
-    "q.qty": "Объём (тонны) *",
-    "q.incoterm": "Инкотермс",
-    "q.dest": "Порт / город назначения *",
-    "q.msg": "Сообщение",
-    "q.msgPh": "Целевая цена, сроки, особые требования…",
-    "q.send": "Отправить запрос в WhatsApp",
-    "q.alt": "Удобнее почта?",
-    "q.success":
-      "Запрос сформирован — WhatsApp открывается со всеми деталями. Ответим в течение 4 рабочих часов.",
-    "q.again": "Отправить ещё запрос",
-    "q.benefits": "Что вы получите",
-    "q.b1": "Твёрдая цена FOB/CIF за 4 рабочих часа",
-    "q.b2": "Сроки доставки по вашему коридору",
-    "q.b3": "MTC и план инспекции партии",
-
-    "p.back": "Вся продукция",
-    "p.overview": "Описание продукта",
-    "p.tech": "Технические характеристики",
-    "p.chem": "Химический состав",
-    "p.mech": "Размеры и свойства",
-    "p.standards": "Стандарты и марки",
-    "p.packing": "Упаковка и погрузка",
-    "p.moq": "Мин. заказ",
-    "p.origin": "Происхождение",
-    "p.port": "Порт погрузки",
-    "p.hs": "Код ТН ВЭД",
-    "p.incoterms": "Инкотермс",
-    "p.apps": "Применение",
-    "p.grade": "Типовая марка",
-    "p.salesTitle": "Ваш менеджер",
-    "p.salesSub": "Прямая линия отдела по этому продукту.",
-    "p.chat": "Написать в WhatsApp",
-    "p.call": "Позвонить",
-    "p.analysisTitle": "Запросить анализ и сертификаты",
-    "p.analysisSub":
-      "Получите сертификат завода (MTC) и свежий химический анализ именно на этот продукт — бесплатно, в WhatsApp или на почту в течение рабочего дня.",
-    "p.aName": "Имя *",
-    "p.aCompany": "Компания",
-    "p.aContact": "WhatsApp или email *",
-    "p.aDoc": "Нужные документы",
-    "p.aSend": "Запросить через WhatsApp",
-    "p.aSuccess":
-      "Запрос сформирован — WhatsApp открывается с деталями. Пакет анализов придёт в течение рабочего дня.",
-    "p.related": "Ещё из этого семейства",
-
-    "k.size": "Размер",
-    "k.thickness": "Толщина",
-    "k.width": "Ширина",
-    "k.length": "Длина",
-    "k.weight": "Вес",
-    "k.coilWeight": "Вес рулона",
-    "k.purity": "Чистота",
-    "k.density": "Насыпная плотность",
-    "k.moisture": "Влажность",
-    "k.tensile": "Предел прочности",
-    "k.yield": "Предел текучести",
-    "k.elongation": "Удлинение",
-    "k.diameter": "Диаметр",
-    "k.zinc": "Цинковое покрытие",
-    "k.mesh": "Крупность",
-    "k.strength": "Прочность на сжатие",
-
-    "origin.iran": "Иран",
-    "products.kicker": "ПОЛНЫЙ КАТАЛОГ",
-    "products.title": "Двадцать три экспортные позиции. Один отдел.",
-    "products.sub":
-      "Фильтруйте по семействам — каждая карточка открывает полную техническую страницу со спецификациями, сертификатами и прямой линией продаж.",
-    "products.all": "Все семейства",
-    "products.count": "продуктов",
-
-    "about.kicker": "О КОМПАНИИ",
-    "about.title": "Трейдер у завода, а не компания-почтовый ящик.",
-    "about.p1":
-      "Persis Metal основана в Тегеране трейдерами, выросшими внутри иранской стальной и горнодобывающей отрасли — в цехах, на погранпереходах и в портовых терминалах. Мы построили экспортёра, с которым всегда хотели иметь дело сами: быстрый по ценам, одержимый документами и честный в сроках.",
-    "about.p2":
-      "Наше преимущество — фокус. Пока крупные трейдеры гонятся за всеми рынками, мы ведём выделенные коридоры — Ирак, Афганистан, СНГ и Китай — с известными переходами, практикой платежей и сборными погрузками. И там, где другие останавливаются на стали, мы идём дальше — в медь и алюминий.",
-    "about.missionK": "НАША МИССИЯ",
-    "about.missionT": "Сделать иранский металл простым в покупке.",
-    "about.missionD":
-      "Прозрачные котировки, качество с инспекцией и логистика под ключ — чтобы покупатель в Ташкенте или Басре заказывал иранский металл так же просто, как местный.",
-    "about.netK": "СЕТЬ ПОСТАВОК",
-    "about.netT": "Прямые квоты крупнейших заводов Ирана",
-    "about.netD":
-      "Работаем напрямую с производителями — наличие и сертификаты идут от источника, а не через цепочку посредников.",
-    "about.docK": "ДОКУМЕНТЫ",
-    "about.docT": "Каждая партия — с полным пакетом",
-    "about.d1": "Сертификат завода (MTC EN 10204 3.1)",
-    "about.d2": "Инспекция SGS / третьей стороны по запросу",
-    "about.d3": "Сертификат происхождения, B/L, упаковочный лист",
-    "about.d4": "Фото и видео до отгрузки",
-    "about.statsK": "PERSIS В ЦИФРАХ",
-
-    "contact.kicker": "КОНТАКТЫ",
-    "contact.title": "Говорите с отделом, а не с формой-роботом.",
-    "contact.sub":
-      "WhatsApp — самый быстрый канал: его предпочитают и наши покупатели, и мы. Нужна структура? Форма направит сообщение нужному специалисту.",
-    "contact.hq": "Головной офис",
-    "contact.port": "Офис в порту",
-    "contact.addr1": "Башня Коушк, пл. Аргентина, Тегеран, Иран",
-    "contact.addr2": "Портовый комплекс Шахид Раджаи, Бендер-Аббас, Иран",
-    "contact.phone": "Телефон",
-    "contact.email": "Email",
-    "contact.hours": "Рабочие часы",
-    "contact.hoursV": "Сб–Чт · 9:00–18:00 (Тегеран)",
-    "contact.deskK": "ПРЯМЫЕ ЛИНИИ",
-    "contact.fName": "Ваше имя *",
-    "contact.fEmail": "Email или WhatsApp *",
-    "contact.fSubject": "Тема",
-    "contact.fMsg": "Сообщение *",
-    "contact.fSend": "Отправить в WhatsApp",
-    "contact.fAlt": "или на почту",
-    "contact.fSuccess":
-      "Сообщение сформировано — WhatsApp открывается. Ответим в рабочее время, обычно быстрее.",
-
-    "blog.title": "Рыночная аналитика скоро здесь.",
-    "blog.sub":
-      "Еженедельные отчёты по руде, заготовке и цветным металлам переезжают с нашей WordPress-площадки. До запуска отдел продаж присылает актуальные цены прямо в WhatsApp — не дожидаясь CMS.",
-    "blog.cta": "Получить цены дня в WhatsApp",
-    "blog.back": "Вернуться к продукции",
-
-    "footer.desc":
-      "Иранский экспортный дом: железная руда, сталь, медь и алюминий — со сквозной логистикой по ключевым коридорам региона.",
-    "footer.links": "Разделы",
-    "footer.cats": "Продукция",
-    "footer.contact": "Контакты",
-    "footer.rights": "Все права защищены.",
-    "footer.tag": "Экспортный отдел · persismetal.com",
-    "footer.wa": "Отдел WhatsApp",
-    "footer.note":
-      "Характеристики — типовые значения заводов; финальные цифры подтверждаются по партии в MTC.",
+  /* advantage — compact strip */
+  "adv.kicker": { en: "Why Persis Metal", ru: "Почему Persis Metal", ar: "لماذا برسيس متال" },
+  "adv.c1": {
+    en: "Quote in under 4 hours",
+    ru: "Предложение за 4 часа",
+    ar: "عرض سعر خلال أقل من ٤ ساعات",
+  },
+  "adv.c2": {
+    en: "FOB → DAP, with real borders & transit days",
+    ru: "FOB → DAP: реальные переходы и сроки",
+    ar: "من FOB إلى DAP مع المعابر وأيام النقل الفعلية",
+  },
+  "adv.c3": {
+    en: "MTC + CoO + packing list with every lot",
+    ru: "MTC + CoO + упаковочный лист на каждую партию",
+    ar: "شهادة فحص ومنشأ وقائمة تعبئة مع كل دفعة",
+  },
+  "adv.c4": {
+    en: "EN · RU · AR sales desks",
+    ru: "Отделы продаж EN · RU · AR",
+    ar: "مكاتب مبيعات بالإنجليزية والروسية والعربية",
   },
 
-  ar: {
-    "nav.home": "الرئيسية",
-    "nav.products": "المنتجات",
-    "nav.blog": "المدونة",
-    "nav.about": "من نحن",
-    "nav.contact": "اتصل بنا",
-    "nav.quote": "اطلب عرض سعر",
-    "header.tag": "مكتب التصدير · طهران — بندر عباس",
+  /* media film strip */
+  "media.kicker": { en: "From the field", ru: "С площадок", ar: "من الميدان" },
+  "media.title": {
+    en: "Loading, mill visits & handovers — real footage",
+    ru: "Погрузка, визиты на комбинаты, передачи — реальные кадры",
+    ar: "تحميل وزيارات المصانع وتسليمات — لقطات حقيقية",
+  },
+  "media.sub": {
+    en: "Every shipment leaves with photo and video proof. This strip is updated after each loading.",
+    ru: "Каждая отгрузка сопровождается фото- и видеоподтверждением. Лента обновляется после каждой погрузки.",
+    ar: "كل شحنة تخرج بإثبات مصوّر. يتم تحديث هذا الشريط بعد كل عملية تحميل.",
+  },
+  "media.tagPhoto": { en: "Photo", ru: "Фото", ar: "صورة" },
+  "media.tagSlot": { en: "MP4 / GIF slot", ru: "Слот MP4 / GIF", ar: "مكان فيديو / GIF" },
+  "media.s1": { en: "Coil warehouse — Mobarakeh line", ru: "Склад рулонов — линия Мобараке", ar: "مستودع اللفائف — خط مباركه" },
+  "media.s2": { en: "Loading clip — your product here", ru: "Клип погрузки — здесь будет ваш ролик", ar: "مقطع التحميل — فيديو منتجكم هنا" },
+  "media.s3": { en: "Port dispatch — Bandar Abbas", ru: "Отправка из порта — Бендер-Аббас", ar: "إرسال الميناء — بندر عباس" },
+  "media.s4": { en: "Mill visit — GIF slot", ru: "Визит на комбинат — слот GIF", ar: "زيارة المصنع — مكان GIF" },
+  "media.s5": { en: "Non-ferrous line — Cu & Al", ru: "Линия цветных металлов — Cu и Al", ar: "خط المعادن غير الحديدية — نحاس وألمنيوم" },
+  "media.s6": { en: "Customer handover — slot", ru: "Передача клиенту — слот", ar: "تسليم للعميل — مكان مخصص" },
 
-    "hero.kicker": "بيت تصدير B2B · إيران",
-    "hero.t1": "حديد. فولاذ.",
-    "hero.t2": "نحاس. ألمنيوم.",
-    "hero.t3": "نشحنه إلى سوقكم.",
-    "hero.sub":
-      "بيرسيس متال تصدّر خام الحديد الإيراني والصلب نصف النهائي والمسطح والنحاس والألمنيوم — مع لوجستيات متكاملة برًا وسككًا وبحرًا إلى العراق وأفغانستان ورابطة الدول المستقلة والصين وما بعدها.",
-    "hero.ctaWa": "تواصل عبر واتساب",
-    "hero.ctaQuote": "اطلب عرض سعر",
-    "hero.board.title": "شحنات نشطة",
-    "hero.board.sub": "بيان تصدير — استرشادي",
-    "hero.col.product": "المنتج",
-    "hero.col.route": "المسار",
-    "hero.col.terms": "الشروط",
-    "st.loading": "جارٍ التحميل",
-    "st.transit": "قيد النقل",
-    "st.booked": "محجوز",
-    "hero.board.note": "نظرة مباشرة من المكتب — أسماء المشترين محجوبة بموجب اتفاقية سرية.",
+  /* markets */
+  "mkt.kicker": { en: "Export corridors", ru: "Экспортные коридоры", ar: "ممرات التصدير" },
+  "mkt.title": {
+    en: "Where we already deliver",
+    ru: "Куда мы уже поставляем",
+    ar: "إلى أين نصدّر اليوم",
+  },
+  "mkt.sub": {
+    en: "Each corridor has a dedicated desk, a working payment route and known transit times.",
+    ru: "У каждого коридора — свой отдел, рабочий платёжный маршрут и известные сроки доставки.",
+    ar: "لكل ممر مكتب مخصص وطريق دفع فعّال وأزمنة نقل معروفة.",
+  },
+  "mkt.iraq": { en: "Iraq", ru: "Ирак", ar: "العراق" },
+  "mkt.iraqD": {
+    en: "Reconstruction demand for rebar, sections and wire rod.",
+    ru: "Восстановительный спрос на арматуру, профили и катанку.",
+    ar: "طلب إعادة الإعمار على حديد التسليح والمقاطع ولفائف الأسلاك.",
+  },
+  "mkt.afghan": { en: "Afghanistan", ru: "Афганистан", ar: "أفغانستان" },
+  "mkt.afghanD": {
+    en: "Urgent need for rebar and beams; easy land borders from the east.",
+    ru: "Острая потребность в арматуре и балках; удобные восточные автопереходы.",
+    ar: "حاجة ماسّة إلى حديد التسليح والعتبات؛ معابر برية سهلة من الشرق.",
+  },
+  "mkt.cis": { en: "CIS & Central Asia", ru: "СНГ и Центральная Азия", ar: "رابط الدول المستقلة وآسيا الوسطى" },
+  "mkt.cisD": {
+    en: "Uzbekistan, Kazakhstan, Turkmenistan — large construction programs prefer nearby supply.",
+    ru: "Узбекистан, Казахстан, Туркменистан — крупные стройки предпочитают ближние поставки.",
+    ar: "أوزبكستان وكازاخستان وتركمانستان — مشاريع عمرانية ضخمة تفضل التوريد القريب.",
+  },
+  "mkt.china": { en: "China", ru: "Китай", ar: "الصين" },
+  "mkt.chinaD": {
+    en: "A traditional buyer of Iranian iron ore and pellet at sea-freight scale.",
+    ru: "Традиционный покупатель иранской руды и окатышей в морских объёмах.",
+    ar: "مشترٍ تقليدي لخام الحديد والكريات الإيرانية بكميات الشحن البحري.",
+  },
+  "mkt.russia": { en: "Russia", ru: "Россия", ar: "روسيا" },
+  "mkt.russiaD": {
+    en: "Billet, flats and ferroalloys via Caspian sea and rail — a native-language desk in Moscow hours.",
+    ru: "Заготовка, плоский прокат и ферросплавы через Каспий и ж/д — отдел продаж на русском языке.",
+    ar: "بليت ومنتجات مسطحة وسبائك حديدية عبر بحر قزوين والسكك — مكتب مبيعات ناطق بالروسية.",
+  },
+  "mkt.days": { en: "days transit", ru: "дней в пути", ar: "يومًا للنقل" },
+  "mkt.route": { en: "Route", ru: "Маршрут", ar: "المسار" },
 
-    "stats.tons": "طن سنويًا",
-    "stats.markets": "سوق تصدير نشط",
-    "stats.response": "متوسط الرد على العروض",
-    "stats.mtc": "شحنات مع شهادة فحص ومعاينة",
+  /* team */
+  "team.kicker": { en: "Sales desk", ru: "Отдел продаж", ar: "مكتب المبيعات" },
+  "team.title": {
+    en: "Talk to the person who knows your market",
+    ru: "Говорите с тем, кто знает ваш рынок",
+    ar: "تحدث مع من يعرف سوقك",
+  },
+  "team.sub": {
+    en: "Each desk answers on its own WhatsApp line in your language — no call centers, no ticket queues.",
+    ru: "У каждого отдела своя линия WhatsApp на вашем языке — без колл-центра и очередей заявок.",
+    ar: "لكل مكتب خط واتساب خاص بلغتكم — بدون مراكز اتصال أو طوابير تذاكر.",
+  },
+  "team.role1": {
+    en: "Head of Export Sales · Iraq & Gulf",
+    ru: "Руководитель экспортных продаж · Ирак и Залив",
+    ar: "مدير مبيعات التصدير · العراق والخليج",
+  },
+  "team.role2": {
+    en: "CIS & Russia Desk · Russian speaking",
+    ru: "Отдел СНГ и России · русский язык",
+    ar: "مكتب رابطة الدول المستقلة وروسيا · بالروسية",
+  },
+  "team.role3": {
+    en: "Non-Ferrous Desk · Copper & Aluminum",
+    ru: "Отдел цветных металлов · медь и алюминий",
+    ar: "مكتب المعادن غير الحديدية · النحاس والألمنيوم",
+  },
+  "team.m1": { en: "Iraq · Gulf · Levant", ru: "Ирак · Залив · Левант", ar: "العراق · الخليج · بلاد الشام" },
+  "team.m2": { en: "Russia · Uzbekistan · Kazakhstan", ru: "Россия · Узбекистан · Казахстан", ar: "روسيا · أوزبكستان · كازاخستان" },
+  "team.m3": { en: "China · Africa · Global", ru: "Китай · Африка · мир", ar: "الصين · أفريقيا · العالم" },
+  "team.wa": { en: "Direct WhatsApp", ru: "Прямой WhatsApp", ar: "واتساب مباشر" },
 
-    "ticker.label": "الكتالوج والدرجات الاسترشادية",
+  /* process */
+  "proc.kicker": { en: "How we work", ru: "Как мы работаем", ar: "كيف نعمل" },
+  "proc.title": {
+    en: "From inquiry to the loading photo",
+    ru: "От запроса до фото погрузки",
+    ar: "من الاستفسار إلى صورة التحميل",
+  },
+  "proc.s1t": { en: "Send your spec", ru: "Отправьте спецификацию", ar: "أرسل المواصفات" },
+  "proc.s1d": {
+    en: "Product, grade, tonnage, destination — via WhatsApp or the RFQ form.",
+    ru: "Продукт, марка, тоннаж, назначение — через WhatsApp или форму запроса.",
+    ar: "المنتج والدرجة والكمية والوجهة — عبر واتساب أو نموذج الطلب.",
+  },
+  "proc.s2t": { en: "Offer in < 4 hours", ru: "Предложение за 4 часа", ar: "عرض خلال أقل من ٤ ساعات" },
+  "proc.s2d": {
+    en: "Price, incoterm, transit days and the required document set.",
+    ru: "Цена, инкотермс, дни в пути и состав документов.",
+    ar: "السعر وشروط التسليم وأيام النقل وقائمة الوثائق.",
+  },
+  "proc.s3t": { en: "Contract & payment", ru: "Контракт и оплата", ar: "العقد والدفع" },
+  "proc.s3d": {
+    en: "LC, TT or local currency through trusted channels, per corridor.",
+    ru: "Аккредитив, TT или местная валюта через проверенные каналы коридора.",
+    ar: "اعتماد مستندي أو حوالة أو عملة محلية عبر قنوات موثوقة.",
+  },
+  "proc.s4t": { en: "Loading with proof", ru: "Погрузка с подтверждением", ar: "تحميل مع إثبات" },
+  "proc.s4d": {
+    en: "Real photos and video from the warehouse or port before dispatch.",
+    ru: "Реальные фото и видео со склада или порта до отправки.",
+    ar: "صور وفيديو حقيقي من المستودع أو الميناء قبل الإرسال.",
+  },
+  "proc.s5t": { en: "Documents & tracking", ru: "Документы и отслеживание", ar: "الوثائق والمتابعة" },
+  "proc.s5d": {
+    en: "MTC, CoO, packing list, B/L — plus shipment tracking to your door.",
+    ru: "MTC, CoO, упаковочный лист, коносамент — и отслеживание до двери.",
+    ar: "شهادة فحص ومنشأ وقائمة تعبئة وبوليصة — مع متابعة حتى بابكم.",
+  },
 
-    "cat.kicker": "نطاق المنتجات",
-    "cat.title": "من الخام إلى اللفائف — ومعها المعادن غير الحديدية.",
-    "cat.sub":
-      "سبع عائلات منتجات ضمن عقد تصدير واحد. سلسلة خام الحديد والصلب الطويل والمسطح والنحاس والألمنيوم والسبائك الحديدية — منتجات لا يوفرها معظم التجار الإيرانيين.",
-    "cat.viewAll": "تصفح جميع المنتجات",
-    "cat.items": "منتجًا",
+  /* cta band */
+  "cta.title": {
+    en: "Tell us the product and the port. We do the rest.",
+    ru: "Назовите продукт и порт. Остальное — мы.",
+    ar: "أخبرنا بالمنتج والميناء، والباقي علينا.",
+  },
+  "cta.sub": {
+    en: "An offer with price, transit days and documents — in under 4 working hours.",
+    ru: "Предложение с ценой, сроками и документами — менее чем за 4 рабочих часа.",
+    ar: "عرض مع السعر وأيام النقل والوثائق — خلال أقل من ٤ ساعات عمل.",
+  },
+  "cta.btnWa": { en: "WhatsApp the export desk", ru: "WhatsApp отделу экспорта", ar: "واتساب مكتب التصدير" },
+  "cta.btnQuote": { en: "Open the RFQ form", ru: "Открыть форму запроса", ar: "افتح نموذج الطلب" },
 
-    "adv.kicker": "ميزة بيرسيس",
-    "adv.title": "نتفوّق حيث يتباطأ التجار التقليديون.",
-    "adv.sub":
-      "درسنا أين تتعثر صفقات تصدير الصلب — الأوراق والشحن وزمن الرد — وبنينا مكتبًا يزيل كل عنق زجاجة.",
-    "adv.colA": "تاجر تقليدي",
-    "adv.colB": "بيرسيس متال",
-    "adv.r1l": "سرعة عرض السعر",
-    "adv.r1a": "٢–٣ أيام عمل",
-    "adv.r1b": "أقل من ٤ ساعات، ٧ أيام أسبوعيًا",
-    "adv.r2l": "اللوجستيات",
-    "adv.r2a": "FOB فقط — الشحن عليك",
-    "adv.r2b": "برًا وسككًا وبحرًا، من FOB حتى DAP",
-    "adv.r3l": "مستندات الجودة",
-    "adv.r3a": "شهادة الفحص — عند الطلب فقط",
-    "adv.r3b": "شهادة مصنع ومعاينة لكل دفعة",
-    "adv.r4l": "مكاتب الأسواق",
-    "adv.r4a": "بريد واحد للجميع",
-    "adv.r4b": "أقسام العراق ورابطة المستقلة وآسيا بلغتكم",
-    "adv.r5l": "الحد الأدنى للطلب",
-    "adv.r5a": "حاوية كاملة أو سفينة فقط",
-    "adv.r5b": "تجميع شحنات مختلطة من ١٠٠ طن",
-    "adv.r6l": "عمق المنتجات",
-    "adv.r6a": "بضعة منتجات فولاذية",
-    "adv.r6b": "خام ← بليت ← لفائف ← نحاس وألمنيوم بعقد واحد",
+  /* footer */
+  "footer.desc": {
+    en: "B2B export trading house for Iranian steel, copper, aluminum and mineral products — from mill gate to your market.",
+    ru: "Экспортный торговый дом иранского стального, медного и алюминиевого проката — от ворот комбината до вашего рынка.",
+    ar: "دار تجارة تصدير B2B للمنتجات الفولاذية والنحاسية والألمنيومية الإيرانية — من بوابة المصنع إلى سوقكم.",
+  },
+  "footer.links": { en: "Site", ru: "Сайт", ar: "الموقع" },
+  "footer.cats": { en: "Products", ru: "Продукция", ar: "المنتجات" },
+  "footer.contact": { en: "Contact", ru: "Контакты", ar: "التواصل" },
+  "footer.wa": { en: "WhatsApp desk", ru: "Отдел WhatsApp", ar: "مكتب واتساب" },
+  "footer.rights": { en: "All rights reserved.", ru: "Все права защищены.", ar: "جميع الحقوق محفوظة." },
+  "footer.tag": { en: "Tehran · Bandar Abbas · Moscow desk", ru: "Тегеран · Бендер-Аббас · отдел Москва", ar: "طهران · بندر عباس · مكتب موسكو" },
+  "footer.note": {
+    en: "Persis Metal is an independent export trading house. Product photos on this site are illustrative of Iranian-origin material; exact specification is confirmed by MTC per lot.",
+    ru: "Persis Metal — независимый экспортный торговый дом. Фотографии носят иллюстративный характер; точная спецификация подтверждается MTC на партию.",
+    ar: "برسيس متال دار تجارة تصدير مستقلة. الصور توضيحية لمواد إيرانية المنشأ؛ وتُؤكد المواصفات الدقيقة بشهادة فحص لكل دفعة.",
+  },
 
-    "mkt.kicker": "ممرات التصدير",
-    "mkt.title": "نبيع حيث لا يوصّل الآخرون.",
-    "mkt.sub":
-      "ممرات مخصصة بحدود معروفة وأزمنة عبور وممارسات دفع — لا مجرد اسم ميناء في الفاتورة.",
-    "mkt.mode": "الوسيلة",
-    "mkt.transit": "مدة العبور",
-    "mkt.gate": "المنفذ",
-    "mkt.demand": "الطلب الأساسي",
-    "mkt.days": "يومًا",
-    "mkt.iraq": "العراق",
-    "mkt.iraqD": "حديد التسليح والمقاطع والبليت لإعادة الإعمار",
-    "mkt.afghan": "أفغانستان",
-    "mkt.afghanD": "حديد التسليح ولفائف الأسلاك والعتبات — حدود شرقية سهلة",
-    "mkt.cis": "رابطة الدول المستقلة — أوزبكستان · كازاخستان · تركمانستان",
-    "mkt.cisD": "البليت والبليت المسطح والكريات بالسكك عبر سرخس",
-    "mkt.china": "الصين",
-    "mkt.chinaD": "الكريات والمركز والحديد الإسفنجي بحرًا عبر بندر عباس",
+  /* products list */
+  "pr.kicker": { en: "Export catalogue", ru: "Экспортный каталог", ar: "كتالوج التصدير" },
+  "pr.title": { en: "Products", ru: "Продукция", ar: "المنتجات" },
+  "pr.sub": {
+    en: "23 specifications across seven families. Filter by family or search by name and grade.",
+    ru: "23 спецификации в семи семействах. Фильтруйте по семейству или ищите по названию и марке.",
+    ar: "٢٣ مواصفة في سبع عائلات. صفِّ حسب العائلة أو ابحث بالاسم والدرجة.",
+  },
+  "pr.all": { en: "All families", ru: "Все семейства", ar: "كل العائلات" },
+  "pr.search": { en: "Search product, grade, HS code…", ru: "Поиск: продукт, марка, код ТН ВЭД…", ar: "ابحث عن منتج أو درجة أو رمز جمركي…" },
+  "pr.details": { en: "Technical page", ru: "Техническая страница", ar: "الصفحة الفنية" },
+  "pr.none": {
+    en: "Nothing found — send us the spec on WhatsApp, we source it.",
+    ru: "Ничего не найдено — пришлите спецификацию в WhatsApp, найдём.",
+    ar: "لا نتائج — أرسلوا المواصفات عبر واتساب وسنوفرها.",
+  },
 
-    "team.kicker": "مكتب المبيعات",
-    "team.title": "أشخاص حقيقيون. بلغتكم. عبر واتساب.",
-    "team.sub":
-      "لكل سوق مختص باسمه — لا صندوق بريد مجهول. راسل أو اتصل أو أرسل طلب عرض؛ سيصلك رد بشري سريع.",
-    "team.chat": "تواصل عبر واتساب",
-    "team.langs": "اللغات",
-    "team.markets": "الأسواق",
-    "team.role1": "رئيس المبيعات الدولية",
-    "team.role2": "مدير أسواق رابطة الدول المستقلة",
-    "team.role3": "عمليات التصدير والمستندات",
-    "team.m1": "العراق والخليج الفارسي",
-    "team.m2": "أوزبكستان · كازاخستان · تركمانستان",
-    "team.m3": "اللوجستيات والمعاينة والمستندات عالميًا",
+  /* product detail */
+  "origin.iran": { en: "Iran", ru: "Иран", ar: "إيران" },
+  "p.moq": { en: "MOQ", ru: "Мин. партия", ar: "أدنى كمية" },
+  "p.hs": { en: "HS code", ru: "Код ТН ВЭД", ar: "الرمز الجمركي" },
+  "p.origin": { en: "Origin", ru: "Происхождение", ar: "المنشأ" },
+  "p.port": { en: "Loading port", ru: "Порт погрузки", ar: "ميناء التحميل" },
+  "p.incoterms": { en: "Incoterms", ru: "Инкотермс", ar: "شروط التسليم" },
+  "p.overview": { en: "Technical data sheet", ru: "Технический лист", ar: "ورقة البيانات الفنية" },
+  "p.tech": { en: "Specifications", ru: "Характеристики", ar: "المواصفات" },
+  "p.chem": { en: "Chemical composition", ru: "Химический состав", ar: "التركيب الكيميائي" },
+  "p.mech": { en: "Dimensions & mechanical", ru: "Размеры и механика", ar: "الأبعاد والخصائص الميكانيكية" },
+  "k.size": { en: "Size range", ru: "Диапазон размеров", ar: "نطاق الأبعاد" },
+  "k.length": { en: "Length", ru: "Длина", ar: "الطول" },
+  "k.width": { en: "Width", ru: "Ширина", ar: "العرض" },
+  "k.thickness": { en: "Thickness", ru: "Толщина", ar: "السماكة" },
+  "k.diameter": { en: "Diameter", ru: "Диаметр", ar: "القطر" },
+  "k.weight": { en: "Weight", ru: "Вес", ar: "الوزن" },
+  "k.coilWeight": { en: "Coil weight", ru: "Вес рулона", ar: "وزن اللفة" },
+  "k.moisture": { en: "Moisture", ru: "Влажность", ar: "الرطوبة" },
+  "k.density": { en: "Bulk density", ru: "Насыпная плотность", ar: "الكثافة الظاهرية" },
+  "k.strength": { en: "Crush strength", ru: "Прочность на сжатие", ar: "متانة السحق" },
+  "k.mesh": { en: "Grinding fineness", ru: "Тонкость помола", ar: "نعومة الطحن" },
+  "k.tensile": { en: "Tensile strength", ru: "Предел прочности", ar: "قوة الشد" },
+  "k.yield": { en: "Yield strength", ru: "Предел текучести", ar: "حد الخضوع" },
+  "k.elongation": { en: "Elongation", ru: "Относительное удлинение", ar: "الاستطالة" },
+  "k.zinc": { en: "Zinc coating", ru: "Цинковое покрытие", ar: "طلاء الزنك" },
+  "k.purity": { en: "Purity", ru: "Чистота", ar: "النقاء" },
+  "p.standards": { en: "Standards & grades", ru: "Стандарты и марки", ar: "المعايير والدرجات" },
+  "p.packing": { en: "Packing", ru: "Упаковка", ar: "التغليف" },
+  "p.apps": { en: "Applications", ru: "Применение", ar: "الاستخدامات" },
+  "p.chat": { en: "Ask sales on WhatsApp", ru: "Спросить отдел продаж в WhatsApp", ar: "اسأل المبيعات عبر واتساب" },
+  "p.call": { en: "Call", ru: "Позвонить", ar: "اتصال" },
+  "p.analysisTitle": { en: "Request analysis & MTC", ru: "Запросить анализ и MTC", ar: "طلب التحليل وشهادة الفحص" },
+  "p.analysisSub": {
+    en: "Leave a contact — we reply with the chemical analysis and mill test certificate of an actual lot, free of charge.",
+    ru: "Оставьте контакт — бесплатно пришлём химанализ и сертификат заводских испытаний реальной партии.",
+    ar: "اترك وسيلة تواصل — نرسل لكم مجانًا التحليل الكيميائي وشهادة فحص المصنع لدفعة فعلية.",
+  },
+  "p.aName": { en: "Your name *", ru: "Ваше имя *", ar: "الاسم *" },
+  "p.aCompany": { en: "Company", ru: "Компания", ar: "الشركة" },
+  "p.aContact": { en: "Email or WhatsApp *", ru: "Email или WhatsApp *", ar: "البريد أو واتساب *" },
+  "p.aDoc": { en: "Document", ru: "Документ", ar: "الوثيقة" },
+  "p.aSend": { en: "Send request", ru: "Отправить запрос", ar: "أرسل الطلب" },
+  "p.aSuccess": {
+    en: "Request received — a WhatsApp chat was opened with our documents desk. If it didn't open, write to sales@persismetal.com.",
+    ru: "Запрос принят — открыт чат WhatsApp с отделом документов. Если не открылся, пишите на sales@persismetal.com.",
+    ar: "تم استلام الطلب — فُتحت محادثة واتساب مع قسم الوثائق. إن لم تُفتح راسلونا على sales@persismetal.com.",
+  },
+  "p.salesTitle": { en: "Direct line to sales", ru: "Прямая линия отдела продаж", ar: "خط مباشر إلى المبيعات" },
+  "p.salesSub": {
+    en: "This product is handled by a dedicated desk — one message, and you get today's price.",
+    ru: "Этот продукт ведёт профильный отдел — одно сообщение, и у вас сегодняшняя цена.",
+    ar: "هذا المنتج بيد مكتب مخصص — رسالة واحدة وتصلكم أسعار اليوم.",
+  },
+  "p.related": { en: "Same family", ru: "Из того же семейства", ar: "من العائلة نفسها" },
+  "p.back": { en: "All products", ru: "Вся продукция", ar: "كل المنتجات" },
+  "p.mediaCap": {
+    en: "Reference footage — stock & dispatch of this family",
+    ru: "Справочные кадры — склад и отгрузка этого семейства",
+    ar: "لقطات مرجعية — مخزون وشحن هذه العائلة",
+  },
 
-    "proc.kicker": "كيف نعمل",
-    "proc.title": "من الاستفسار حتى بوليصة الشحن.",
-    "proc.sub": "ست خطوات بلا غموض: تعرف دائمًا أين بضاعتك وأين مستنداتك.",
-    "proc.s1t": "أرسل متطلباتك",
-    "proc.s1d": "المنتج والدرجة والكمية والوجهة",
-    "proc.s2t": "عرض خلال ساعات",
-    "proc.s2d": "السعر وشروط التسليم وموعده",
-    "proc.s3t": "العقد والدفع",
-    "proc.s3d": "اعتماد مستندي أو تحويل أو أدوات إقليمية",
-    "proc.s4t": "الإنتاج ومراقبة الجودة",
-    "proc.s4d": "جدول المصنع ومعاينة طرف ثالث",
-    "proc.s5t": "إثبات التحميل",
-    "proc.s5d": "صور وفيديو حقيقية قبل الإرسال",
-    "proc.s6t": "المستندات والتسليم",
-    "proc.s6d": "شهادة الفحص والمنشأ والبوليصة — مع التتبع",
+  /* about */
+  "ab.kicker": { en: "About Persis Metal", ru: "О компании", ar: "عن برسيس متال" },
+  "ab.title": {
+    en: "A trading house built around one promise: the metal arrives.",
+    ru: "Торговый дом, построенный вокруг одного обещания: металл прибудет.",
+    ar: "دار تجارة قامت على وعد واحد: المعدن يصل.",
+  },
+  "ab.p1": {
+    en: "Persis Metal is a B2B foreign-trade marketing company focused on exporting Iranian metals and minerals. We stand between Iran's mills and mines and the buyers of the region — and we take responsibility for everything in between: sourcing, quality papers, payment route, loading and delivery.",
+    ru: "Persis Metal — компания внешнеторгового маркетинга B2B, специализирующаяся на экспорте иранских металлов и минералов. Мы стоим между комбинатами и рудниками Ирана и покупателями региона — и берём на себя всё, что между: sourcing, документы качества, платёжный маршрут, погрузку и доставку.",
+    ar: "برسيس متال شركة تسويق تجاري خارجي B2B متخصصة في تصدير المعادن والخامات الإيرانية. نقف بين المصانع والمناجم الإيرانية ومشتري المنطقة — ونتحمل مسؤولية كل ما بينهما: التوريد ووثائق الجودة وطريق الدفع والتحميل والتسليم.",
+  },
+  "ab.p2": {
+    en: "Our competitive edge is agility: direct allocation at producing mills, integrated logistics from FOB to DAP, and export desks that speak your language. Where traditional traders quote in days, we quote in hours.",
+    ru: "Наше преимущество — гибкость: прямые квоты у комбинатов, комплексная логистика от FOB до DAP и отделы экспорта на вашем языке. Там, где традиционные трейдеры считают днями, мы отвечаем за часы.",
+    ar: "ميزتنا التنافسية هي المرونة: حصص مباشرة من المصانع، ولوجستيات متكاملة من FOB إلى DAP، ومكاتب تصدير تتحدث لغتكم. حيث يستغرق التجار التقليديون أيامًا، نرد نحن في ساعات.",
+  },
+  "ab.whyK": { en: "Where we win", ru: "В чём мы сильнее", ar: "أين نتفوق" },
+  "ab.whyT": {
+    en: "Speed, logistics depth and a non-ferrous range most traders don't have",
+    ru: "Скорость, глубина логистики и цветная линейка, которой нет у большинства",
+    ar: "السرعة وعمق اللوجستيات وتشكيلة معادن غير حديدية لا يملكها معظم التجار",
+  },
+  "ab.netK": { en: "Supply network", ru: "Сеть поставок", ar: "شبكة التوريد" },
+  "ab.netT": {
+    en: "Direct from Iran's producers",
+    ru: "Напрямую от производителей Ирана",
+    ar: "مباشرة من المنتجين الإيرانيين",
+  },
+  "ab.netSub": {
+    en: "Allocation and offtake agreements with the mills and mines behind every lot we ship.",
+    ru: "Квоты и оффтейк-соглашения с комбинатами и рудниками, стоящими за каждой партией.",
+    ar: "حصص واتفاقيات شراء مع المصانع والمناجم وراء كل شحنة.",
+  },
+  "ab.values": { en: "How we operate", ru: "Наши принципы", ar: "كيف نعمل" },
+  "ab.v1t": { en: "Docs before promises", ru: "Документы раньше обещаний", ar: "الوثائق قبل الوعود" },
+  "ab.v1d": {
+    en: "Every lot ships with MTC, certificate of origin and packing list — agreed before the contract.",
+    ru: "Каждая партия идёт с MTC, сертификатом происхождения и упаковочным листом — согласованными до контракта.",
+    ar: "كل دفعة تُشحن مع شهادة فحص ومنشأ وقائمة تعبئة — متفق عليها قبل العقد.",
+  },
+  "ab.v2t": { en: "Logistics is our product", ru: "Логистика — наш продукт", ar: "اللوجستيات منتجنا" },
+  "ab.v2d": {
+    en: "Sea, road and rail from Iranian gates to your warehouse, with transit days named in the offer.",
+    ru: "Море, авто и ж/д от иранских ворот до вашего склада, с днями транзита прямо в предложении.",
+    ar: "بحرًا وبرًا وسكة من البوابات الإيرانية إلى مستودعكم، مع أيام النقل في العرض.",
+  },
+  "ab.v3t": { en: "One desk, your language", ru: "Один отдел — ваш язык", ar: "مكتب واحد بلغتكم" },
+  "ab.v3d": {
+    en: "EN, RU and AR desks with direct WhatsApp lines to the person handling your order.",
+    ru: "Отделы EN, RU и AR с прямыми линиями WhatsApp к человеку, ведущему ваш заказ.",
+    ar: "مكاتب بالإنجليزية والروسية والعربية مع خطوط واتساب مباشرة لمن يدير طلبكم.",
+  },
 
-    "cta.title": "جاهز لتسعير شحنتك القادمة؟",
-    "cta.sub": "أرسل المنتج والمواصفات والوجهة — يرد مكتبنا خلال أقل من ٤ ساعات عمل.",
-    "cta.btnWa": "راسل المكتب عبر واتساب",
-    "cta.btnQuote": "افتح نموذج الطلب",
+  /* contact */
+  "contact.kicker": { en: "Contact us", ru: "Свяжитесь с нами", ar: "تواصلوا معنا" },
+  "contact.title": {
+    en: "Every market has its own desk",
+    ru: "У каждого рынка — свой отдел",
+    ar: "لكل سوق مكتبه الخاص",
+  },
+  "contact.sub": {
+    en: "Pick the desk for your region — each one answers on WhatsApp in its own language.",
+    ru: "Выберите отдел своего региона — каждый отвечает в WhatsApp на своём языке.",
+    ar: "اختر مكتب منطقتكم — كل مكتب يرد عبر واتساب بلغته.",
+  },
+  "contact.hq": { en: "Head office — Tehran", ru: "Головной офис — Тегеран", ar: "المكتب الرئيسي — طهران" },
+  "contact.port": { en: "Port office — Bandar Abbas", ru: "Портовый офис — Бендер-Аббас", ar: "مكتب الميناء — بندر عباس" },
+  "contact.addr1": {
+    en: "Unit 12, No. 48, Africa Blvd, Tehran, Iran",
+    ru: "Офис 12, д. 48, бул. Африка, Тегеран, Иран",
+    ar: "وحدة ١٢، رقم ٤٨، شارع أفريقيا، طهران، إيران",
+  },
+  "contact.addr2": {
+    en: "Shahid Rajaee Port, Container terminal area, Bandar Abbas, Iran",
+    ru: "Порт Шахид Раджаи, зона контейнерного терминала, Бендер-Аббас, Иран",
+    ar: "ميناء الشهيد رجائي، منطقة محطة الحاويات، بندر عباس، إيران",
+  },
+  "contact.hoursV": {
+    en: "Sat–Thu · 8:30–17:30 (Tehran) — WhatsApp 24/7",
+    ru: "Сб–Чт · 8:30–17:30 (Тегеран) — WhatsApp 24/7",
+    ar: "السبت–الخميس · ٨:٣٠–١٧:٣٠ (طهران) — واتساب على مدار الساعة",
+  },
+  "contact.deskK": { en: "Write to the export desk", ru: "Написать в отдел экспорта", ar: "راسل مكتب التصدير" },
+  "contact.fName": { en: "Your name *", ru: "Ваше имя *", ar: "الاسم *" },
+  "contact.fEmail": { en: "Email or WhatsApp *", ru: "Email или WhatsApp *", ar: "البريد أو واتساب *" },
+  "contact.fSubject": { en: "Subject", ru: "Тема", ar: "الموضوع" },
+  "contact.fMsg": { en: "Your message *", ru: "Ваше сообщение *", ar: "رسالتكم *" },
+  "contact.fSend": { en: "Send via WhatsApp", ru: "Отправить через WhatsApp", ar: "أرسل عبر واتساب" },
+  "contact.fAlt": { en: "Prefer classic email?", ru: "Предпочитаете почту?", ar: "تفضل البريد الإلكتروني؟" },
+  "contact.fSuccess": {
+    en: "Message prepared — WhatsApp opened with your text. Press send there, and we'll reply within 4 working hours.",
+    ru: "Сообщение готово — WhatsApp открыт с вашим текстом. Нажмите «отправить», ответим в течение 4 рабочих часов.",
+    ar: "الرسالة جاهزة — فُتح واتساب بنصكم. اضغطوا إرسال وسنرد خلال ٤ ساعات عمل.",
+  },
 
-    "q.title": "طلب عرض سعر",
-    "q.sub": "نموذج واحد — يصل مباشرة إلى القسم المناسب عبر واتساب. الحقول المعلمة بـ * إلزامية.",
-    "q.name": "الاسم الكامل *",
-    "q.company": "الشركة",
-    "q.country": "الدولة *",
-    "q.email": "البريد الإلكتروني",
-    "q.wa": "رقم واتساب *",
-    "q.product": "المنتج *",
-    "q.selectProduct": "— اختر منتجًا —",
-    "q.grade": "الدرجة / المواصفات",
-    "q.gradePh": "مثال: S235JR · Fe 65% · 99.99%",
-    "q.qty": "الكمية (طن) *",
-    "q.incoterm": "شروط التسليم",
-    "q.dest": "ميناء / مدينة الوجهة *",
-    "q.msg": "رسالة",
-    "q.msgPh": "السعر المستهدف والجدول الزمني ومتطلبات خاصة…",
-    "q.send": "أرسل الطلب عبر واتساب",
-    "q.alt": "تفضّل البريد الإلكتروني؟",
-    "q.success": "تم تجهيز طلبك — يفتح واتساب بكل التفاصيل. سيرد مكتبنا خلال ٤ ساعات عمل.",
-    "q.again": "أرسل طلبًا آخر",
-    "q.benefits": "ما ستحصل عليه",
-    "q.b1": "سعر FOB/CIF ثابت خلال ٤ ساعات عمل",
-    "q.b2": "مدة التسليم لممرّك",
-    "q.b3": "شهادة الفحص وخطة المعاينة للدفعة",
+  /* quote */
+  "q.title": { en: "Request a quotation", ru: "Запрос коммерческого предложения", ar: "طلب عرض سعر" },
+  "q.sub": {
+    en: "Product, tonnage, destination — and in under 4 working hours you get price, incoterm, transit days and the document list.",
+    ru: "Продукт, тоннаж, назначение — и менее чем за 4 рабочих часа вы получите цену, инкотермс, дни транзита и список документов.",
+    ar: "المنتج والكمية والوجهة — وخلال أقل من ٤ ساعات عمل تصلكم الأسعار وشروط التسليم وأيام النقل وقائمة الوثائق.",
+  },
+  "q.name": { en: "Your name *", ru: "Ваше имя *", ar: "الاسم *" },
+  "q.company": { en: "Company", ru: "Компания", ar: "الشركة" },
+  "q.country": { en: "Country *", ru: "Страна *", ar: "الدولة *" },
+  "q.wa": { en: "WhatsApp number *", ru: "Номер WhatsApp *", ar: "رقم واتساب *" },
+  "q.email": { en: "Email", ru: "Email", ar: "البريد الإلكتروني" },
+  "q.product": { en: "Product *", ru: "Продукт *", ar: "المنتج *" },
+  "q.selectProduct": { en: "— choose from catalogue —", ru: "— выберите из каталога —", ar: "— اختر من الكتالوج —" },
+  "q.grade": { en: "Grade / specification", ru: "Марка / спецификация", ar: "الدرجة / المواصفة" },
+  "q.gradePh": { en: "e.g. 5SP, SAE 1008, DX51D +Z120", ru: "напр. 5SP, SAE 1008, DX51D +Z120", ar: "مثال: 5SP أو SAE 1008" },
+  "q.qty": { en: "Quantity (tonnes) *", ru: "Количество (тонны) *", ar: "الكمية (طن) *" },
+  "q.incoterm": { en: "Incoterm", ru: "Инкотермс", ar: "شرط التسليم" },
+  "q.dest": { en: "Destination port / city *", ru: "Порт / город назначения *", ar: "ميناء / مدينة الوصول *" },
+  "q.msg": { en: "Notes", ru: "Примечания", ar: "ملاحظات" },
+  "q.msgPh": {
+    en: "Payment preference, timeline, target price…",
+    ru: "Предпочтения по оплате, сроки, целевая цена…",
+    ar: "تفضيلات الدفع والمواعيد والسعر المستهدف…",
+  },
+  "q.modeLabel": { en: "How should we receive it?", ru: "Как нам получить запрос?", ar: "كيف يصلنا الطلب؟" },
+  "q.modeWa": { en: "WhatsApp — fastest", ru: "WhatsApp — быстрее всего", ar: "واتساب — الأسرع" },
+  "q.modeEmail": { en: "Form / email only", ru: "Только форма / email", ar: "النموذج / البريد فقط" },
+  "q.send": { en: "Send RFQ via WhatsApp", ru: "Отправить запрос в WhatsApp", ar: "أرسل الطلب عبر واتساب" },
+  "q.sendEmail": { en: "Send RFQ by email", ru: "Отправить запрос по email", ar: "أرسل الطلب بالبريد" },
+  "q.success": {
+    en: "Your RFQ is ready in the WhatsApp chat — press send there and the export desk will answer in under 4 working hours.",
+    ru: "Ваш запрос готов в чате WhatsApp — нажмите «отправить», и отдел экспорта ответит в течение 4 рабочих часов.",
+    ar: "طلبكم جاهز في محادثة واتساب — اضغطوا إرسال وسيرد مكتب التصدير خلال أقل من ٤ ساعات عمل.",
+  },
+  "q.successEmail": {
+    en: "Your RFQ was opened in your email app addressed to sales@persismetal.com — press send there. No WhatsApp needed.",
+    ru: "Запрос открыт в вашем почтовом приложении на адрес sales@persismetal.com — нажмите «отправить». WhatsApp не требуется.",
+    ar: "فُتح طلبكم في تطبيق البريد موجهًا إلى sales@persismetal.com — اضغطوا إرسال. لا حاجة لواتساب.",
+  },
+  "q.again": { en: "Send another request", ru: "Отправить ещё запрос", ar: "أرسل طلبًا آخر" },
+  "q.benefits": { en: "What you get back", ru: "Что вы получите", ar: "ماذا يصلكم" },
+  "q.b1": {
+    en: "Price on your incoterm with validity date",
+    ru: "Цена по вашему инкотермс со сроком действия",
+    ar: "السعر حسب شرط التسليم مع تاريخ الصلاحية",
+  },
+  "q.b2": {
+    en: "Transit days and the exact border / port route",
+    ru: "Дни транзита и точный маршрут через переход / порт",
+    ar: "أيام النقل والمسار الدقيق عبر المعبر / الميناء",
+  },
+  "q.b3": {
+    en: "Document list: MTC, CoO, packing list, B/L",
+    ru: "Список документов: MTC, CoO, упаковочный лист, коносамент",
+    ar: "قائمة الوثائق: شهادة فحص ومنشأ وتعبئة وبوليصة",
+  },
+  "q.alt": { en: "Or email us directly:", ru: "Или напишите напрямую:", ar: "أو راسلونا مباشرة:",
+  },
 
-    "p.back": "كل المنتجات",
-    "p.overview": "نظرة عامة على المنتج",
-    "p.tech": "المواصفات الفنية",
-    "p.chem": "التركيب الكيميائي",
-    "p.mech": "الأبعاد والخصائص",
-    "p.standards": "المعايير والدرجات",
-    "p.packing": "التغليف والتحميل",
-    "p.moq": "الحد الأدنى",
-    "p.origin": "المنشأ",
-    "p.port": "ميناء التحميل",
-    "p.hs": "رمز النظام المنسق",
-    "p.incoterms": "شروط التسليم",
-    "p.apps": "الاستخدامات",
-    "p.grade": "الدرجة الشائعة",
-    "p.salesTitle": "جهة الاتصال للمبيعات",
-    "p.salesSub": "خط مباشر إلى القسم المسؤول عن هذا المنتج.",
-    "p.chat": "تواصل عبر واتساب",
-    "p.call": "اتصال",
-    "p.analysisTitle": "طلب التحاليل والشهادات",
-    "p.analysisSub":
-      "احصل على شهادة فحص المصنع (MTC) وأحدث تحليل كيميائي لهذا المنتج بالذات — مجانًا، تصلك عبر واتساب أو البريد خلال يوم عمل.",
-    "p.aName": "الاسم *",
-    "p.aCompany": "الشركة",
-    "p.aContact": "واتساب أو البريد الإلكتروني *",
-    "p.aDoc": "المستندات المطلوبة",
-    "p.aSend": "اطلب عبر واتساب",
-    "p.aSuccess": "تم تجهيز الطلب — يفتح واتساب بتفاصيلك. ستصلك حزمة التحاليل خلال يوم عمل.",
-    "p.related": "المزيد من هذه العائلة",
+  /* blog */
+  "blog.kicker": { en: "Persis Journal", ru: "Журнал Persis", ar: "مجلة برسيس" },
+  "blog.title": { en: "The blog launches soon", ru: "Блог скоро откроется", ar: "المدونة تنطلق قريبًا" },
+  "blog.sub": {
+    en: "Market notes, export guides and price logic from our desks. While we finish the first issues, here is a taste of what's being written.",
+    ru: "Заметки о рынках, экспортные гиды и логика цен от наших отделов. Пока готовятся первые выпуски — вот что мы пишем.",
+    ar: "ملاحظات السوق وأدلة التصدير ومنطق الأسعار من مكاتبنا. ريثما تجهز الأعداد الأولى، إليكم لمحة مما يُكتب.",
+  },
+  "blog.soon": { en: "Coming soon", ru: "Скоро", ar: "قريبًا" },
+  "blog.readSoon": {
+    en: "Full text available at launch",
+    ru: "Полный текст — на запуске",
+    ar: "النص الكامل عند الإطلاق",
+  },
+  "blog.t1": { en: "Market insights", ru: "Аналитика рынка", ar: "رؤى السوق" },
+  "blog.p1t": {
+    en: "Buying Iranian billet for Iraq: the 6 checks before you pay",
+    ru: "Закупка иранской заготовки для Ирака: 6 проверок до оплаты",
+    ar: "شراء البليت الإيراني للعراق: ٦ فحوصات قبل الدفع",
+  },
+  "blog.p1x": {
+    en: "Grade stamps, bend tests, MTC serials and loading photos — a buyer's checklist that filters out every bad lot.",
+    ru: "Маркировка марок, испытания на изгиб, номера MTC и фото погрузки — чек-лист покупателя, отсеивающий брак.",
+    ar: "أختام الدرجات واختبارات الثني وأرقام الشهادات وصور التحميل — قائمة تحقق للمشتري تنقي كل دفعة رديئة.",
+  },
+  "blog.t2": { en: "Technical", ru: "Техника", ar: "تقني" },
+  "blog.p2t": {
+    en: "Copper cathode 99.99%: how to read an assay certificate",
+    ru: "Медный катод 99.99%: как читать сертификат анализа",
+    ar: "كاثود النحاس ٩٩٫٩٩٪: كيف تقرأ شهادة التحليل",
+  },
+  "blog.p2x": {
+    en: "Ppm limits that matter, LME Grade A requirements, and the red flags in a too-perfect assay.",
+    ru: "Важные пределы ppm, требования LME Grade A и красные флаги слишком идеального анализа.",
+    ar: "حدود ppm المهمة ومتطلبات LME Grade A وعلامات الخطر في التحليل المثالي أكثر من اللازم.",
+  },
+  "blog.t3": { en: "Logistics", ru: "Логистика", ar: "لوجستيات" },
+  "blog.p3t": {
+    en: "Rail vs. sea to the CIS: choosing the right route for steel",
+    ru: "Ж/д против моря в СНГ: выбор маршрута для металла",
+    ar: "السكة أم البحر إلى رابطة الدول المستقلة: اختيار المسار الأنسب للصلب",
+  },
+  "blog.p3x": {
+    en: "Sarakhs and Incheh Borun in numbers — when rail beats Bandar Abbas, and when it doesn't.",
+    ru: "Серахс и Инче-Борун в цифрах — когда железная дорога выгоднее Бендер-Аббаса, а когда нет.",
+    ar: "سرخس وإينجه برون بالأرقام — متى تتفوق السكة على بندر عباس ومتى لا.",
+  },
+  "blog.cta": { en: "Get today's prices on WhatsApp", ru: "Получить цены дня в WhatsApp", ar: "احصل على أسعار اليوم عبر واتساب" },
+  "blog.back": { en: "Browse products meanwhile", ru: "Пока посмотрите продукцию", ar: "تصفح المنتجات في الأثناء" },
 
-    "k.size": "المقاس",
-    "k.thickness": "السماكة",
-    "k.width": "العرض",
-    "k.length": "الطول",
-    "k.weight": "الوزن",
-    "k.coilWeight": "وزن اللفة",
-    "k.purity": "النقاء",
-    "k.density": "الكثافة الظاهرية",
-    "k.moisture": "الرطوبة",
-    "k.tensile": "قوة الشد",
-    "k.yield": "قوة الخضوع",
-    "k.elongation": "الاستطالة",
-    "k.diameter": "القطر",
-    "k.zinc": "طلاء الزنك",
-    "k.mesh": "حجم الحبيبات",
-    "k.strength": "مقاومة السحق",
+  /* logo proposals */
+  "logo.kicker": { en: "Brand identity", ru: "Фирменный стиль", ar: "الهوية البصرية" },
+  "logo.title": { en: "Logo proposals", ru: "Варианты логотипа", ar: "مقترحات الشعار" },
+  "logo.sub": {
+    en: "Four directions for the Persis Metal mark. Option 1 is currently live across the site; pick a favourite and it goes everywhere — header, footer, favicon.",
+    ru: "Четыре направления знака Persis Metal. Вариант 1 сейчас действует по всему сайту; выберите любимый — он встанет в шапку, подвал и favicon.",
+    ar: "أربعة اتجاهات لشعار برسيس متال. الخيار ١ فعّال حاليًا في الموقع؛ اختر المفضل وسيعتمد في الترويسة والتذييل وأيقونة المتصفح.",
+  },
+  "logo.active": { en: "Currently active", ru: "Сейчас активен", ar: "فعّال حاليًا" },
+  "logo.onDark": { en: "On graphite", ru: "На графите", ar: "على الغرافيت" },
+  "logo.onLight": { en: "On paper", ru: "На светлом", ar: "على الفاتح" },
+  "logo.n1": { en: "Slab Stack", ru: "Пакет слябов", ar: "رزمة الصفائح" },
+  "logo.d1": {
+    en: "Three offset slabs — the company's core: layered supply, steel + non-ferrous + trade. Molten orange on top.",
+    ru: "Три сляба со сдвигом — суть компании: сталь + цветные металлы + торговля. Сверху — расплавленный оранжевый.",
+    ar: "ثلاث صفائح منزاحة — جوهر الشركة: فولاذ + معادن غير حديدية + تجارة. برتقالي مصهور في الأعلى.",
+  },
+  "logo.n2": { en: "Export Arrow P", ru: "Стрела экспорта P", ar: "سهم التصدير P" },
+  "logo.d2": {
+    en: "A bold P whose bowl becomes an arrow pointing up-right — Persis, export, growth. One gesture, one color pair.",
+    ru: "Жирная P, чаша которой становится стрелой вверх-вправо — Persis, экспорт, рост. Один жест, одна пара цветов.",
+    ar: "حرف P عريض يتحول جوفه إلى سهم نحو الأعلى يمينًا — برسيس وتصدير ونمو. حركة واحدة وازدواج لوني واحد.",
+  },
+  "logo.n3": { en: "Hex Forge", ru: "Шестигранник кузницы", ar: "سداسي الحدادة" },
+  "logo.d3": {
+    en: "A steel hexagon — the nut, the bolt, the industry — with a forged P cut inside and a molten spark at the corner.",
+    ru: "Стальной шестигранник — гайка, болт, индустрия — с кованой P внутри и раскалённой искрой в углу.",
+    ar: "سداسي فولاذي — الصامولة والبرغي والصناعة — بداخله حرف P مطروق وشرارة مصهورة في الزاوية.",
+  },
+  "logo.n4": { en: "Rising Ingots", ru: "Растущие слитки", ar: "سبائك صاعدة" },
+  "logo.d4": {
+    en: "Three ingots climbing like a chart — raw material at the base, molten value at the peak. Reads well at 16 px.",
+    ru: "Три слитка растут, как график — сырьё в основании, расплавленная стоимость на вершине. Хорошо читается в 16 px.",
+    ar: "ثلاث سبائك تصاعدية كرسم بياني — المادة الخام في القاعدة والقيمة المصهورة في القمة. مقروء حتى في ١٦ بكسل.",
+  },
+  "logo.note": {
+    en: "Tell us which option to activate — it will replace the mark in the header, footer, favicon and documents.",
+    ru: "Скажите, какой вариант активировать — он заменит знак в шапке, подвале, favicon и документах.",
+    ar: "أخبرونا أي خيار نعتمده — سيحل محل الشعار في الترويسة والتذييل والأيقونة والوثائق.",
+  },
 
-    "origin.iran": "إيران",
-    "products.kicker": "الكتالوج الكامل",
-    "products.title": "ثلاثة وعشرون منتجًا للتصدير. مكتب واحد.",
-    "products.sub":
-      "صفِّ حسب العائلة — كل بطاقة تفتح صفحة فنية كاملة بالمواصفات والشهادات وخط مبيعات مباشر.",
-    "products.all": "كل العائلات",
-    "products.count": "منتجًا",
-
-    "about.kicker": "عن بيرسيس متال",
-    "about.title": "مكتب تجاري بجوار المصنع، لا شركة صندوق بريد.",
-    "about.p1":
-      "تأسست بيرسيس متال في طهران على يد تجار نشأوا داخل صناعة الصلب والتعدين الإيرانية — في أرضيات المصانع والمعابر الحدودية ومحطات الموانئ. بنينا المُصدِّر الذي تمنّينا دائمًا التعامل معه: سريع في التسعير، مهووس بالمستندات، وصادق في مواعيد الشحن.",
-    "about.p2":
-      "قوتنا في التركيز. بينما يطارد كبار التجار كل الأسواق، ندير ممرات مخصصة — العراق وأفغانستان ورابطة الدول المستقلة والصين — بحدود معروفة وممارسات دفع وتحميل مجمّع. وحيث يتوقف الآخرون عند الصلب، نواصل إلى النحاس والألمنيوم.",
-    "about.missionK": "مهمتنا",
-    "about.missionT": "نجعل شراء المعادن الإيرانية سهلًا.",
-    "about.missionD":
-      "عروض شفافة وجودة مضمونة بالمعاينة ولوجستيات متكاملة — ليطلب المشتري في طشقند أو البصرة الصلب الإيراني بسهولة شراء المخزون المحلي.",
-    "about.netK": "شبكة التوريد",
-    "about.netT": "تخصيصات مباشرة من كبرى المصانع الإيرانية",
-    "about.netD":
-      "نعمل بعلاقات مباشرة مع المنتجين — فيتوفر المنتج وشهادات المصنع من المصدر لا عبر سلسلة وسطاء.",
-    "about.docK": "المستندات والامتثال",
-    "about.docT": "كل دفعة تُشحن بملف مستندات كامل",
-    "about.d1": "شهادة فحص المصنع (MTC EN 10204 3.1)",
-    "about.d2": "فحص SGS / طرف ثالث عند الطلب",
-    "about.d3": "شهادة المنشأ وبوليصة الشحن وقائمة التعبئة",
-    "about.d4": "صور وفيديو قبل الشحن",
-    "about.statsK": "بيرسيس بالأرقام",
-
-    "contact.kicker": "اتصل بنا",
-    "contact.title": "تحدث إلى المكتب، لا إلى روبوت نماذج.",
-    "contact.sub":
-      "واتساب هو القناة الأسرع — خيار مشترينا وخيارنا. تفضّل التنظيم؟ يوجّه النموذج رسالتك إلى المختص المناسب.",
-    "contact.hq": "المكتب الرئيسي",
-    "contact.port": "مكتب الميناء",
-    "contact.addr1": "برج كوشك، ساحة الأرجنتين، طهران، إيران",
-    "contact.addr2": "مجمع ميناء الشهيد رجائي، بندر عباس، إيران",
-    "contact.phone": "الهاتف",
-    "contact.email": "البريد الإلكتروني",
-    "contact.hours": "ساعات العمل",
-    "contact.hoursV": "السبت–الخميس · ٩:٠٠–١٨:٠٠ (طهران)",
-    "contact.deskK": "خطوط مباشرة",
-    "contact.fName": "اسمك *",
-    "contact.fEmail": "البريد أو واتساب *",
-    "contact.fSubject": "الموضوع",
-    "contact.fMsg": "الرسالة *",
-    "contact.fSend": "أرسل عبر واتساب",
-    "contact.fAlt": "أو عبر البريد",
-    "contact.fSuccess": "تم تجهيز الرسالة — يفتح واتساب. سنرد خلال ساعات العمل، وغالبًا أسرع.",
-
-    "blog.title": "تحليلات السوق في طريقها إلى هنا.",
-    "blog.sub":
-      "تقارير أسعار خام الحديد والبليت والمعادن غير الحديدية الأسبوعية قيد النقل من منصة ووردبريس. حتى الإطلاق، يرسل مكتب المبيعات قائمة أسعار اليوم مباشرة عبر واتساب — دون انتظار نظام إدارة محتوى.",
-    "blog.cta": "احصل على أسعار اليوم عبر واتساب",
-    "blog.back": "العودة إلى المنتجات",
-
-    "footer.desc":
-      "بيت تصدير إيراني لخام الحديد والصلب والنحاس والألمنيوم — مع لوجستيات متكاملة عبر ممرات المنطقة الرئيسية.",
-    "footer.links": "الموقع",
-    "footer.cats": "المنتجات",
-    "footer.contact": "التواصل",
-    "footer.rights": "جميع الحقوق محفوظة.",
-    "footer.tag": "مكتب التصدير · persismetal.com",
-    "footer.wa": "مكتب واتساب",
-    "footer.note": "المواصفات قيم مصنعية نموذجية؛ الأرقام النهائية تُؤكد لكل دفعة في شهادة الفحص.",
+  /* seo titles */
+  "seo.home": {
+    en: "Persis Metal — Iranian Steel, Copper & Aluminum Exporter",
+    ru: "Persis Metal — экспорт иранского стального, медного и алюминиевого проката",
+    ar: "برسيس متال — مُصدِّر الفولاذ والنحاس والألمنيوم الإيراني",
+  },
+  "seo.products": {
+    en: "Products — Steel, Iron Ore, Copper & Aluminum | Persis Metal",
+    ru: "Продукция — сталь, железная руда, медь и алюминий | Persis Metal",
+    ar: "المنتجات — فولاذ وخام حديد ونحاس وألمنيوم | برسيس متال",
+  },
+  "seo.about": {
+    en: "About Us — Export Trading House | Persis Metal",
+    ru: "О компании — экспортный торговый дом | Persis Metal",
+    ar: "من نحن — دار تجارة التصدير | برسيس متال",
+  },
+  "seo.contact": {
+    en: "Contact — Export Desks EN · RU · AR | Persis Metal",
+    ru: "Контакты — отделы экспорта EN · RU · AR | Persis Metal",
+    ar: "اتصل بنا — مكاتب التصدير | برسيس متال",
+  },
+  "seo.quote": {
+    en: "Request a Quotation | Persis Metal",
+    ru: "Запрос коммерческого предложения | Persis Metal",
+    ar: "طلب عرض سعر | برسيس متال",
+  },
+  "seo.blog": {
+    en: "Blog — Coming Soon | Persis Metal",
+    ru: "Блог — скоро | Persis Metal",
+    ar: "المدونة — قريبًا | برسيس متال",
   },
 };
 
-const metaTitles: Record<Lang, string> = {
-  en: "Persis Metal — Iranian Steel, Minerals & Non-Ferrous Exporter",
-  ru: "Persis Metal — экспорт иранской стали, руды и цветных металлов",
-  ar: "بيرسيس متال — مُصدِّر الصلب والخامات والمعادن غير الحديدية الإيرانية",
-};
-
-type Ctx = {
+type LangCtx = {
   lang: Lang;
   setLang: (l: Lang) => void;
-  t: (k: string) => string;
-  L: (o: Loc) => string;
-  dir: "ltr" | "rtl";
+  t: (key: string) => string;
+  L: (loc: Loc) => string;
 };
 
-const LangCtx = createContext<Ctx | null>(null);
+const Ctx = createContext<LangCtx>({
+  lang: "en",
+  setLang: () => {},
+  t: (k) => k,
+  L: (l) => l.en,
+});
 
 export function LangProvider({ children }: { children: ReactNode }) {
   const [lang, setLangState] = useState<Lang>(() => {
     const saved = localStorage.getItem("pm-lang");
-    return saved === "ru" || saved === "ar" ? saved : "en";
+    return saved === "ru" || saved === "ar" || saved === "en" ? saved : "en";
   });
 
-  const setLang = (l: Lang) => {
-    setLangState(l);
-    localStorage.setItem("pm-lang", l);
-  };
-
-  const dir: "ltr" | "rtl" = lang === "ar" ? "rtl" : "ltr";
-
   useEffect(() => {
-    document.documentElement.lang = lang;
-    document.documentElement.dir = dir;
+    localStorage.setItem("pm-lang", lang);
+    const dir = lang === "ar" ? "rtl" : "ltr";
+    document.documentElement.setAttribute("dir", dir);
+    document.documentElement.setAttribute("lang", lang);
     document.documentElement.setAttribute("data-lang", lang);
-    document.title = metaTitles[lang];
-  }, [lang, dir]);
+  }, [lang]);
 
-  const value = useMemo<Ctx>(
-    () => ({
-      lang,
-      setLang,
-      dir,
-      t: (k: string) => dict[lang][k] ?? dict.en[k] ?? k,
-      L: (o: Loc) => o[lang],
-    }),
-    [lang, dir]
+  const t = (key: string) => D[key]?.[lang] ?? D[key]?.en ?? key;
+  const L = (loc: Loc) => loc[lang] || loc.en;
+
+  return (
+    <Ctx.Provider value={{ lang, setLang: setLangState, t, L }}>
+      {children}
+    </Ctx.Provider>
   );
-
-  return <LangCtx.Provider value={value}>{children}</LangCtx.Provider>;
 }
 
-export function useLang(): Ctx {
-  const ctx = useContext(LangCtx);
-  if (!ctx) throw new Error("useLang outside LangProvider");
-  return ctx;
+export function useLang() {
+  return useContext(Ctx);
 }
 
-export function waLink(number: string, text: string): string {
-  return `https://wa.me/${number.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(text)}`;
+export function waLink(number: string, text: string) {
+  return `https://wa.me/${number}?text=${encodeURIComponent(text)}`;
 }

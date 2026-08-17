@@ -68,6 +68,12 @@ export const IconX = ({ className = "w-6 h-6" }: P) => (
   </svg>
 );
 
+export const IconPlay = ({ className = "w-5 h-5" }: P) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
+    <path d="M8 5.5v13l11-6.5z" />
+  </svg>
+);
+
 export const IconTruck = ({ className = "w-5 h-5" }: P) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
     <path d="M1 5h13v11H1zM14 8h4l4 4v4h-8z" />
@@ -89,7 +95,17 @@ export const IconShip = ({ className = "w-5 h-5" }: P) => (
   </svg>
 );
 
-/* ---------- product glyphs (technical line drawings) ---------- */
+/* ---------- product glyphs — engineered line drawings, viewBox 64 ---------- */
+
+const ST = {
+  fill: "none",
+  stroke: "currentColor",
+  strokeWidth: 2.3,
+  strokeLinecap: "round" as const,
+  strokeLinejoin: "round" as const,
+};
+const FILL_ACC = { fill: "currentColor", opacity: 0.28, stroke: "none" };
+const DOT = { fill: "currentColor", stroke: "none" };
 
 export function ProductGlyph({
   k,
@@ -98,153 +114,205 @@ export function ProductGlyph({
   k: IconKey;
   className?: string;
 }) {
-  const s = {
-    fill: "none",
-    stroke: "currentColor",
-    strokeWidth: 2.2,
-    strokeLinecap: "round" as const,
-    strokeLinejoin: "round" as const,
-  };
   return (
     <svg viewBox="0 0 64 64" className={className} aria-hidden="true">
       {k === "ore" && (
-        <g {...s}>
-          <path d="M8 46 Q20 24 32 26 Q46 28 56 46 Z" />
-          <path d="M6 52h52" />
-          <circle cx="26" cy="38" r="1.4" fill="currentColor" stroke="none" />
-          <circle cx="35" cy="34" r="1.4" fill="currentColor" stroke="none" />
-          <circle cx="42" cy="40" r="1.4" fill="currentColor" stroke="none" />
+        <g>
+          <path {...ST} d="M8 46 Q19 22 31 25 Q45 28 56 46" />
+          <path {...ST} d="M6 52h52" />
+          <path {...FILL_ACC} d="M8 46 Q19 22 31 25 Q45 28 56 46 Z" />
+          <circle {...DOT} cx="25" cy="37" r="1.6" />
+          <circle {...DOT} cx="34" cy="33" r="1.6" />
+          <circle {...DOT} cx="42" cy="39" r="1.6" />
+          <path {...ST} strokeWidth="1.6" d="M29 37.5l3.5-3.5M37.5 40.5l3.5-3.5" opacity=".55" />
         </g>
       )}
       {k === "pellet" && (
-        <g {...s}>
-          <circle cx="22" cy="24" r="7" />
-          <circle cx="40" cy="22" r="7" />
-          <circle cx="48" cy="36" r="7" />
-          <circle cx="18" cy="40" r="7" />
-          <circle cx="33" cy="42" r="7" />
+        <g>
+          <circle {...ST} cx="21" cy="23" r="7.5" />
+          <circle {...ST} cx="41" cy="21" r="7.5" />
+          <circle {...ST} cx="49" cy="37" r="7.5" />
+          <circle {...ST} cx="16" cy="41" r="7.5" />
+          <circle {...ST} cx="32.5" cy="41.5" r="7.5" />
+          <circle {...FILL_ACC} cx="32.5" cy="41.5" r="7.5" />
+          <circle {...DOT} cx="21" cy="23" r="1.4" />
         </g>
       )}
       {k === "dri" && (
-        <g {...s}>
-          <rect x="12" y="20" width="40" height="24" rx="2" />
-          <circle cx="21" cy="28" r="2" />
-          <circle cx="31" cy="35" r="2" />
-          <circle cx="42" cy="27" r="2" />
-          <circle cx="46" cy="37" r="2" />
-          <circle cx="25" cy="39" r="1.4" />
+        <g>
+          <rect {...ST} x="11" y="21" width="42" height="22" rx="2.5" />
+          <path {...FILL_ACC} d="M13.5 23.5h37v17h-37z" />
+          <circle {...ST} strokeWidth="1.7" cx="20" cy="28" r="2.1" />
+          <circle {...DOT} cx="30" cy="35" r="2" />
+          <circle {...ST} strokeWidth="1.7" cx="42" cy="27.5" r="2.1" />
+          <circle {...DOT} cx="47" cy="36.5" r="1.6" />
+          <circle {...ST} strokeWidth="1.7" cx="24.5" cy="38.5" r="1.5" />
+          <path {...ST} strokeWidth="1.7" d="M14 49h36" opacity=".5" />
         </g>
       )}
-      {(k === "billet" || k === "alubillet") && (
-        <g {...s}>
-          <path d="M12 22 L26 14 H52 L38 22 Z" />
-          <path d="M12 34 L26 26 H52 L38 34 Z" />
-          <path d="M12 46 L26 38 H52 L38 46 Z" />
-        </g>
-      )}
+      {(k === "billet" || k === "alubillet") &&
+        (k === "billet" ? (
+          <g>
+            <path {...ST} d="M10 24 22 16h30l-12 8Z" />
+            <path {...ST} d="M10 24v10l30 0V24M40 34l12-8V16" />
+            <path {...ST} d="M10 42 22 34h30l-12 8Z" />
+            <path {...FILL_ACC} d="M10 24 22 16h30l-12 8Z" />
+            <path {...ST} d="M10 42v9l30 0v-9M40 51l12-8v-9" />
+          </g>
+        ) : (
+          <g>
+            <ellipse {...ST} cx="32" cy="17" rx="17" ry="6.5" />
+            <ellipse {...FILL_ACC} cx="32" cy="17" rx="17" ry="6.5" />
+            <path {...ST} d="M15 17v29c0 3.6 7.6 6.5 17 6.5s17-2.9 17-6.5V17" />
+            <path {...ST} strokeWidth="1.7" d="M15 31c0 3.6 7.6 6.5 17 6.5s17-2.9 17-6.5" opacity=".55" />
+            <circle {...DOT} cx="32" cy="17" r="1.8" />
+          </g>
+        ))}
       {(k === "slab" || k === "aluslab") && (
-        <g {...s}>
-          <path d="M8 30 L24 22 H56 L40 30 Z" />
-          <path d="M8 30v10l32 8V30" />
-          <path d="M40 48l16-8V30" />
+        <g>
+          <path {...ST} d="M7 30 21 21h36l-14 9Z" />
+          <path {...FILL_ACC} d="M7 30 21 21h36l-14 9Z" />
+          <path {...ST} d="M7 30v11l36 10V40" />
+          <path {...ST} d="M43 51l14-10V30" />
+          {k === "aluslab" && <path {...ST} strokeWidth="1.7" d="M14 37l22 6" opacity=".55" />}
         </g>
       )}
       {k === "pigiron" && (
-        <g {...s}>
-          <path d="M12 42 L20 26 H44 L52 42 Z" />
-          <path d="M22 36 L26 29 H38 L42 36 Z" />
-          <path d="M12 42v6h40v-6" />
+        <g>
+          <path {...ST} d="M12 34l7-14h26l7 14Z" />
+          <path {...FILL_ACC} d="M14.5 32l5.5-10.5h24L49.5 32Z" />
+          <path {...ST} d="M12 34v7h40v-7" />
+          <path {...ST} d="M19 48l3-5h20l3 5Z" strokeWidth="1.8" />
+          <path {...ST} strokeWidth="1.7" d="M22 27h20" opacity=".5" />
         </g>
       )}
       {k === "rebar" && (
-        <g {...s}>
-          <path d="M10 26h44M10 38h44" />
-          <path d="M16 22l-4 8M24 22l-4 8M32 22l-4 8M40 22l-4 8M48 22l-4 8M20 34l-4 8M28 34l-4 8M36 34l-4 8M44 34l-4 8M52 34l-4 8" strokeWidth="1.6" />
+        <g>
+          <rect {...ST} x="8" y="20" width="48" height="7" rx="3.5" />
+          <rect {...ST} x="8" y="36" width="48" height="7" rx="3.5" />
+          <rect {...FILL_ACC} x="8" y="36" width="48" height="7" rx="3.5" />
+          <path {...ST} strokeWidth="1.7" d="M15 20.5 12 26.5M23 20.5 20 26.5M31 20.5 28 26.5M39 20.5 36 26.5M47 20.5 44 26.5M19 36.5 16 42.5M27 36.5 24 42.5M35 36.5 32 42.5M43 36.5 40 42.5M51 36.5 48 42.5" />
         </g>
       )}
-      {k === "wirerod" || k === "cuwire" || k === "fesi" || k === "simn" ? (
-        k === "fesi" || k === "simn" ? (
-          <g {...s}>
-            <path d="M10 42 L16 28 L28 24 L34 34 L26 44 Z" />
-            <path d="M30 22 L42 18 L52 26 L46 38 L34 36 Z" />
-            <path d="M36 40 L48 42 L44 52 L32 50 Z" />
-            {k === "simn" && (
-              <>
-                <circle cx="22" cy="34" r="1.3" fill="currentColor" stroke="none" />
-                <circle cx="42" cy="28" r="1.3" fill="currentColor" stroke="none" />
-              </>
-            )}
+      {k === "wirerod" || k === "cuwire" ? (
+        k === "wirerod" ? (
+          <g>
+            <ellipse {...ST} cx="31" cy="33" rx="21" ry="13" />
+            <ellipse {...ST} cx="31" cy="33" rx="13" ry="7.5" />
+            <ellipse {...FILL_ACC} cx="31" cy="33" rx="13" ry="7.5" />
+            <path {...ST} d="M52 33c0 5-4 8-8 9.5" />
+            <path {...ST} d="M31 25.5v-8" strokeWidth="1.8" />
           </g>
         ) : (
-          <g {...s}>
-            <ellipse cx="32" cy="34" rx="20" ry="12" />
-            <ellipse cx="32" cy="34" rx="12" ry="6.5" />
-            <path d="M52 34c0 4-3 6-6 7" />
-            <path d="M32 27.5v-6" />
+          <g>
+            <ellipse {...ST} cx="31" cy="33" rx="21" ry="13" />
+            <ellipse {...ST} cx="31" cy="33" rx="13" ry="7.5" />
+            <ellipse {...FILL_ACC} cx="31" cy="33" rx="13" ry="7.5" />
+            <path {...ST} d="M52 33c0 5-4 8-8 9.5M52 33c0-2.5-.9-4.8-2.4-6.6" />
+            <circle {...DOT} cx="31" cy="33" r="2" />
           </g>
         )
       ) : null}
       {k === "angle" && (
-        <g {...s}>
-          <path d="M18 12v38h28v-9H27V12Z" />
+        <g>
+          <path {...ST} d="M17 10v42h30v-11H28V10Z" />
+          <path {...FILL_ACC} d="M17 10v42h30v-11H28V10Z" />
+          <path {...ST} strokeWidth="1.7" d="M22.5 15v31h18" opacity=".55" />
         </g>
       )}
       {k === "channel" && (
-        <g {...s}>
-          <path d="M18 12v38h28v-9H27V21h19v-9Z" />
+        <g>
+          <path {...ST} d="M17 10v42h30V41H28V21h19V10Z" />
+          <path {...FILL_ACC} d="M17 10v42h30V41H28V21h19V10Z" />
+          <path {...ST} strokeWidth="1.7" d="M22.5 15v32h19" opacity=".55" />
         </g>
       )}
       {k === "beam" && (
-        <g {...s}>
-          <path d="M16 12h32v9H36v22h12v9H16v-9h12V21H16Z" />
+        <g>
+          <path {...ST} d="M14 10h36v11H38v22h12v11H14V43h12V21H14Z" />
+          <path {...FILL_ACC} d="M14 10h36v11H38v22h12v11H14V43h12V21H14Z" />
+          <path {...ST} strokeWidth="1.7" d="M20 15.5h24" opacity=".55" />
         </g>
       )}
       {k === "coil" && (
-        <g {...s}>
-          <path d="M32 10a22 22 0 1 1-15.6 6.5" />
-          <path d="M32 18a14 14 0 1 0 10 4.2" />
-          <path d="M32 26a6 6 0 1 1-4.3 1.8" />
+        <g>
+          <path {...ST} d="M32 9a23 23 0 1 1-16.3 6.8" />
+          <path {...ST} d="M32 17.5a14.5 14.5 0 1 0 10.3 4.3" />
+          <path {...ST} d="M32 26a6 6 0 1 1-4.3 1.8" />
+          <circle {...FILL_ACC} cx="32" cy="32" r="6" />
+          <circle {...DOT} cx="32" cy="32" r="1.6" />
         </g>
       )}
       {k === "sheet" && (
-        <g {...s}>
-          <path d="M10 26h32l12-10H22Z" />
-          <path d="M10 26v8h32v-8" />
-          <path d="M42 34l12-10v-8" />
+        <g>
+          <path {...ST} d="M9 27h34l12-11H21Z" />
+          <path {...FILL_ACC} d="M9 27h34l12-11H21Z" />
+          <path {...ST} d="M9 27v9h34v-9" />
+          <path {...ST} d="M43 36l12-11v-9" />
+          <path {...ST} strokeWidth="1.7" d="M9 42h34l12-11" opacity=".55" />
         </g>
       )}
       {k === "galvanized" && (
-        <g {...s}>
-          <path d="M30 14a18 18 0 1 1-12.8 5.3" />
-          <path d="M30 21a11 11 0 1 0 7.8 3.2" />
-          <path d="M50 12v8M46 16h8" strokeWidth="1.8" />
-          <circle cx="50" cy="16" r="7" strokeWidth="1.8" />
+        <g>
+          <path {...ST} d="M29 13a19 19 0 1 1-13.5 5.6" />
+          <path {...ST} d="M29 21a11.5 11.5 0 1 0 8.2 3.4" />
+          <circle {...FILL_ACC} cx="29" cy="32" r="5.5" />
+          <circle {...ST} strokeWidth="1.9" cx="48" cy="16" r="8" />
+          <path {...ST} strokeWidth="1.9" d="M48 11.5v9M43.5 16h9" />
+          <circle {...DOT} cx="29" cy="32" r="1.5" />
         </g>
       )}
       {k === "cathode" && (
-        <g {...s}>
-          <rect x="20" y="16" width="24" height="34" rx="1" />
-          <path d="M24 16V9h6M34 16V9h6" />
-          <path d="M20 26h24M20 40h24" strokeWidth="1.6" />
+        <g>
+          <rect {...ST} x="19" y="17" width="26" height="34" rx="1.5" />
+          <path {...ST} d="M24 17V9h7M33 17V9h7" />
+          <path {...FILL_ACC} d="M19 30h26v9H19z" />
+          <path {...ST} strokeWidth="1.7" d="M19 26.5h26M19 42.5h26" opacity=".55" />
+          <circle {...DOT} cx="32" cy="34.5" r="1.7" />
         </g>
       )}
       {k === "cusection" && (
-        <g {...s}>
-          <path d="M12 40v10h12v-4h-6v-6Z" />
-          <circle cx="44" cy="44" r="7" />
-          <path d="M14 12h36v8H14Z" />
+        <g>
+          <rect {...ST} x="10" y="10" width="26" height="9" rx="1" />
+          <rect {...FILL_ACC} x="10" y="10" width="26" height="9" rx="1" />
+          <circle {...ST} cx="44" cy="42" r="8" />
+          <circle {...ST} strokeWidth="1.7" cx="44" cy="42" r="3.5" opacity=".6" />
+          <path {...ST} d="M12 46v8h13v-5h-6v-3Z" />
         </g>
       )}
       {k === "ingot" && (
-        <g {...s}>
-          <path d="M14 44 L21 26 H43 L50 44 Z" />
-          <path d="M22 26 L26 16 H38 L42 26" />
-          <path d="M14 44v6h36v-6" />
+        <g>
+          <path {...ST} d="M12 45l8-21h24l8 21Z" />
+          <path {...FILL_ACC} d="M14.5 43l6.8-17.5h21.4L49.5 43Z" />
+          <path {...ST} d="M12 45v6h40v-6" />
+          <path {...ST} strokeWidth="1.8" d="M24 24l-2.5 21M40 24l2.5 21" opacity=".5" />
         </g>
       )}
       {k === "alusection" && (
-        <g {...s}>
-          <path d="M14 14h36v9H36v27h-8V23H14Z" />
+        <g>
+          <rect {...ST} x="14" y="14" width="36" height="36" rx="2" />
+          <rect {...ST} x="25" y="25" width="14" height="14" rx="1" />
+          <rect {...FILL_ACC} x="25" y="25" width="14" height="14" rx="1" />
+          <path {...ST} strokeWidth="1.7" d="M14 14l11 11M50 14 39 25M50 50 39 39M14 50l11-11" opacity=".5" />
+        </g>
+      )}
+      {k === "fesi" && (
+        <g>
+          <path {...ST} d="M10 41 17 26l13-6 8 11-9 12Z" />
+          <path {...ST} d="M29 20l14-4 11 9-7 13-13-2" />
+          <path {...ST} d="M35 44l12 2-5 9-13-3Z" />
+          <path {...FILL_ACC} d="M29 20l14-4 11 9-7 13-13-2Z" />
+          <path {...ST} strokeWidth="1.6" d="M30 21l6 14M17 27l13 8" opacity=".5" />
+        </g>
+      )}
+      {k === "simn" && (
+        <g>
+          <path {...ST} d="M10 42 18 26l13-6 7 12-10 12Z" />
+          <path {...ST} d="M30 21l14-4 10 9-6 13-12-2" />
+          <path {...ST} d="M36 45l12 1-4 9-13-2Z" />
+          <path {...FILL_ACC} d="M10 42 18 26l13-6 7 12-10 12Z" />
+          <circle {...DOT} cx="24" cy="33" r="1.7" />
+          <circle {...DOT} cx="42" cy="28" r="1.7" />
         </g>
       )}
     </svg>
