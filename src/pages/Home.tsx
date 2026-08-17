@@ -5,6 +5,8 @@ import { CATEGORIES } from "../data/products";
 import { CONTACT, IMAGES, MARKETS, TEAM } from "../data/site";
 import { CountUp, Reveal, SectionHead } from "../components/Reveal";
 import MediaStrip from "../components/MediaStrip";
+import HeroSlider from "../components/HeroSlider";
+import LazyImg from "../components/LazyImg";
 import { CtaBand, Ticker } from "../components/Chrome";
 import {
   IconArrow,
@@ -60,40 +62,9 @@ function Hero() {
           </div>
         </div>
 
-        {/* image composition */}
-        <Reveal delay={200} className="relative">
-          <div className="absolute -inset-3 border border-steel-500/30 lg:-inset-4" aria-hidden="true" />
-          <div className="relative overflow-hidden">
-            <img
-              src={IMAGES.hero}
-              alt={t("hero.imgCap")}
-              className="img-breathe aspect-[4/3] w-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-graphite-950/70 via-transparent to-transparent" aria-hidden="true" />
-            <p className="absolute bottom-3 start-3 flex items-center gap-2 bg-graphite-950/80 px-3 py-1.5 text-[0.68rem] uppercase tracking-[0.16em] text-graphite-200 backdrop-blur-sm">
-              <span className="dot-live h-1.5 w-1.5 rounded-full bg-molten-500" />
-              {t("hero.imgCap")}
-            </p>
-          </div>
-
-          <span className="absolute -top-4 start-6 border border-graphite-600 bg-graphite-900 px-3 py-2 font-display text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-molten-400 shadow-xl">
-            {t("hero.chip1")}
-          </span>
-          <span className="absolute -bottom-4 end-6 border border-graphite-600 bg-graphite-900 px-3 py-2 font-display text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-steel-300 shadow-xl">
-            {t("hero.chip2")}
-          </span>
-
-          <div className="mt-8 flex items-center gap-4 border border-graphite-700 bg-graphite-900/80 px-5 py-4">
-            <span className="flex h-11 w-11 shrink-0 items-center justify-center bg-molten-500 text-graphite-950">
-              <IconClock className="h-5 w-5" />
-            </span>
-            <p className="text-sm text-graphite-300">
-              {t("hero.reply")} —{" "}
-              <strong className="font-display text-lg font-semibold text-molten-400" dir="ltr">&lt; 4h</strong>
-              <span className="mx-2 text-graphite-600">·</span>
-              <span className="font-display text-xs uppercase tracking-[0.16em] text-graphite-200">{t("hero.chip3")}</span>
-            </p>
-          </div>
+        {/* live product slider — images load progressively, never all at once */}
+        <Reveal delay={200}>
+          <HeroSlider />
         </Reveal>
       </div>
     </section>
@@ -155,43 +126,46 @@ function Catalogue() {
             <Reveal key={c.id} delay={(i % 4) * 80}>
               <Link
                 to={`/products?cat=${c.id}`}
-                className="brackets group flex h-full flex-col border border-line bg-card p-6 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-ink-900/10"
+                className="brackets group flex h-full gap-4 border border-line bg-card p-4 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-ink-900/10 sm:flex-col sm:p-6"
               >
-                <div className="flex items-start justify-between gap-3">
-                  <span className="flex h-16 w-16 items-center justify-center bg-graphite-950 text-molten-400 transition-colors duration-300 group-hover:bg-molten-500 group-hover:text-graphite-950">
-                    <ProductGlyph k={c.icon} className="h-11 w-11" />
+                <div className="flex shrink-0 items-start justify-between gap-3 sm:w-full">
+                  <span className="flex h-14 w-14 items-center justify-center bg-graphite-950 text-molten-400 transition-colors duration-300 group-hover:bg-molten-500 group-hover:text-graphite-950 sm:h-16 sm:w-16">
+                    <ProductGlyph k={c.icon} className="h-10 w-10 sm:h-11 sm:w-11" />
                   </span>
-                  <span className="border border-line bg-paper px-2 py-1 font-display text-[0.62rem] font-bold uppercase tracking-[0.14em] text-ink-500">
+                  <span className="hidden border border-line bg-paper px-2 py-1 font-display text-[0.62rem] font-bold uppercase tracking-[0.14em] text-ink-500 sm:inline-block">
                     {c.products.length} {t("cat.products")}
                   </span>
                 </div>
-                <h3 className="mt-5 font-display text-lg font-semibold uppercase leading-snug tracking-wide text-ink-900 transition-colors duration-300 group-hover:text-molten-600">
-                  {L(c.name)}
-                </h3>
-                <p className="mt-2 flex-1 text-[0.82rem] leading-relaxed text-ink-500">{L(c.blurb)}</p>
-                <div className="mt-4 border-t border-dashed border-line pt-3.5">
-                  <p className="truncate text-[0.72rem] font-medium uppercase tracking-[0.1em] text-steel-600">
-                    {c.products.slice(0, 2).map((p) => L(p.name)).join(" · ")} …
+                <div className="min-w-0 flex-1">
+                  <h3 className="font-display text-base font-semibold uppercase leading-snug tracking-wide text-ink-900 transition-colors duration-300 group-hover:text-molten-600 sm:mt-5 sm:text-lg">
+                    {L(c.name)}
+                  </h3>
+                  <p className="mt-1.5 line-clamp-2 text-[0.78rem] leading-relaxed text-ink-500 sm:mt-2 sm:line-clamp-none">
+                    {L(c.blurb)}
                   </p>
+                  <div className="mt-3 hidden border-t border-dashed border-line pt-3.5 sm:mt-4 sm:block">
+                    <p className="truncate text-[0.72rem] font-medium uppercase tracking-[0.1em] text-steel-600">
+                      {c.products.slice(0, 2).map((p) => L(p.name)).join(" · ")} …
+                    </p>
+                  </div>
+                  <span className="mt-3 flex items-center gap-2 font-display text-[0.66rem] font-semibold uppercase tracking-[0.2em] text-molten-600 sm:mt-4 sm:text-[0.7rem]">
+                    {t("cat.open")}
+                    <IconArrow className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1.5 rtl:-scale-x-100 rtl:group-hover:-translate-x-1" />
+                  </span>
                 </div>
-                <span className="mt-4 flex items-center gap-2 font-display text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-molten-600">
-                  {t("cat.open")}
-                  <IconArrow className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1.5 rtl:-scale-x-100 rtl:group-hover:-translate-x-1" />
-                </span>
               </Link>
             </Reveal>
           ))}
 
           {/* real-photo tile inside the grid */}
-          <Reveal delay={200}>
-            <figure className="brackets group relative h-full min-h-[260px] overflow-hidden border border-line">
-              <img
-                src={IMAGES.nonferrous}
-                alt={t("media.s5")}
-                loading="lazy"
-                className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-graphite-950/90 via-graphite-950/25 to-transparent" aria-hidden="true" />
+            <Reveal delay={200}>
+              <figure className="brackets group relative h-44 overflow-hidden border border-line sm:h-full sm:min-h-[260px]">
+                <LazyImg
+                  src={IMAGES.nonferrous}
+                  alt={t("media.s5")}
+                  className="absolute inset-0"
+                  imgClassName="transition-transform duration-700 group-hover:scale-105"
+                />              <div className="absolute inset-0 bg-gradient-to-t from-graphite-950/90 via-graphite-950/25 to-transparent" aria-hidden="true" />
               <figcaption className="absolute inset-x-0 bottom-0 p-5">
                 <p className="font-display text-sm font-semibold uppercase tracking-[0.14em] text-graphite-50">{t("media.s5")}</p>
                 <p className="mt-1 text-[0.7rem] uppercase tracking-[0.2em] text-molten-400">Cu 99.99% · Al 99.7%</p>
@@ -314,11 +288,11 @@ function Team() {
             <Reveal key={m.id} delay={i * 100}>
               <article className="brackets group flex h-full flex-col overflow-hidden border border-graphite-800 bg-graphite-900 transition-all duration-300 hover:-translate-y-1.5">
                 <div className="relative overflow-hidden">
-                  <img
+                  <LazyImg
                     src={m.img}
                     alt={m.name}
-                    loading="lazy"
-                    className="aspect-[4/5] w-full object-cover grayscale transition-all duration-700 group-hover:scale-[1.04] group-hover:grayscale-0"
+                    className="aspect-[4/5]"
+                    imgClassName="grayscale transition-all duration-700 group-hover:scale-[1.04] group-hover:grayscale-0"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-graphite-950/85 via-transparent to-transparent" aria-hidden="true" />
                   <div className="absolute bottom-4 start-5 end-5">
@@ -387,9 +361,9 @@ export default function Home() {
 
   return (
     <>
-      <Ticker />
       <Hero />
       <Stats />
+      <Ticker />
       <Catalogue />
       <Advantage />
       <Media />

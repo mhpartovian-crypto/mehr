@@ -49,6 +49,11 @@ html {
   scroll-behavior: smooth;
 }
 
+html,
+body {
+  overflow-x: clip;
+}
+
 body {
   font-family: var(--font-body);
   background-color: var(--color-graphite-950);
@@ -192,6 +197,19 @@ body {
   100% {
     opacity: 0;
   }
+}
+
+@keyframes growX {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.grow-x {
+  animation: growX var(--dur, 6000ms) linear forwards;
 }
 
 /* ---------- motion helpers ---------- */

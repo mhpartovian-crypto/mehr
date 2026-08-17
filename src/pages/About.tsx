@@ -3,6 +3,7 @@ import { usePageMeta } from "../hooks/usePageMeta";
 import { IMAGES, MILLS } from "../data/site";
 import { Reveal, SectionHead } from "../components/Reveal";
 import MediaStrip from "../components/MediaStrip";
+import LazyImg from "../components/LazyImg";
 import { CtaBand } from "../components/Chrome";
 import { IconCheck, IconDoc, IconTruck, IconWA } from "../components/Icons";
 
@@ -36,7 +37,7 @@ function Story() {
         <Reveal delay={150} className="relative">
           <div className="absolute -inset-3 border border-molten-500/30" aria-hidden="true" />
           <div className="relative overflow-hidden">
-            <img src={IMAGES.warehouse} alt={t("media.s1")} className="img-breathe aspect-[4/3] w-full object-cover" />
+            <LazyImg src={IMAGES.warehouse} alt={t("media.s1")} className="aspect-[4/3]" imgClassName="img-breathe" />
             <div className="absolute inset-0 bg-gradient-to-t from-graphite-950/60 to-transparent" aria-hidden="true" />
           </div>
         </Reveal>

@@ -3,9 +3,10 @@ import { Link, Navigate, useParams } from "react-router-dom";
 import { useLang, waLink } from "../i18n";
 import { usePageMeta } from "../hooks/usePageMeta";
 import { findProduct } from "../data/products";
-import { CAT_IMAGE, TEAM } from "../data/site";
+import { productImage, TEAM } from "../data/site";
 import { Reveal, SectionHead } from "../components/Reveal";
 import MediaStrip from "../components/MediaStrip";
+import LazyImg from "../components/LazyImg";
 import { ProductGlyph, IconWA, IconPhone, IconDoc, IconCheck, IconArrow } from "../components/Icons";
 import { CtaBand } from "../components/Chrome";
 
@@ -81,7 +82,7 @@ export default function ProductDetail() {
   if (!found) return <Navigate to="/products" replace />;
   const { product: p, category } = found;
   const rep = TEAM[p.rep];
-  const catImg = CAT_IMAGE[category.id];
+  const pImg = productImage(p.slug, category.id);
 
   const scrollToAnalysis = () => {
     document.getElementById("analysis")?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -104,12 +105,19 @@ export default function ProductDetail() {
 
           <div className="mt-7 grid gap-8 lg:grid-cols-[1fr_320px] lg:items-center">
             <div>
-              <span className="anim-fade-up inline-block border border-steel-500/50 bg-steel-500/10 px-3 py-1.5 font-display text-xs font-semibold uppercase tracking-[0.16em] text-steel-300">
-                {p.grade}
-              </span>
-              <h1 className="anim-fade-up mt-3.5 font-display text-3xl font-semibold uppercase leading-[1.05] tracking-tight text-graphite-50 sm:text-5xl" style={{ "--d": "100ms" } as React.CSSProperties}>
-                {L(p.name)}
-              </h1>
+              <div className="flex items-start gap-4 sm:gap-5">
+                <span className="anim-fade-up mt-1.5 shrink-0 text-molten-500" style={{ "--d": "40ms" } as React.CSSProperties}>
+                  <ProductGlyph k={p.icon} className="h-12 w-12 sm:h-16 sm:w-16" />
+                </span>
+                <div className="min-w-0">
+                  <span className="anim-fade-up inline-block border border-steel-500/50 bg-steel-500/10 px-3 py-1.5 font-display text-xs font-semibold uppercase tracking-[0.16em] text-steel-300">
+                    {p.grade}
+                  </span>
+                  <h1 className="anim-fade-up mt-3.5 font-display text-3xl font-semibold uppercase leading-[1.05] tracking-tight text-graphite-50 sm:text-5xl" style={{ "--d": "100ms" } as React.CSSProperties}>
+                    {L(p.name)}
+                  </h1>
+                </div>
+              </div>
               <p className="anim-fade-up mt-4 max-w-2xl text-base leading-relaxed text-graphite-300" style={{ "--d": "200ms" } as React.CSSProperties}>
                 {L(p.summary)}
               </p>
@@ -134,12 +142,20 @@ export default function ProductDetail() {
               </div>
             </div>
 
-            <Reveal delay={150} className="brackets relative border border-graphite-700 bg-graphite-900/70 p-7">
-              <div className="flex flex-col items-center gap-4">
-                <span className="text-molten-500">
-                  <ProductGlyph k={p.icon} className="h-32 w-32" />
+            <Reveal delay={150} className="brackets relative border border-graphite-700 bg-graphite-900/70">
+              <div className="relative">
+                <LazyImg
+                  src={pImg}
+                  alt={L(p.name)}
+                  className="aspect-[4/3]"
+                  imgClassName="grayscale-[25%] transition-all duration-700 hover:scale-[1.03] hover:grayscale-0"
+                />
+                <span className="absolute start-3 top-3 bg-graphite-950/80 px-2.5 py-1 font-display text-[0.62rem] font-bold uppercase tracking-[0.16em] text-molten-400 backdrop-blur-sm">
+                  {t("origin.iran")} · MTC
                 </span>
-                <div className="grid w-full grid-cols-2 gap-px bg-graphite-700 text-center">
+              </div>
+              <div className="flex flex-col">
+                <div className="grid w-full grid-cols-2 gap-px border-t border-graphite-700 bg-graphite-700 text-center">
                   {[
                     { k: t("p.moq"), v: p.moq },
                     { k: t("p.hs"), v: p.hs },
@@ -242,7 +258,7 @@ export default function ProductDetail() {
           <div className="mt-10">
             <MediaStrip
               items={[
-                { kind: "img", src: catImg, captionKey: "p.mediaCap" },
+                { kind: "img", src: pImg, captionKey: "p.mediaCap" },
                 { kind: "slot", captionKey: "media.s2" },
                 { kind: "slot", captionKey: "media.s4" },
               ]}

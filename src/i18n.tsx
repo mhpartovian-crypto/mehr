@@ -266,12 +266,8 @@ const D: Dict = {
   "footer.contact": { en: "Contact", ru: "Контакты", ar: "التواصل" },
   "footer.wa": { en: "WhatsApp desk", ru: "Отдел WhatsApp", ar: "مكتب واتساب" },
   "footer.rights": { en: "All rights reserved.", ru: "Все права защищены.", ar: "جميع الحقوق محفوظة." },
-  "footer.tag": { en: "Tehran · Bandar Abbas · Moscow desk", ru: "Тегеран · Бендер-Аббас · отдел Москва", ar: "طهران · بندر عباس · مكتب موسكو" },
-  "footer.logoOpt": {
-    en: "Logo proposals",
-    ru: "Варианты логотипا",
-    ar: "اقتراحات الشعار",
-  },
+  "footer.tag": { en: "Tehran · Bandar Abbas", ru: "Тегеран · Бендер-Аббاس", ar: "طهران · بندر عباس" },
+
   "footer.note": {
     en: "Persis Metal is an independent export trading house. Product photos on this site are illustrative of Iranian-origin material; exact specification is confirmed by MTC per lot.",
     ru: "Persis Metal — независимый экспортный торговый дом. Фотографии носят иллюстративный характер; точная спецификация подтверждается MTC на партию.",
@@ -563,46 +559,33 @@ const D: Dict = {
   "blog.cta": { en: "Get today's prices on WhatsApp", ru: "Получить цены дня в WhatsApp", ar: "احصل على أسعار اليوم عبر واتساب" },
   "blog.back": { en: "Browse products meanwhile", ru: "Пока посмотрите продукцию", ar: "تصفح المنتجات في الأثناء" },
 
-  /* logo proposals */
-  "logo.kicker": { en: "Brand identity", ru: "Фирменный стиль", ar: "الهوية البصرية" },
-  "logo.title": { en: "Logo proposals", ru: "Варианты логотипа", ar: "مقترحات الشعار" },
-  "logo.sub": {
-    en: "Four directions for the Persis Metal mark. Option 1 is currently live across the site; pick a favourite and it goes everywhere — header, footer, favicon.",
-    ru: "Четыре направления знака Persis Metal. Вариант 1 сейчас действует по всему сайту; выберите любимый — он встанет в шапку, подвал и favicon.",
-    ar: "أربعة اتجاهات لشعار برسيس متال. الخيار ١ فعّال حاليًا في الموقع؛ اختر المفضل وسيعتمد في الترويسة والتذييل وأيقونة المتصفح.",
+  /* hero slider */
+  "hero.stockT": { en: "20+ export-ready products", ru: "20+ экспортных позиций", ar: "أكثر من ٢٠ منتجًا جاهزًا للتصدير" },
+  "hero.stockS": {
+    en: "Billet, flats, wire rod, copper and aluminum — one supplier, one document set.",
+    ru: "Заготовка, лист, катанка, медь и алюминий — один поставщик, один пакет документов.",
+    ar: "بليت وألواح ولفائف ونحاس وألمنيوم — مورد واحد وحزمة وثائق واحدة.",
   },
-  "logo.active": { en: "Currently active", ru: "Сейчас активен", ar: "فعّال حاليًا" },
-  "logo.onDark": { en: "On graphite", ru: "На графите", ar: "على الغرافيت" },
-  "logo.onLight": { en: "On paper", ru: "На светлом", ar: "على الفاتح" },
-  "logo.n1": { en: "Slab Stack", ru: "Пакет слябов", ar: "رزمة الصفائح" },
-  "logo.d1": {
-    en: "Three offset slabs — the company's core: layered supply, steel + non-ferrous + trade. Molten orange on top.",
-    ru: "Три сляба со сдвигом — суть компании: сталь + цветные металлы + торговля. Сверху — расплавленный оранжевый.",
-    ar: "ثلاث صفائح منزاحة — جوهر الشركة: فولاذ + معادن غير حديدية + تجارة. برتقالي مصهور في الأعلى.",
+  "hero.prev": { en: "Previous product", ru: "Предыдущий продукт", ar: "المنتج السابق" },
+  "hero.next": { en: "Next product", ru: "Следующий продукт", ar: "المنتج التالي" },
+  "hero.view": { en: "View specs", ru: "Характеристики", ar: "عرض المواصفات" },
+  "hero.browse": { en: "Browse catalogue", ru: "Смотреть каталог", ar: "تصفح الكتالوج" },
+
+  /* blog media reel */
+  "blog.mediaKicker": { en: "Media room", ru: "Медиа", ar: "ركن الوسائط" },
+  "blog.mediaTitle": { en: "From the field", ru: "С полей работы", ar: "من أرض الميدان" },
+  "blog.mediaSub": {
+    en: "Exhibition booths, mill visits, signed contracts and client deliveries — this reel is where it all lands.",
+    ru: "Выставочные стенды, визиты на комбинаты, подписанные контракты и отгрузки клиентам — всё собирается здесь.",
+    ar: "أجنحة المعارض وزيارات المصانع والعقود الموقعة وتسليمات العملاء — كل ذلك يُعرض هنا.",
   },
-  "logo.n2": { en: "Export Arrow P", ru: "Стрела экспорта P", ar: "سهم التصدير P" },
-  "logo.d2": {
-    en: "A bold P whose bowl becomes an arrow pointing up-right — Persis, export, growth. One gesture, one color pair.",
-    ru: "Жирная P, чаша которой становится стрелой вверх-вправо — Persis, экспорт, рост. Один жест, одна пара цветов.",
-    ar: "حرف P عريض يتحول جوفه إلى سهم نحو الأعلى يمينًا — برسيس وتصدير ونمو. حركة واحدة وازدواج لوني واحد.",
-  },
-  "logo.n3": { en: "Hex Forge", ru: "Шестигранник кузницы", ar: "سداسي الحدادة" },
-  "logo.d3": {
-    en: "A steel hexagon — the nut, the bolt, the industry — with a forged P cut inside and a molten spark at the corner.",
-    ru: "Стальной шестигранник — гайка, болт, индустрия — с кованой P внутри и раскалённой искрой в углу.",
-    ar: "سداسي فولاذي — الصامولة والبرغي والصناعة — بداخله حرف P مطروق وشرارة مصهورة في الزاوية.",
-  },
-  "logo.n4": { en: "Rising Ingots", ru: "Растущие слитки", ar: "سبائك صاعدة" },
-  "logo.d4": {
-    en: "Three ingots climbing like a chart — raw material at the base, molten value at the peak. Reads well at 16 px.",
-    ru: "Три слитка растут, как график — сырьё в основании, расплавленная стоимость на вершине. Хорошо читается в 16 px.",
-    ar: "ثلاث سبائك تصاعدية كرسم بياني — المادة الخام في القاعدة والقيمة المصهورة في القمة. مقروء حتى في ١٦ بكسل.",
-  },
-  "logo.note": {
-    en: "Tell us which option to activate — it will replace the mark in the header, footer, favicon and documents.",
-    ru: "Скажите, какой вариант активировать — он заменит знак в шапке, подвале, favicon и документах.",
-    ar: "أخبرونا أي خيار نعتمده — سيحل محل الشعار في الترويسة والتذييل والأيقونة والوثائق.",
-  },
+  "blog.m1": { en: "Exhibition booths & trade shows", ru: "Стенды на выставках", ar: "أجنحة المعارض التجارية" },
+  "blog.m2": { en: "Mill visits & inspections", ru: "Визиты на комбинаты", ar: "زيارات المصانع والتفتيش" },
+  "blog.m3": { en: "Contract signings", ru: "Подписание контрактов", ar: "توقيع العقود" },
+  "blog.m4": { en: "Client site visits & deliveries", ru: "Визиты к клиентам и поставки", ar: "زيارات العملاء والتسليمات" },
+  "blog.m5": { en: "Team at industry events", ru: "Команда на отраслевых событиях", ar: "الفريق في الفعاليات الصناعية" },
+
+
 
   /* seo titles */
   "seo.home": {

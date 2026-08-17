@@ -61,17 +61,50 @@ export const IMAGES = {
     "https://image.qwenlm.ai/generated-images/814cfd1f-2dc0-4210-9e4c-5b71ced3f424/_result.png",
   loading:
     "https://image.qwenlm.ai/generated-images/41dec6d2-1d0f-4b16-a56b-16e320c130f8/_result.png",
+  pellet:
+    "https://image.qwenlm.ai/generated-images/d1117b0c-ac19-4a56-964f-d25cc4fd5729/_result.png",
+  coil: "https://image.qwenlm.ai/generated-images/b78a5f58-22a3-4022-abe1-b0dfd2584f2b/_result.png",
 };
 
 export const CAT_IMAGE: Record<string, string> = {
-  "iron-ore": IMAGES.hero,
+  "iron-ore": IMAGES.pellet,
   "semi-finished": IMAGES.hero,
   "long-structural": IMAGES.loading,
-  "flat-steel": IMAGES.warehouse,
+  "flat-steel": IMAGES.coil,
   copper: IMAGES.nonferrous,
   aluminum: IMAGES.nonferrous,
-  ferroalloys: IMAGES.loading,
+  ferroalloys: IMAGES.warehouse,
 };
+
+/** Per-product real photography (falls back to the category image). */
+export const PRODUCT_IMAGE: Record<string, string> = {
+  "iron-ore-concentrate": IMAGES.pellet,
+  "iron-ore-pellet": IMAGES.pellet,
+  "sponge-iron-dri": IMAGES.pellet,
+  "billet-bloom": IMAGES.hero,
+  "steel-slab": IMAGES.hero,
+  "pig-iron": IMAGES.warehouse,
+  rebar: IMAGES.loading,
+  "steel-wire-rod": IMAGES.loading,
+  "angle-bar": IMAGES.loading,
+  "u-channel": IMAGES.loading,
+  "ipe-hea-beam": IMAGES.loading,
+  "hot-rolled-coil": IMAGES.coil,
+  "cold-rolled-coil": IMAGES.coil,
+  "galvanized-sheet": IMAGES.coil,
+  "copper-cathode": IMAGES.nonferrous,
+  "copper-wire-rod": IMAGES.nonferrous,
+  "copper-sections": IMAGES.nonferrous,
+  "aluminum-ingot": IMAGES.nonferrous,
+  "aluminum-billet": IMAGES.nonferrous,
+  "aluminum-slab": IMAGES.nonferrous,
+  "aluminum-sections-sheets": IMAGES.nonferrous,
+  "ferro-silicon-75": IMAGES.warehouse,
+  "silico-manganese-65": IMAGES.warehouse,
+};
+
+export const productImage = (slug: string, catId: string): string =>
+  PRODUCT_IMAGE[slug] ?? CAT_IMAGE[catId] ?? IMAGES.warehouse;
 
 type Shipment = {
   product: string;

@@ -3,6 +3,8 @@ import { useLang, waLink } from "../i18n";
 import { usePageMeta } from "../hooks/usePageMeta";
 import { CONTACT, IMAGES } from "../data/site";
 import { Reveal, SectionHead } from "../components/Reveal";
+import MediaStrip from "../components/MediaStrip";
+import LazyImg from "../components/LazyImg";
 import { CtaBand } from "../components/Chrome";
 import { IconArrow, IconClock, IconWA } from "../components/Icons";
 
@@ -32,11 +34,11 @@ export default function Blog() {
               <Reveal key={i} delay={i * 100}>
                 <article className="group flex h-full cursor-default flex-col overflow-hidden border border-line bg-card transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-ink-900/10" aria-disabled="true">
                   <div className="relative overflow-hidden">
-                    <img
+                    <LazyImg
                       src={p.img}
                       alt={p.title}
-                      loading="lazy"
-                      className="aspect-[16/10] w-full object-cover grayscale-[30%] transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0"
+                      className="aspect-[16/10]"
+                      imgClassName="grayscale-[30%] transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0"
                     />
                     <span className="absolute start-4 top-4 bg-graphite-950 px-2.5 py-1.5 font-display text-[0.62rem] font-bold uppercase tracking-[0.18em] text-molten-400">
                       {p.tag}
@@ -72,11 +74,33 @@ export default function Blog() {
         </div>
       </section>
 
+      {/* media room — exhibitions, mill visits, contracts */}
+      <section className="border-t border-graphite-800 bg-graphite-950 py-16 lg:py-24">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+          <SectionHead
+            kicker={t("blog.mediaKicker")}
+            title={t("blog.mediaTitle")}
+            sub={t("blog.mediaSub")}
+          />
+          <div className="mt-10">
+            <MediaStrip
+              items={[
+                { kind: "slot", captionKey: "blog.m1" },
+                { kind: "slot", captionKey: "blog.m2" },
+                { kind: "slot", captionKey: "blog.m3" },
+                { kind: "slot", captionKey: "blog.m4" },
+                { kind: "slot", captionKey: "blog.m5" },
+              ]}
+            />
+          </div>
+        </div>
+      </section>
+
       {/* meanwhile: talk to us / browse products */}
-      <section className="bg-graphite-950 py-16 lg:py-20">
+      <section className="blueprint-light border-y border-line bg-paper py-16 lg:py-20">
         <div className="mx-auto flex max-w-7xl flex-col items-start gap-6 px-5 sm:px-8 lg:flex-row lg:items-center lg:justify-between">
           <Reveal>
-            <h2 className="font-display text-2xl font-semibold uppercase tracking-tight text-graphite-50 sm:text-3xl">
+            <h2 className="font-display text-2xl font-semibold uppercase tracking-tight text-ink-900 sm:text-3xl">
               {t("blog.cta")}
             </h2>
           </Reveal>
@@ -92,7 +116,7 @@ export default function Blog() {
             </a>
             <Link
               to="/products"
-              className="group flex items-center justify-center gap-3 border border-graphite-500/60 px-7 py-4 font-display text-sm font-semibold uppercase tracking-[0.14em] text-graphite-100 transition-all duration-300 hover:border-molten-500 hover:text-molten-400"
+              className="group flex items-center justify-center gap-3 border border-ink-700/40 px-7 py-4 font-display text-sm font-semibold uppercase tracking-[0.14em] text-ink-900 transition-all duration-300 hover:border-molten-600 hover:bg-molten-600 hover:text-graphite-50"
             >
               {t("blog.back")}
               <IconArrow className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 rtl:-scale-x-100 rtl:group-hover:-translate-x-1" />

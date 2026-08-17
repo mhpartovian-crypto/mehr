@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useLang, waLink } from "../i18n";
 import { CATEGORIES } from "../data/products";
 import { CONTACT } from "../data/site";
-import Logo, { LogoMark } from "./Logo";
+import Logo from "./Logo";
 import { IconClock, IconMail, IconPhone, IconPin, IconWA } from "./Icons";
 
 export default function Footer() {
@@ -106,13 +106,6 @@ export default function Footer() {
           <p>
             © 2026 Persis Metal — {t("footer.rights")}
           </p>
-          <Link
-            to="/logo-options"
-            className="group flex items-center gap-2 font-display uppercase tracking-[0.2em] text-graphite-500 transition-colors duration-200 hover:text-molten-400"
-          >
-            <LogoMark size={18} className="text-graphite-500 transition-colors duration-200 group-hover:text-molten-400" />
-            {t("footer.logoOpt")}
-          </Link>
           <p className="font-display uppercase tracking-[0.2em]">{t("footer.tag")}</p>
         </div>
         <div className="mx-auto max-w-7xl px-5 pb-6 sm:px-8">
@@ -125,6 +118,4 @@ export default function Footer() {
   );
 }
 
-export function FooterMark() {
-  return <LogoMark size={28} />;
-}
+

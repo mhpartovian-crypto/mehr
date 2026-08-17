@@ -1,5 +1,6 @@
 import { useLang } from "../i18n";
 import { Reveal } from "./Reveal";
+import LazyImg from "./LazyImg";
 import { IconPlay } from "./Icons";
 
 export type MediaItem =
@@ -36,11 +37,11 @@ export default function MediaStrip({ items }: { items: MediaItem[] }) {
             >
               {item.kind === "img" ? (
                 <>
-                  <img
+                  <LazyImg
                     src={item.src}
                     alt={t(item.captionKey)}
-                    loading="lazy"
-                    className="aspect-[4/3] w-full object-cover grayscale-[35%] transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0"
+                    className="aspect-[4/3]"
+                    imgClassName="grayscale-[35%] transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0"
                   />
                   <figcaption className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-2 bg-gradient-to-t from-graphite-950/95 to-transparent px-3.5 pb-2.5 pt-8">
                     <span className="truncate text-xs font-medium text-graphite-100">{t(item.captionKey)}</span>
