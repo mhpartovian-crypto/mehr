@@ -267,6 +267,11 @@ const D: Dict = {
   "footer.wa": { en: "WhatsApp desk", ru: "Отдел WhatsApp", ar: "مكتب واتساب" },
   "footer.rights": { en: "All rights reserved.", ru: "Все права защищены.", ar: "جميع الحقوق محفوظة." },
   "footer.tag": { en: "Tehran · Bandar Abbas · Moscow desk", ru: "Тегеран · Бендер-Аббас · отдел Москва", ar: "طهران · بندر عباس · مكتب موسكو" },
+  "footer.logoOpt": {
+    en: "Logo proposals",
+    ru: "Варианты логотипا",
+    ar: "اقتراحات الشعار",
+  },
   "footer.note": {
     en: "Persis Metal is an independent export trading house. Product photos on this site are illustrative of Iranian-origin material; exact specification is confirmed by MTC per lot.",
     ru: "Persis Metal — независимый экспортный торговый дом. Фотографии носят иллюстративный характер; точная спецификация подтверждается MTC на партию.",

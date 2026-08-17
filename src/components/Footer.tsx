@@ -106,6 +106,13 @@ export default function Footer() {
           <p>
             © 2026 Persis Metal — {t("footer.rights")}
           </p>
+          <Link
+            to="/logo-options"
+            className="group flex items-center gap-2 font-display uppercase tracking-[0.2em] text-graphite-500 transition-colors duration-200 hover:text-molten-400"
+          >
+            <LogoMark size={18} className="text-graphite-500 transition-colors duration-200 group-hover:text-molten-400" />
+            {t("footer.logoOpt")}
+          </Link>
           <p className="font-display uppercase tracking-[0.2em]">{t("footer.tag")}</p>
         </div>
         <div className="mx-auto max-w-7xl px-5 pb-6 sm:px-8">
