@@ -3,6 +3,7 @@ import { useLang, waLink } from "../i18n";
 import { usePageMeta } from "../hooks/usePageMeta";
 import { CONTACT, TEAM } from "../data/site";
 import { Reveal, SectionHead } from "../components/Reveal";
+import LazyImg from "../components/LazyImg";
 import { IconCheck, IconClock, IconMail, IconPhone, IconPin, IconWA } from "../components/Icons";
 
 const inputCls =
@@ -40,7 +41,7 @@ export default function Contact() {
                   rel="noreferrer"
                   className="group flex h-full items-center gap-4 border border-graphite-800 bg-graphite-900 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-wa/70"
                 >
-                  <img src={m.img} alt={m.name} loading="lazy" className="h-16 w-16 shrink-0 border border-graphite-700 object-cover grayscale transition-all duration-300 group-hover:grayscale-0" />
+                  <LazyImg src={m.img} alt={m.name} className="h-16 w-16 shrink-0 border border-graphite-700" imgClassName="grayscale transition-all duration-300 group-hover:grayscale-0" />
                   <span>
                     <span className="block font-display text-base font-semibold uppercase tracking-wide text-graphite-100 group-hover:text-wa">
                       {m.name}

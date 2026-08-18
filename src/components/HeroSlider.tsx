@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useLang } from "../i18n";
 import { findProduct } from "../data/products";
-import { IMAGES } from "../data/site";
+import { IMAGES, imageFallback } from "../data/site";
 import { IconArrow, IconClock } from "./Icons";
 import { LogoMark } from "./Logo";
 
@@ -98,6 +98,15 @@ export default function HeroSlider() {
                   <img
                     src={s.img}
                     alt={prod ? L(prod.name) : t("hero.stockT")}
+                    onError={(e) => {
+                      const img = e.currentTarget;
+                      if (img.dataset.fb) return;
+                      const fb = imageFallback(s.img);
+                      if (fb) {
+                        img.dataset.fb = "1";
+                        img.src = fb;
+                      }
+                    }}
                     className={`h-full w-full object-cover ${
                       isActive && !reduced ? "img-breathe" : ""
                     }`}

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { imageFallback } from "../data/site";
 
 /**
  * IntersectionObserver-based lazy image.
@@ -53,6 +54,15 @@ export default function LazyImg({
           src={src}
           alt={alt}
           onLoad={() => setLoaded(true)}
+          onError={(e) => {
+            const img = e.currentTarget;
+            if (img.dataset.fb) return; // already retried
+            const fb = imageFallback(src);
+            if (fb) {
+              img.dataset.fb = "1";
+              img.src = fb;
+            }
+          }}
           className={`h-full w-full object-cover transition-opacity duration-700 ${
             loaded ? "opacity-100" : "opacity-0"
           } ${imgClassName}`}

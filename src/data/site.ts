@@ -66,6 +66,37 @@ export const IMAGES = {
   coil: "/images/coils.png",
 };
 
+/**
+ * Automatic fallback: if a local /images/* file is missing on the host
+ * (e.g. the client has not uploaded the photos yet), the image is served
+ * from the original source instead — so the site never shows broken images.
+ */
+const REMOTE_IMAGES: Record<string, string> = {
+  "/images/billets.png":
+    "https://image.qwenlm.ai/generated-images/4989573f-7074-47f7-84d7-2188ef41f670/_result.png",
+  "/images/pellets.png":
+    "https://image.qwenlm.ai/generated-images/d1117b0c-ac19-4a56-964f-d25cc4fd5729/_result.png",
+  "/images/coils.png":
+    "https://image.qwenlm.ai/generated-images/b78a5f58-22a3-4022-abe1-b0dfd2584f2b/_result.png",
+  "/images/nonferrous.png":
+    "https://image.qwenlm.ai/generated-images/814cfd1f-2dc0-4210-9e4c-5b71ced3f424/_result.png",
+  "/images/warehouse.png":
+    "https://image.qwenlm.ai/generated-images/96969773-b607-4ff9-8c29-42810c7c5710/_result.png",
+  "/images/loading.png":
+    "https://image.qwenlm.ai/generated-images/41dec6d2-1d0f-4b16-a56b-16e320c130f8/_result.png",
+  "/images/port.png":
+    "https://image.qwenlm.ai/generated-images/3b892691-6840-44ec-8bd9-3af2d6f064c7/_result.png",
+  "/images/team-amir.png":
+    "https://image.qwenlm.ai/generated-images/3dd21f7b-93dd-43a4-836f-3a13798ab000/_result.png",
+  "/images/team-reza.png":
+    "https://image.qwenlm.ai/generated-images/fa47d1a7-edcf-48c4-8c08-5be11c0b1e96/_result.png",
+  "/images/team-sara.png":
+    "https://image.qwenlm.ai/generated-images/23e05da4-5994-47ff-87fd-6fd905ae211b/_result.png",
+};
+
+export const imageFallback = (src: string): string | null =>
+  REMOTE_IMAGES[src] ?? null;
+
 export const CAT_IMAGE: Record<string, string> = {
   "iron-ore": IMAGES.pellet,
   "semi-finished": IMAGES.hero,

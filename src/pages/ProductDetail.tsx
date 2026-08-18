@@ -273,7 +273,7 @@ export default function ProductDetail() {
           <div>
             <SectionHead tone="light" kicker={t("p.salesTitle")} title={L(p.name)} sub={t("p.salesSub")} />
             <Reveal delay={120} className="mt-8 flex items-center gap-5 border border-line bg-card p-6">
-              <img src={rep.img} alt={rep.name} loading="lazy" className="h-20 w-20 shrink-0 border border-line object-cover grayscale" />
+              <LazyImg src={rep.img} alt={rep.name} className="h-20 w-20 shrink-0 border border-line" imgClassName="grayscale" />
               <div className="min-w-0">
                 <p className="font-display text-lg font-semibold uppercase tracking-wide text-ink-900">{rep.name}</p>
                 <p className="text-sm font-medium text-molten-600">{t(rep.roleKey)}</p>
