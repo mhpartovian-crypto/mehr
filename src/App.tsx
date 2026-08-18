@@ -11,6 +11,7 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Quote from "./pages/Quote";
 import Blog from "./pages/Blog";
+import Editor from "./pages/Editor";
 
 function ScrollToTop() {
   const { pathname, search } = useLocation();
@@ -20,28 +21,38 @@ function ScrollToTop() {
   return null;
 }
 
+function Site() {
+  return (
+    <div className="noise min-h-screen bg-graphite-950 font-body text-graphite-100">
+      <Header />
+      <main>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/products/:slug" element={<ProductDetail />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/quote" element={<Quote />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="*" element={<Home />} />
+        </Routes>
+      </main>
+      <Footer />
+      <WaFloat />
+    </div>
+  );
+}
+
 export default function App() {
   return (
     <LangProvider>
       <HashRouter>
         <ScrollToTop />
-        <div className="noise min-h-screen bg-graphite-950 font-body text-graphite-100">
-          <Header />
-          <main>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/products" element={<Products />} />
-              <Route path="/products/:slug" element={<ProductDetail />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/quote" element={<Quote />} />
-              <Route path="/blog" element={<Blog />} />
-              <Route path="*" element={<Home />} />
-            </Routes>
-          </main>
-          <Footer />
-          <WaFloat />
-        </div>
+        <Routes>
+          {/* standalone tool — no site chrome */}
+          <Route path="/editor" element={<Editor />} />
+          <Route path="/*" element={<Site />} />
+        </Routes>
       </HashRouter>
     </LangProvider>
   );
