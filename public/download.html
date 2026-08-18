@@ -1,309 +1,312 @@
 <!doctype html>
 <html lang="fa" dir="rtl">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="robots" content="noindex, nofollow" />
-    <title>دانلود فایل‌های سایت — Persis Metal</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=Cairo:wght@500;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      :root {
-        --g950: #0b0e13;
-        --g900: #10151c;
-        --g800: #1a222d;
-        --g700: #243040;
-        --g300: #97a7ba;
-        --g100: #dde4ec;
-        --molten: #ff7d21;
-        --molten-d: #e8610a;
-        --wa: #23b858;
-        --err: #e5484d;
-      }
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
-      body {
-        font-family: "Cairo", "IBM Plex Sans", sans-serif;
-        background: var(--g950);
-        color: var(--g100);
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 24px;
-        background-image: linear-gradient(to right, rgba(151, 167, 186, 0.05) 1px, transparent 1px),
-          linear-gradient(to bottom, rgba(151, 167, 186, 0.05) 1px, transparent 1px);
-        background-size: 44px 44px;
-      }
-      .card {
-        width: 100%;
-        max-width: 640px;
-        background: var(--g900);
-        border: 1px solid var(--g700);
-        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
-      }
-      .head {
-        border-bottom: 1px solid var(--g700);
-        padding: 28px 32px 24px;
-      }
-      .kicker {
-        font-family: "Oswald", sans-serif;
-        font-size: 11px;
-        font-weight: 600;
-        letter-spacing: 0.3em;
-        text-transform: uppercase;
-        color: var(--molten);
-      }
-      h1 {
-        font-family: "Oswald", "Cairo", sans-serif;
-        font-size: 30px;
-        font-weight: 700;
-        margin-top: 10px;
-        color: #f0f3f7;
-        line-height: 1.25;
-      }
-      .sub {
-        margin-top: 10px;
-        font-size: 14px;
-        line-height: 1.9;
-        color: var(--g300);
-      }
-      .body {
-        padding: 28px 32px 32px;
-      }
-      .big {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 12px;
-        width: 100%;
-        background: var(--molten);
-        color: var(--g950);
-        border: none;
-        padding: 18px;
-        font-family: "Oswald", "Cairo", sans-serif;
-        font-size: 17px;
-        font-weight: 700;
-        letter-spacing: 0.04em;
-        cursor: pointer;
-        transition: transform 0.2s ease, background 0.2s ease;
-      }
-      .big:hover {
-        background: #ff9142;
-        transform: translateY(-2px);
-      }
-      .big:disabled {
-        opacity: 0.55;
-        cursor: wait;
-        transform: none;
-      }
-      .big svg {
-        width: 20px;
-        height: 20px;
-      }
-      .row {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        gap: 10px;
-        margin-top: 14px;
-      }
-      .mini {
-        background: var(--g800);
-        border: 1px solid var(--g700);
-        color: var(--g100);
-        padding: 12px 8px;
-        font-family: "IBM Plex Sans", "Cairo", sans-serif;
-        font-size: 12px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: border-color 0.2s, color 0.2s, transform 0.2s;
-        direction: ltr;
-      }
-      .mini:hover {
-        border-color: var(--molten);
-        color: var(--molten);
-        transform: translateY(-2px);
-      }
-      .mini:disabled {
-        opacity: 0.5;
-        cursor: wait;
-      }
-      #log {
-        margin-top: 22px;
-        background: var(--g950);
-        border: 1px dashed var(--g700);
-        padding: 14px 16px;
-        min-height: 52px;
-        font-size: 13px;
-        line-height: 2;
-        color: var(--g300);
-      }
-      #log .ok {
-        color: var(--wa);
-      }
-      #log .err {
-        color: var(--err);
-      }
-      .note {
-        margin-top: 18px;
-        font-size: 12.5px;
-        line-height: 2;
-        color: var(--g300);
-        border-top: 1px dashed var(--g700);
-        padding-top: 16px;
-      }
-      .note b {
-        color: var(--molten);
-        font-weight: 700;
-      }
-      code {
-        direction: ltr;
-        unicode-bidi: embed;
-        background: var(--g800);
-        padding: 1px 7px;
-        font-size: 12px;
-        color: #ffc39a;
-      }
-      @media (max-width: 520px) {
-        .row {
-          grid-template-columns: 1fr;
-        }
-        .head,
-        .body {
-          padding-inline: 20px;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="card">
-      <div class="head">
-        <p class="kicker">Persis Metal · Deployment Kit</p>
-        <h1>دانلود فایل‌های نهایی سایت</h1>
-        <p class="sub">
-          با دکمه زیر، هر ۳ فایل لازم برای آپلود در هاست به‌صورت خودکار و با نام صحیح دانلود
-          می‌شود. اگر مرورگر اجازه دانلود چندتایی خواست، گزینه «Allow» را بزنید.
-        </p>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>دانلود فایل‌های سایت — Persis Metal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body {
+    background: #0b0e13;
+    background-image:
+      linear-gradient(to right, rgba(151,167,186,.06) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(151,167,186,.06) 1px, transparent 1px);
+    background-size: 44px 44px;
+    color: #dde4ec;
+    font-family: "Vazirmatn", "IBM Plex Sans", sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 16px;
+  }
+  .card {
+    width: 100%;
+    max-width: 640px;
+    background: #10151c;
+    border: 1px solid #243040;
+    position: relative;
+    padding: 36px 32px 32px;
+  }
+  .card::before, .card::after {
+    content: "";
+    position: absolute;
+    width: 22px; height: 22px;
+    border-color: #ff7d21;
+    border-style: solid;
+  }
+  .card::before { top: -1px; right: -1px; border-width: 3px 3px 0 0; }
+  .card::after { bottom: -1px; left: -1px; border-width: 0 0 3px 3px; }
+  .kicker {
+    color: #ff9a4d;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    font-family: "Oswald", sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .kicker::before { content: ""; width: 34px; height: 1px; background: #ff7d21; }
+  h1 {
+    font-family: "Oswald", "Vazirmatn", sans-serif;
+    font-size: 30px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    margin: 14px 0 8px;
+    color: #f0f3f7;
+  }
+  p.sub { font-size: 14px; line-height: 1.9; color: #97a7ba; }
+  .btn {
+    display: block;
+    width: 100%;
+    margin-top: 26px;
+    background: #ff7d21;
+    color: #0b0e13;
+    border: 0;
+    padding: 17px 20px;
+    font-family: "Vazirmatn", sans-serif;
+    font-size: 17px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: transform .2s, background .2s;
+  }
+  .btn:hover { background: #ff9a4d; transform: translateY(-2px); }
+  .btn:disabled { opacity: .55; cursor: wait; transform: none; }
+  .files { margin-top: 24px; border: 1px solid #243040; }
+  .file {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 16px;
+    border-bottom: 1px solid #243040;
+    background: #141a23;
+  }
+  .file:last-child { border-bottom: 0; }
+  .file .name {
+    font-family: "Oswald", monospace;
+    font-size: 13.5px;
+    letter-spacing: .03em;
+    color: #c0cbd8;
+    direction: ltr;
+    text-align: left;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .file .tag {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    background: #243040;
+    color: #97a7ba;
+    letter-spacing: .08em;
+    font-family: "Oswald", sans-serif;
+  }
+  .file button, .file a.mini {
+    background: transparent;
+    border: 1px solid #4b5a70;
+    color: #dde4ec;
+    font-family: "Vazirmatn", sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 7px 12px;
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: all .2s;
+  }
+  .file button:hover, .file a.mini:hover { border-color: #ff7d21; color: #ff9a4d; }
+  .log {
+    margin-top: 20px;
+    background: #0b0e13;
+    border: 1px dashed #33415499;
+    padding: 14px 16px;
+    font-size: 12.5px;
+    line-height: 2;
+    color: #97a7ba;
+    min-height: 56px;
+    direction: rtl;
+  }
+  .log .ok { color: #23b858; }
+  .log .err { color: #ff6b6b; }
+  .note {
+    margin-top: 18px;
+    font-size: 12.5px;
+    line-height: 2;
+    color: #6e7f95;
+  }
+  .note b { color: #c0cbd8; }
+  .struct {
+    margin-top: 12px;
+    background: #0b0e13;
+    border: 1px solid #243040;
+    padding: 14px 18px;
+    font-family: "Oswald", monospace;
+    font-size: 13px;
+    color: #97a7ba;
+    direction: ltr;
+    text-align: left;
+    line-height: 1.9;
+    white-space: pre;
+    overflow-x: auto;
+  }
+  .struct b { color: #ff9a4d; font-weight: 600; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <p class="kicker">Persis Metal · Deployment Kit</p>
+    <h1>دانلود فایل‌های سایت</h1>
+    <p class="sub">
+      با دکمه زیر، هر <b>۳ فایل</b> نهایی سایت (صفحه اصلی + استایل + اسکریپت) با نام صحیح دانلود می‌شود.
+      اگر مرورگر پرسید «چند دانلود مجاز است؟» گزینه <b>Allow</b> را بزنید.
+    </p>
+
+    <button class="btn" id="allBtn" onclick="downloadAll()">⬇ &nbsp;دانلود هر ۳ فایل</button>
+
+    <div class="files">
+      <div class="file">
+        <span class="name">index.html</span>
+        <span class="tag">HTML</span>
+        <button onclick="dl('index.html','index.html')">دانلود</button>
+        <a class="mini" href="index.html" target="_blank">باز کردن</a>
       </div>
-      <div class="body">
-        <button class="big" id="all">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 3v12m0 0 5-5m-5 5-5-5" />
-            <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" />
-          </svg>
-          دانلود هر ۳ فایل
-        </button>
-        <div class="row">
-          <button class="mini" id="b-html">index.html</button>
-          <button class="mini" id="b-js">JS file</button>
-          <button class="mini" id="b-css">CSS file</button>
-        </div>
-        <div id="log">آماده…</div>
-        <p class="note">
-          بعد از دانلود، در هاست (پوشه <code>public_html</code>) این ساختار را بسازید:
-          <br />
-          <code>index.html</code> + پوشه <code>assets</code> که دو فایل دیگر <b>داخل آن</b> قرار
-          بگیرند. سپس SSL را فعال کنید.
-          <br />
-          این صفحه فقط ابزار دانلود است؛ نیازی نیست آن را در هاست اصلی آپلود کنید.
-        </p>
+      <div class="file">
+        <span class="name" id="cssName">—</span>
+        <span class="tag">CSS</span>
+        <button id="cssBtn" disabled onclick="dlAsset('css')">دانلود</button>
+        <a class="mini" id="cssOpen" href="#" target="_blank">باز کردن</a>
+      </div>
+      <div class="file">
+        <span class="name" id="jsName">—</span>
+        <span class="tag">JS</span>
+        <button id="jsBtn" disabled onclick="dlAsset('js')">دانلود</button>
+        <a class="mini" id="jsOpen" href="#" target="_blank">باز کردن</a>
       </div>
     </div>
 
-    <script>
-      const log = document.getElementById("log");
-      const btns = ["all", "b-html", "b-js", "b-css"].map((id) => document.getElementById(id));
-      let cache = null;
+    <div class="log" id="log">در حال آماده‌سازی…</div>
 
-      function say(html) {
-        log.innerHTML = html;
-      }
-      function setBusy(busy) {
-        btns.forEach((b) => (b.disabled = busy));
-      }
+    <p class="note">
+      <b>راهنمای ذخیره دستی:</b> اگر دکمه دانلود عمل نکرد، روی «باز کردن» کلیک کنید تا فایل در تب جدید باز شود، سپس
+      <b>Ctrl+S</b> بزنید و با همان نام ذخیره کنید (Encoding روی UTF-8).
+      <br />
+      <b>ساختار آپلود در هاست:</b> فایل <b>index.html</b> و پوشه <b>assets</b> (شامل دو فایل دیگر) را مستقیم داخل
+      <b>public_html</b> قرار دهید.
+    </p>
+    <div class="struct">public_html/
+├── <b>index.html</b>
+└── <b>assets/</b>
+    ├── <b id="cssName2">index-….css</b>
+    └── <b id="jsName2">index-….js</b></div>
+  </div>
 
-      async function discover() {
-        if (cache) return cache;
-        const res = await fetch("./index.html?_=" + Date.now());
-        if (!res.ok) throw new Error("index.html not found (HTTP " + res.status + ")");
-        const html = await res.text();
-        const js = html.match(/src="([^"]+\.js)"/);
-        const css = html.match(/href="([^"]+\.css)"/);
-        if (!js || !css) throw new Error("Could not find asset links in index.html");
-        cache = { js: js[1], css: css[1] };
-        return cache;
-      }
+<script>
+  /* نام فایل‌های همین بیلد — مستقیم ثبت شده تا نیاز به تشخیص نباشد */
+  var KNOWN = {
+    css: "index-g-C85clJ.css",
+    js:  "index-YRMDR7rh.js"
+  };
+  var found = { css: null, js: null };
 
-      async function save(url, filename) {
-        const target = new URL(url, location.href).href;
-        say("در حال دریافت <span dir='ltr'>" + filename + "</span> …");
-        const res = await fetch(target);
-        if (!res.ok) throw new Error("HTTP " + res.status + " for " + filename);
-        const blob = await res.blob();
-        const a = document.createElement("a");
-        a.href = URL.createObjectURL(blob);
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        setTimeout(() => URL.revokeObjectURL(a.href), 8000);
-      }
+  function log(msg, cls) {
+    var el = document.getElementById("log");
+    var line = document.createElement("div");
+    if (cls) line.className = cls;
+    line.textContent = msg;
+    el.appendChild(line);
+  }
 
-      async function runOne(kind) {
-        setBusy(true);
-        try {
-          const assets = await discover();
-          if (kind === "html") {
-            await save("./index.html", "index.html");
-          } else if (kind === "js") {
-            await save(assets.js, assets.js.split("/").pop());
-          } else {
-            await save(assets.css, assets.css.split("/").pop());
-          }
-          say('<span class="ok">✔ دانلود شروع شد.</span> پوشه Downloads مرورگر را چک کنید.');
-        } catch (e) {
-          say('<span class="err">✖ خطا:</span> ' + e.message);
-        } finally {
-          setBusy(false);
-        }
-      }
+  function setNames() {
+    var css = found.css || KNOWN.css;
+    var js = found.js || KNOWN.js;
+    document.getElementById("cssName").textContent = "assets/" + css;
+    document.getElementById("jsName").textContent = "assets/" + js;
+    document.getElementById("cssName2").textContent = css;
+    document.getElementById("jsName2").textContent = js;
+    document.getElementById("cssOpen").href = "assets/" + css;
+    document.getElementById("jsOpen").href = "assets/" + js;
+    document.getElementById("cssBtn").disabled = false;
+    document.getElementById("jsBtn").disabled = false;
+  }
 
-      async function runAll() {
-        setBusy(true);
-        try {
-          const assets = await discover();
-          say("شروع دانلود ۳ فایل…");
-          await save("./index.html", "index.html");
-          await new Promise((r) => setTimeout(r, 900));
-          await save(assets.js, assets.js.split("/").pop());
-          await new Promise((r) => setTimeout(r, 900));
-          await save(assets.css, assets.css.split("/").pop());
-          say(
-            '<span class="ok">✔ هر ۳ فایل دانلود شد:</span><br>' +
-              "<code>index.html</code> · <code>" +
-              assets.js.split("/").pop() +
-              "</code> · <code>" +
-              assets.css.split("/").pop() +
-              "</code><br>" +
-              "دو فایل css و js را داخل پوشه‌ای به نام <code>assets</code> کنار index.html بگذارید."
-          );
-        } catch (e) {
-          say('<span class="err">✖ خطا:</span> ' + e.message);
-        } finally {
-          setBusy(false);
-        }
+  /* تلاش برای خواندن نام‌ها از index.html — اگر نشد، از نام‌های ثبت‌شده استفاده می‌شود */
+  fetch("index.html", { cache: "no-store" })
+    .then(function (r) { return r.text(); })
+    .then(function (html) {
+      var m, re = /assets\/(index-[^"']+?\.(?:js|css))/g;
+      while ((m = re.exec(html)) !== null) {
+        if (/\.css$/.test(m[1])) found.css = m[1];
+        else found.js = m[1];
       }
+      if (found.css && found.js) log("✔ نام فایل‌ها از index.html خوانده شد.", "ok");
+      else {
+        found.css = found.css || KNOWN.css;
+        found.js = found.js || KNOWN.js;
+        log("⚠ خواندن خودکار ممکن نشد — از نام‌های ثبت‌شده استفاده می‌شود.");
+      }
+      setNames();
+    })
+    .catch(function () {
+      found.css = KNOWN.css;
+      found.js = KNOWN.js;
+      log("⚠ خواندن خودکار ممکن نشد — از نام‌های ثبت‌شده استفاده می‌شود.");
+      setNames();
+    });
 
-      document.getElementById("all").addEventListener("click", runAll);
-      document.getElementById("b-html").addEventListener("click", () => runOne("html"));
-      document.getElementById("b-js").addEventListener("click", () => runOne("js"));
-      document.getElementById("b-css").addEventListener("click", () => runOne("css"));
-    </script>
-  </body>
+  function saveBlob(blob, name) {
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 5000);
+  }
+
+  function dl(path, name) {
+    log("در حال دانلود " + name + " …");
+    return fetch(path, { cache: "no-store" })
+      .then(function (r) {
+        if (!r.ok) throw new Error("HTTP " + r.status);
+        return r.blob();
+      })
+      .then(function (blob) {
+        saveBlob(blob, name);
+        log("✔ " + name + " دانلود شد.", "ok");
+      })
+      .catch(function (e) {
+        log("✖ خطا در دانلود " + name + " — از دکمه «باز کردن» و Ctrl+S استفاده کنید.", "err");
+      });
+  }
+
+  function dlAsset(kind) {
+    var name = (kind === "css" ? found.css : found.js) || KNOWN[kind];
+    return dl("assets/" + name, name);
+  }
+
+  function downloadAll() {
+    var btn = document.getElementById("allBtn");
+    btn.disabled = true;
+    btn.textContent = "در حال دانلود…";
+    Promise.all([
+      dl("index.html", "index.html"),
+      dlAsset("css"),
+      dlAsset("js")
+    ]).then(function () {
+      btn.disabled = false;
+      btn.innerHTML = "⬇ &nbsp;دانلود هر ۳ فایل";
+      log("✔ هر سه فایل ارسال شد — پوشه Downloads را بررسی کنید.", "ok");
+    });
+  }
+</script>
+</body>
 </html>
