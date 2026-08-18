@@ -11,7 +11,7 @@ export type Loc = { en: string; ru: string; ar: string };
 
 type Dict = Record<string, Loc>;
 
-export const D: Dict = {
+const D: Dict = {
   /* header / nav */
   "header.tag": {
     en: "Export trading house — metals & minerals, Tehran",
