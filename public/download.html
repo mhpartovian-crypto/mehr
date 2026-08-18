@@ -25,7 +25,7 @@
   }
   .card {
     width: 100%;
-    max-width: 640px;
+    max-width: 680px;
     background: #10151c;
     border: 1px solid #243040;
     position: relative;
@@ -109,6 +109,15 @@
     letter-spacing: .08em;
     font-family: "Oswald", sans-serif;
   }
+  .file .size {
+    font-family: "Oswald", monospace;
+    font-size: 11px;
+    color: #6e7f95;
+    direction: ltr;
+    white-space: nowrap;
+  }
+  .file .size.ok { color: #23b858; }
+  .file .size.bad { color: #ff6b6b; }
   .file button, .file a.mini {
     background: transparent;
     border: 1px solid #4b5a70;
@@ -136,6 +145,18 @@
   }
   .log .ok { color: #23b858; }
   .log .err { color: #ff6b6b; }
+  .log .warn { color: #ffc39a; }
+  .alert {
+    display: none;
+    margin-top: 18px;
+    border: 1px solid #ff6b6b;
+    background: rgba(255,107,107,.08);
+    padding: 16px 18px;
+    font-size: 13px;
+    line-height: 2;
+    color: #f0f3f7;
+  }
+  .alert b { color: #ff9a4d; }
   .note {
     margin-top: 18px;
     font-size: 12.5px;
@@ -158,6 +179,22 @@
     overflow-x: auto;
   }
   .struct b { color: #ff9a4d; font-weight: 600; }
+  .sizes {
+    margin-top: 12px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .sizes span {
+    border: 1px solid #243040;
+    background: #141a23;
+    padding: 6px 12px;
+    font-size: 11.5px;
+    color: #97a7ba;
+    direction: ltr;
+    font-family: "Oswald", monospace;
+  }
+  .sizes b { color: #23b858; }
 </style>
 </head>
 <body>
@@ -165,8 +202,9 @@
     <p class="kicker">Persis Metal · Deployment Kit</p>
     <h1>دانلود فایل‌های سایت</h1>
     <p class="sub">
-      با دکمه زیر، هر <b>۳ فایل</b> نهایی سایت (صفحه اصلی + استایل + اسکریپت) با نام صحیح دانلود می‌شود.
-      اگر مرورگر پرسید «چند دانلود مجاز است؟» گزینه <b>Allow</b> را بزنید.
+      با دکمه زیر، هر <b>۳ فایل</b> نهایی سایت با نام صحیح دانلود می‌شود.
+      این صفحه هر فایل را <b>اعتبارسنجی</b> می‌کند تا مطمئن شود فایل واقعی دریافت شده است
+      (نه صفحه HTML). اگر مرورگر پرسید «چند دانلود مجاز است؟» گزینه <b>Allow</b> را بزنید.
     </p>
 
     <button class="btn" id="allBtn" onclick="downloadAll()">⬇ &nbsp;دانلود هر ۳ فایل</button>
@@ -175,50 +213,38 @@
       <div class="file">
         <span class="name">index.html</span>
         <span class="tag">HTML</span>
-        <button onclick="dl('index.html','index.html')">دانلود</button>
-        <a class="mini" href="index.html" target="_blank">باز کردن</a>
+        <span class="size" id="sizeHtml">~4 KB</span>
+        <button onclick="dlFile('html')">دانلود</button>
       </div>
       <div class="file">
         <span class="name" id="cssName">—</span>
         <span class="tag">CSS</span>
-        <button id="cssBtn" disabled onclick="dlAsset('css')">دانلود</button>
-        <a class="mini" id="cssOpen" href="#" target="_blank">باز کردن</a>
+        <span class="size" id="sizeCss">~59 KB</span>
+        <button onclick="dlFile('css')">دانلود</button>
       </div>
       <div class="file">
         <span class="name" id="jsName">—</span>
         <span class="tag">JS</span>
-        <button id="jsBtn" disabled onclick="dlAsset('js')">دانلود</button>
-        <a class="mini" id="jsOpen" href="#" target="_blank">باز کردن</a>
+        <span class="size" id="sizeJs">~354 KB</span>
+        <button onclick="dlFile('js')">دانلود</button>
       </div>
     </div>
 
     <div class="log" id="log">در حال آماده‌سازی…</div>
 
-    <h2>فایل‌های برند و شبکه‌های اجتماعی</h2>
-    <p class="sub">
-      این دو فایل در <b>ریشه هاست</b> (کنار index.html) قرار می‌گیرند:
-      <b>og-cover.png</b> تصویر پیش‌نمایش اشتراک‌گذاری در تلگرام، لینکدین و واتس‌اپ است و
-      <b>logo.png</b> لوگوی مربعی برند برای گوگل. آپلودشان اختیاری ولی توصیه‌شده است.
+    <div class="alert" id="alert"></div>
+
+    <p class="note">
+      <b>حجم‌های صحیح فایل‌ها:</b> اگر فایلی که گرفتید این حجم‌ها را نداشت (مثلاً هر سه ~4KB بودند)،
+      فایل‌ها خراب‌اند و باید از <b>لینک نسخه منتشرشده (Publish/Deploy)</b> همین صفحه را باز کنید.
     </p>
-    <div class="files">
-      <div class="file">
-        <span class="name">og-cover.png</span>
-        <span class="tag">1200×630</span>
-        <button onclick="dlRemote('https://image.qwenlm.ai/generated-images/3acc4b45-f0b2-4bea-9046-4dd9e3041a5b/_result.png','og-cover.png')">دانلود</button>
-        <a class="mini" href="https://image.qwenlm.ai/generated-images/3acc4b45-f0b2-4bea-9046-4dd9e3041a5b/_result.png" target="_blank">باز کردن</a>
-      </div>
-      <div class="file">
-        <span class="name">logo.png</span>
-        <span class="tag">512×512</span>
-        <button onclick="dlRemote('https://image.qwenlm.ai/generated-images/6cd44843-c1bb-4073-a5fb-6846014d0d07/_result.png','logo.png')">دانلود</button>
-        <a class="mini" href="https://image.qwenlm.ai/generated-images/6cd44843-c1bb-4073-a5fb-6846014d0d07/_result.png" target="_blank">باز کردن</a>
-      </div>
+    <div class="sizes">
+      <span>index.html ≈ <b>4 KB</b></span>
+      <span id="chipCss">CSS ≈ <b>59 KB</b></span>
+      <span id="chipJs">JS ≈ <b>354 KB</b></span>
     </div>
 
     <p class="note">
-      <b>راهنمای ذخیره دستی:</b> اگر دکمه دانلود عمل نکرد، روی «باز کردن» کلیک کنید تا فایل در تب جدید باز شود، سپس
-      <b>Ctrl+S</b> بزنید و با همان نام ذخیره کنید (Encoding روی UTF-8).
-      <br />
       <b>ساختار آپلود در هاست:</b> فایل <b>index.html</b> و پوشه‌های <b>assets</b> و <b>images</b> را مستقیم داخل
       <b>public_html</b> قرار دهید. ده عکس سایت را (با نام‌های دقیق داخل فایل README.txt پوشه images) دانلود و در پوشه
       <b>images</b> آپلود کنید.
@@ -242,7 +268,7 @@
     css: "index-DL09gP9h.css",
     js:  "index-D863AsCR.js"
   };
-  var found = { css: null, js: null };
+  var SOURCES = ["assets/", "/assets/"];
 
   function log(msg, cls) {
     var el = document.getElementById("log");
@@ -252,42 +278,41 @@
     el.appendChild(line);
   }
 
-  function setNames() {
-    var css = found.css || KNOWN.css;
-    var js = found.js || KNOWN.js;
-    document.getElementById("cssName").textContent = "assets/" + css;
-    document.getElementById("jsName").textContent = "assets/" + js;
-    document.getElementById("cssName2").textContent = css;
-    document.getElementById("jsName2").textContent = js;
-    document.getElementById("cssOpen").href = "assets/" + css;
-    document.getElementById("jsOpen").href = "assets/" + js;
-    document.getElementById("cssBtn").disabled = false;
-    document.getElementById("jsBtn").disabled = false;
+  function showAlert(html) {
+    var el = document.getElementById("alert");
+    el.innerHTML = html;
+    el.style.display = "block";
   }
 
-  /* تلاش برای خواندن نام‌ها از index.html — اگر نشد، از نام‌های ثبت‌شده استفاده می‌شود */
-  fetch("index.html", { cache: "no-store" })
-    .then(function (r) { return r.text(); })
-    .then(function (html) {
-      var m, re = /assets\/(index-[^"']+?\.(?:js|css))/g;
-      while ((m = re.exec(html)) !== null) {
-        if (/\.css$/.test(m[1])) found.css = m[1];
-        else found.js = m[1];
-      }
-      if (found.css && found.js) log("✔ نام فایل‌ها از index.html خوانده شد.", "ok");
-      else {
-        found.css = found.css || KNOWN.css;
-        found.js = found.js || KNOWN.js;
-        log("⚠ خواندن خودکار ممکن نشد — از نام‌های ثبت‌شده استفاده می‌شود.");
-      }
-      setNames();
-    })
-    .catch(function () {
-      found.css = KNOWN.css;
-      found.js = KNOWN.js;
-      log("⚠ خواندن خودکار ممکن نشد — از نام‌های ثبت‌شده استفاده می‌شود.");
-      setNames();
-    });
+  document.getElementById("cssName").textContent = "assets/" + KNOWN.css;
+  document.getElementById("jsName").textContent = "assets/" + KNOWN.js;
+  document.getElementById("cssName2").textContent = KNOWN.css;
+  document.getElementById("jsName2").textContent = KNOWN.js;
+  log("✔ آماده — نام فایل‌ها: " + KNOWN.css + " و " + KNOWN.js, "ok");
+
+  /* اعتبارسنجی محتوای هر فایل — تا صفحه HTML به‌جای فایل اصلی دانلود نشود */
+  function isValid(kind, text) {
+    if (!text) return false;
+    var looksLikeHtml = /^\s*<!doctype/i.test(text) || /^\s*<html/i.test(text);
+    if (kind === "html") {
+      return text.length < 30000 &&
+        text.indexOf("<div id=\"root\">") !== -1 &&
+        text.indexOf("/src/main.tsx") === -1; /* نسخه توسعه نامعتبر است */
+    }
+    if (kind === "css") {
+      return !looksLikeHtml && text.length > 20000 && text.indexOf("{") !== -1;
+    }
+    /* js */
+    return !looksLikeHtml && text.length > 100000;
+  }
+
+  function kb(n) { return (n / 1024).toFixed(1) + " KB"; }
+
+  function setSize(id, bytes, ok) {
+    var el = document.getElementById(id);
+    el.textContent = kb(bytes) + (ok ? " ✓" : " ✗");
+    el.className = "size " + (ok ? "ok" : "bad");
+  }
 
   function saveBlob(blob, name) {
     var url = URL.createObjectURL(blob);
@@ -300,42 +325,45 @@
     setTimeout(function () { URL.revokeObjectURL(url); }, 5000);
   }
 
-  function dl(path, name) {
-    log("در حال دانلود " + name + " …");
-    return fetch(path, { cache: "no-store" })
-      .then(function (r) {
-        if (!r.ok) throw new Error("HTTP " + r.status);
-        return r.blob();
-      })
-      .then(function (blob) {
-        saveBlob(blob, name);
-        log("✔ " + name + " دانلود شد.", "ok");
-      })
-      .catch(function (e) {
-        log("✖ خطا در دانلود " + name + " — از دکمه «باز کردن» و Ctrl+S استفاده کنید.", "err");
-      });
+  function fetchValid(kind, path) {
+    var tries = kind === "html" ? ["index.html", "/index.html"] : SOURCES.map(function (s) { return s + path; });
+    function attempt(i) {
+      if (i >= tries.length) return Promise.reject(new Error("none"));
+      return fetch(tries[i], { cache: "no-store" })
+        .then(function (r) { return r.ok ? r.text() : Promise.reject(new Error("HTTP " + r.status)); })
+        .then(function (text) {
+          if (isValid(kind, text)) return text;
+          return Promise.reject(new Error("invalid"));
+        })
+        .catch(function () { return attempt(i + 1); });
+    }
+    return attempt(0);
   }
 
-  function dlAsset(kind) {
-    var name = (kind === "css" ? found.css : found.js) || KNOWN[kind];
-    return dl("assets/" + name, name);
-  }
+  var DEV_HINT =
+    "<b>علت احتمالی:</b> این آدرس، پیش‌نمایش محیط توسعه است و فایل‌های نهایی را ندارد " +
+    "(به‌جای فایل، صفحه HTML می‌فرستد).<br/>" +
+    "<b>راه‌حل:</b> در coder.qwen.ai دکمه <b>Publish / Deploy / انتشار</b> را بزنید تا یک " +
+    "<b>لینک عمومی</b> برای نسخه نهایی ساخته شود؛ سپس همین صفحه دانلود را از آن لینک باز کنید " +
+    "(انتهای آدرس منتشرشده + <span dir='ltr'>/download.html</span>) و دوباره دانلود کنید.";
 
-  /* دانلود فایل‌های میزبان‌شده بیرونی — اگر مرورگر اجازه نداد، در تب جدید باز می‌شود */
-  function dlRemote(url, name) {
-    log("در حال دانلود " + name + " …");
-    fetch(url, { mode: "cors" })
-      .then(function (r) {
-        if (!r.ok) throw new Error("HTTP " + r.status);
-        return r.blob();
-      })
-      .then(function (blob) {
+  function dlFile(kind) {
+    var name = kind === "html" ? "index.html" : KNOWN[kind];
+    var sizeId = kind === "html" ? "sizeHtml" : (kind === "css" ? "sizeCss" : "sizeJs");
+    log("در حال دریافت و اعتبارسنجی " + name + " …");
+    return fetchValid(kind, name)
+      .then(function (text) {
+        var blob = new Blob([text], {
+          type: kind === "html" ? "text/html" : kind === "css" ? "text/css" : "text/javascript"
+        });
+        setSize(sizeId, blob.size, true);
         saveBlob(blob, name);
-        log("✔ " + name + " دانلود شد.", "ok");
+        log("✔ " + name + " دانلود شد — حجم: " + kb(blob.size) + " (معتبر)", "ok");
       })
       .catch(function () {
-        window.open(url, "_blank");
-        log("⚠ دانلود مستقیم " + name + " ممکن نشد — تصویر در تب جدید باز شد؛ راست‌کلیک و «Save image as» را بزنید.", "err");
+        setSize(sizeId, 0, false);
+        log("✖ دریافت فایل معتبر " + name + " ممکن نشد.", "err");
+        showAlert(DEV_HINT);
       });
   }
 
@@ -343,15 +371,16 @@
     var btn = document.getElementById("allBtn");
     btn.disabled = true;
     btn.textContent = "در حال دانلود…";
-    Promise.all([
-      dl("index.html", "index.html"),
-      dlAsset("css"),
-      dlAsset("js")
-    ]).then(function () {
-      btn.disabled = false;
-      btn.innerHTML = "⬇ &nbsp;دانلود هر ۳ فایل";
-      log("✔ هر سه فایل ارسال شد — پوشه Downloads را بررسی کنید.", "ok");
-    });
+    dlFile("html")
+      .then(function () { return new Promise(function (r) { setTimeout(r, 500); }); })
+      .then(function () { return dlFile("css"); })
+      .then(function () { return new Promise(function (r) { setTimeout(r, 500); }); })
+      .then(function () { return dlFile("js"); })
+      .then(function () {
+        btn.disabled = false;
+        btn.innerHTML = "⬇ &nbsp;دانلود هر ۳ فایل";
+        log("✔ عملیات تمام شد — پوشه Downloads و حجم فایل‌ها را بررسی کنید.", "ok");
+      });
   }
 </script>
 </body>
