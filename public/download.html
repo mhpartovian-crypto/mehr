@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>دانلود فایل‌های سایت — Persis Metal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=Cairo:wght@500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --g950: #0b0e13;
+        --g900: #10151c;
+        --g800: #1a222d;
+        --g700: #243040;
+        --g300: #97a7ba;
+        --g100: #dde4ec;
+        --molten: #ff7d21;
+        --molten-d: #e8610a;
+        --wa: #23b858;
+        --err: #e5484d;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: "Cairo", "IBM Plex Sans", sans-serif;
+        background: var(--g950);
+        color: var(--g100);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        background-image: linear-gradient(to right, rgba(151, 167, 186, 0.05) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(151, 167, 186, 0.05) 1px, transparent 1px);
+        background-size: 44px 44px;
+      }
+      .card {
+        width: 100%;
+        max-width: 640px;
+        background: var(--g900);
+        border: 1px solid var(--g700);
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+      }
+      .head {
+        border-bottom: 1px solid var(--g700);
+        padding: 28px 32px 24px;
+      }
+      .kicker {
+        font-family: "Oswald", sans-serif;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--molten);
+      }
+      h1 {
+        font-family: "Oswald", "Cairo", sans-serif;
+        font-size: 30px;
+        font-weight: 700;
+        margin-top: 10px;
+        color: #f0f3f7;
+        line-height: 1.25;
+      }
+      .sub {
+        margin-top: 10px;
+        font-size: 14px;
+        line-height: 1.9;
+        color: var(--g300);
+      }
+      .body {
+        padding: 28px 32px 32px;
+      }
+      .big {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        width: 100%;
+        background: var(--molten);
+        color: var(--g950);
+        border: none;
+        padding: 18px;
+        font-family: "Oswald", "Cairo", sans-serif;
+        font-size: 17px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        cursor: pointer;
+        transition: transform 0.2s ease, background 0.2s ease;
+      }
+      .big:hover {
+        background: #ff9142;
+        transform: translateY(-2px);
+      }
+      .big:disabled {
+        opacity: 0.55;
+        cursor: wait;
+        transform: none;
+      }
+      .big svg {
+        width: 20px;
+        height: 20px;
+      }
+      .row {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 10px;
+        margin-top: 14px;
+      }
+      .mini {
+        background: var(--g800);
+        border: 1px solid var(--g700);
+        color: var(--g100);
+        padding: 12px 8px;
+        font-family: "IBM Plex Sans", "Cairo", sans-serif;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: border-color 0.2s, color 0.2s, transform 0.2s;
+        direction: ltr;
+      }
+      .mini:hover {
+        border-color: var(--molten);
+        color: var(--molten);
+        transform: translateY(-2px);
+      }
+      .mini:disabled {
+        opacity: 0.5;
+        cursor: wait;
+      }
+      #log {
+        margin-top: 22px;
+        background: var(--g950);
+        border: 1px dashed var(--g700);
+        padding: 14px 16px;
+        min-height: 52px;
+        font-size: 13px;
+        line-height: 2;
+        color: var(--g300);
+      }
+      #log .ok {
+        color: var(--wa);
+      }
+      #log .err {
+        color: var(--err);
+      }
+      .note {
+        margin-top: 18px;
+        font-size: 12.5px;
+        line-height: 2;
+        color: var(--g300);
+        border-top: 1px dashed var(--g700);
+        padding-top: 16px;
+      }
+      .note b {
+        color: var(--molten);
+        font-weight: 700;
+      }
+      code {
+        direction: ltr;
+        unicode-bidi: embed;
+        background: var(--g800);
+        padding: 1px 7px;
+        font-size: 12px;
+        color: #ffc39a;
+      }
+      @media (max-width: 520px) {
+        .row {
+          grid-template-columns: 1fr;
+        }
+        .head,
+        .body {
+          padding-inline: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div class="head">
+        <p class="kicker">Persis Metal · Deployment Kit</p>
+        <h1>دانلود فایل‌های نهایی سایت</h1>
+        <p class="sub">
+          با دکمه زیر، هر ۳ فایل لازم برای آپلود در هاست به‌صورت خودکار و با نام صحیح دانلود
+          می‌شود. اگر مرورگر اجازه دانلود چندتایی خواست، گزینه «Allow» را بزنید.
+        </p>
+      </div>
+      <div class="body">
+        <button class="big" id="all">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3v12m0 0 5-5m-5 5-5-5" />
+            <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" />
+          </svg>
+          دانلود هر ۳ فایل
+        </button>
+        <div class="row">
+          <button class="mini" id="b-html">index.html</button>
+          <button class="mini" id="b-js">JS file</button>
+          <button class="mini" id="b-css">CSS file</button>
+        </div>
+        <div id="log">آماده…</div>
+        <p class="note">
+          بعد از دانلود، در هاست (پوشه <code>public_html</code>) این ساختار را بسازید:
+          <br />
+          <code>index.html</code> + پوشه <code>assets</code> که دو فایل دیگر <b>داخل آن</b> قرار
+          بگیرند. سپس SSL را فعال کنید.
+          <br />
+          این صفحه فقط ابزار دانلود است؛ نیازی نیست آن را در هاست اصلی آپلود کنید.
+        </p>
+      </div>
+    </div>
+
+    <script>
+      const log = document.getElementById("log");
+      const btns = ["all", "b-html", "b-js", "b-css"].map((id) => document.getElementById(id));
+      let cache = null;
+
+      function say(html) {
+        log.innerHTML = html;
+      }
+      function setBusy(busy) {
+        btns.forEach((b) => (b.disabled = busy));
+      }
+
+      async function discover() {
+        if (cache) return cache;
+        const res = await fetch("./index.html?_=" + Date.now());
+        if (!res.ok) throw new Error("index.html not found (HTTP " + res.status + ")");
+        const html = await res.text();
+        const js = html.match(/src="([^"]+\.js)"/);
+        const css = html.match(/href="([^"]+\.css)"/);
+        if (!js || !css) throw new Error("Could not find asset links in index.html");
+        cache = { js: js[1], css: css[1] };
+        return cache;
+      }
+
+      async function save(url, filename) {
+        const target = new URL(url, location.href).href;
+        say("در حال دریافت <span dir='ltr'>" + filename + "</span> …");
+        const res = await fetch(target);
+        if (!res.ok) throw new Error("HTTP " + res.status + " for " + filename);
+        const blob = await res.blob();
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(() => URL.revokeObjectURL(a.href), 8000);
+      }
+
+      async function runOne(kind) {
+        setBusy(true);
+        try {
+          const assets = await discover();
+          if (kind === "html") {
+            await save("./index.html", "index.html");
+          } else if (kind === "js") {
+            await save(assets.js, assets.js.split("/").pop());
+          } else {
+            await save(assets.css, assets.css.split("/").pop());
+          }
+          say('<span class="ok">✔ دانلود شروع شد.</span> پوشه Downloads مرورگر را چک کنید.');
+        } catch (e) {
+          say('<span class="err">✖ خطا:</span> ' + e.message);
+        } finally {
+          setBusy(false);
+        }
+      }
+
+      async function runAll() {
+        setBusy(true);
+        try {
+          const assets = await discover();
+          say("شروع دانلود ۳ فایل…");
+          await save("./index.html", "index.html");
+          await new Promise((r) => setTimeout(r, 900));
+          await save(assets.js, assets.js.split("/").pop());
+          await new Promise((r) => setTimeout(r, 900));
+          await save(assets.css, assets.css.split("/").pop());
+          say(
+            '<span class="ok">✔ هر ۳ فایل دانلود شد:</span><br>' +
+              "<code>index.html</code> · <code>" +
+              assets.js.split("/").pop() +
+              "</code> · <code>" +
+              assets.css.split("/").pop() +
+              "</code><br>" +
+              "دو فایل css و js را داخل پوشه‌ای به نام <code>assets</code> کنار index.html بگذارید."
+          );
+        } catch (e) {
+          say('<span class="err">✖ خطا:</span> ' + e.message);
+        } finally {
+          setBusy(false);
+        }
+      }
+
+      document.getElementById("all").addEventListener("click", runAll);
+      document.getElementById("b-html").addEventListener("click", () => runOne("html"));
+      document.getElementById("b-js").addEventListener("click", () => runOne("js"));
+      document.getElementById("b-css").addEventListener("click", () => runOne("css"));
+    </script>
+  </body>
+</html>
