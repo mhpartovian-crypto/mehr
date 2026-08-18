@@ -18,9 +18,12 @@ team-amir.png     https://image.qwenlm.ai/generated-images/3dd21f7b-93dd-43a4-83
 team-reza.png     https://image.qwenlm.ai/generated-images/fa47d1a7-edcf-48c4-8c08-5be11c0b1e96/_result.png
 team-sara.png     https://image.qwenlm.ai/generated-images/23e05da4-5994-47ff-87fd-6fd905ae211b/_result.png
 
-OPTIONAL (referenced in index.html meta tags for social sharing):
+OPTIONAL — place in the HOST ROOT (public_html/, next to index.html),
+referenced by index.html meta tags for social sharing & Google:
 og-cover.png      1200x630 social share cover
-logo.png          square brand logo
+                  https://image.qwenlm.ai/generated-images/3acc4b45-f0b2-4bea-9046-4dd9e3041a5b/_result.png
+logo.png          512x512 square brand logo (slab-stack mark)
+                  https://image.qwenlm.ai/generated-images/6cd44843-c1bb-4073-a5fb-6846014d0d07/_result.png
 
 TIP: You may replace any of these files with your REAL photography —
 keep the same file names and the site will use them automatically.

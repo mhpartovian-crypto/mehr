@@ -194,6 +194,27 @@
 
     <div class="log" id="log">در حال آماده‌سازی…</div>
 
+    <h2>فایل‌های برند و شبکه‌های اجتماعی</h2>
+    <p class="sub">
+      این دو فایل در <b>ریشه هاست</b> (کنار index.html) قرار می‌گیرند:
+      <b>og-cover.png</b> تصویر پیش‌نمایش اشتراک‌گذاری در تلگرام، لینکدین و واتس‌اپ است و
+      <b>logo.png</b> لوگوی مربعی برند برای گوگل. آپلودشان اختیاری ولی توصیه‌شده است.
+    </p>
+    <div class="files">
+      <div class="file">
+        <span class="name">og-cover.png</span>
+        <span class="tag">1200×630</span>
+        <button onclick="dlRemote('https://image.qwenlm.ai/generated-images/3acc4b45-f0b2-4bea-9046-4dd9e3041a5b/_result.png','og-cover.png')">دانلود</button>
+        <a class="mini" href="https://image.qwenlm.ai/generated-images/3acc4b45-f0b2-4bea-9046-4dd9e3041a5b/_result.png" target="_blank">باز کردن</a>
+      </div>
+      <div class="file">
+        <span class="name">logo.png</span>
+        <span class="tag">512×512</span>
+        <button onclick="dlRemote('https://image.qwenlm.ai/generated-images/6cd44843-c1bb-4073-a5fb-6846014d0d07/_result.png','logo.png')">دانلود</button>
+        <a class="mini" href="https://image.qwenlm.ai/generated-images/6cd44843-c1bb-4073-a5fb-6846014d0d07/_result.png" target="_blank">باز کردن</a>
+      </div>
+    </div>
+
     <p class="note">
       <b>راهنمای ذخیره دستی:</b> اگر دکمه دانلود عمل نکرد، روی «باز کردن» کلیک کنید تا فایل در تب جدید باز شود، سپس
       <b>Ctrl+S</b> بزنید و با همان نام ذخیره کنید (Encoding روی UTF-8).
@@ -204,6 +225,8 @@
     </p>
     <div class="struct">public_html/
 ├── <b>index.html</b>
+├── <b>og-cover.png</b>   ← تصویر اشتراک شبکه‌های اجتماعی
+├── <b>logo.png</b>       ← لوگوی مربعی برند
 ├── <b>assets/</b>
 │   ├── <b id="cssName2">index-….css</b>
 │   └── <b id="jsName2">index-….js</b>
@@ -296,6 +319,24 @@
   function dlAsset(kind) {
     var name = (kind === "css" ? found.css : found.js) || KNOWN[kind];
     return dl("assets/" + name, name);
+  }
+
+  /* دانلود فایل‌های میزبان‌شده بیرونی — اگر مرورگر اجازه نداد، در تب جدید باز می‌شود */
+  function dlRemote(url, name) {
+    log("در حال دانلود " + name + " …");
+    fetch(url, { mode: "cors" })
+      .then(function (r) {
+        if (!r.ok) throw new Error("HTTP " + r.status);
+        return r.blob();
+      })
+      .then(function (blob) {
+        saveBlob(blob, name);
+        log("✔ " + name + " دانلود شد.", "ok");
+      })
+      .catch(function () {
+        window.open(url, "_blank");
+        log("⚠ دانلود مستقیم " + name + " ممکن نشد — تصویر در تب جدید باز شد؛ راست‌کلیک و «Save image as» را بزنید.", "err");
+      });
   }
 
   function downloadAll() {
