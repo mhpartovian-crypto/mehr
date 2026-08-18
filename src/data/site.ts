@@ -26,7 +26,7 @@ export const TEAM: TeamMember[] = [
     roleKey: "team.role1",
     langs: "EN · AR · FA",
     marketsKey: "team.m1",
-    img: "https://image.qwenlm.ai/generated-images/3dd21f7b-93dd-43a4-836f-3a13798ab000/_result.png",
+    img: "/images/team-amir.png",
     wa: "989121004511",
     email: "a.hosseini@persismetal.com",
   },
@@ -36,7 +36,7 @@ export const TEAM: TeamMember[] = [
     roleKey: "team.role2",
     langs: "RU · EN",
     marketsKey: "team.m2",
-    img: "https://image.qwenlm.ai/generated-images/fa47d1a7-edcf-48c4-8c08-5be11c0b1e96/_result.png",
+    img: "/images/team-reza.png",
     wa: "989121004512",
     email: "r.karimi@persismetal.com",
   },
@@ -46,24 +46,24 @@ export const TEAM: TeamMember[] = [
     roleKey: "team.role3",
     langs: "EN",
     marketsKey: "team.m3",
-    img: "https://image.qwenlm.ai/generated-images/23e05da4-5994-47ff-87fd-6fd905ae211b/_result.png",
+    img: "/images/team-sara.png",
     wa: "989121004513",
     email: "s.mohammadi@persismetal.com",
   },
 ];
 
+/**
+ * All photography is self-hosted from the /images folder on the web server.
+ * Upload the 10 originals (links in public/images/README.txt) with these exact names.
+ */
 export const IMAGES = {
-  hero: "https://image.qwenlm.ai/generated-images/4989573f-7074-47f7-84d7-2188ef41f670/_result.png",
-  warehouse:
-    "https://image.qwenlm.ai/generated-images/96969773-b607-4ff9-8c29-42810c7c5710/_result.png",
-  port: "https://image.qwenlm.ai/generated-images/3b892691-6840-44ec-8bd9-3af2d6f064c7/_result.png",
-  nonferrous:
-    "https://image.qwenlm.ai/generated-images/814cfd1f-2dc0-4210-9e4c-5b71ced3f424/_result.png",
-  loading:
-    "https://image.qwenlm.ai/generated-images/41dec6d2-1d0f-4b16-a56b-16e320c130f8/_result.png",
-  pellet:
-    "https://image.qwenlm.ai/generated-images/d1117b0c-ac19-4a56-964f-d25cc4fd5729/_result.png",
-  coil: "https://image.qwenlm.ai/generated-images/b78a5f58-22a3-4022-abe1-b0dfd2584f2b/_result.png",
+  hero: "/images/billets.png",
+  warehouse: "/images/warehouse.png",
+  port: "/images/port.png",
+  nonferrous: "/images/nonferrous.png",
+  loading: "/images/loading.png",
+  pellet: "/images/pellets.png",
+  coil: "/images/coils.png",
 };
 
 export const CAT_IMAGE: Record<string, string> = {

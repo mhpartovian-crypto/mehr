@@ -198,21 +198,26 @@
       <b>راهنمای ذخیره دستی:</b> اگر دکمه دانلود عمل نکرد، روی «باز کردن» کلیک کنید تا فایل در تب جدید باز شود، سپس
       <b>Ctrl+S</b> بزنید و با همان نام ذخیره کنید (Encoding روی UTF-8).
       <br />
-      <b>ساختار آپلود در هاست:</b> فایل <b>index.html</b> و پوشه <b>assets</b> (شامل دو فایل دیگر) را مستقیم داخل
-      <b>public_html</b> قرار دهید.
+      <b>ساختار آپلود در هاست:</b> فایل <b>index.html</b> و پوشه‌های <b>assets</b> و <b>images</b> را مستقیم داخل
+      <b>public_html</b> قرار دهید. ده عکس سایت را (با نام‌های دقیق داخل فایل README.txt پوشه images) دانلود و در پوشه
+      <b>images</b> آپلود کنید.
     </p>
     <div class="struct">public_html/
 ├── <b>index.html</b>
-└── <b>assets/</b>
-    ├── <b id="cssName2">index-….css</b>
-    └── <b id="jsName2">index-….js</b></div>
+├── <b>assets/</b>
+│   ├── <b id="cssName2">index-….css</b>
+│   └── <b id="jsName2">index-….js</b>
+└── <b>images/</b>  ← ده عکس سایت (نام‌ها در README.txt)
+    ├── billets.png · pellets.png · coils.png
+    ├── nonferrous.png · warehouse.png · loading.png · port.png
+    └── team-amir.png · team-reza.png · team-sara.png</div>
   </div>
 
 <script>
   /* نام فایل‌های همین بیلد — مستقیم ثبت شده تا نیاز به تشخیص نباشد */
   var KNOWN = {
     css: "index-DL09gP9h.css",
-    js:  "index-BqMQ5-bM.js"
+    js:  "index-CQWLuJkJ.js"
   };
   var found = { css: null, js: null };
 
