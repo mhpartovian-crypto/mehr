@@ -328,28 +328,39 @@ function Team() {
 function Process() {
   const { t } = useLang();
   const steps = [
-    { t: t("proc.s1t"), d: t("proc.s1d") },
-    { t: t("proc.s2t"), d: t("proc.s2d") },
-    { t: t("proc.s3t"), d: t("proc.s3d") },
-    { t: t("proc.s4t"), d: t("proc.s4d") },
-    { t: t("proc.s5t"), d: t("proc.s5d") },
+    t("proc.s1t"),
+    t("proc.s2t"),
+    t("proc.s3t"),
+    t("proc.s4t"),
+    t("proc.s5t"),
   ];
   return (
-    <section className="relative overflow-hidden bg-molten-500 py-20 lg:py-28">
+    <section className="relative overflow-hidden bg-molten-500 py-16 lg:py-20">
       <div className="hatch absolute inset-0 opacity-60" aria-hidden="true" />
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
-        <SectionHead tone="molten" kicker={t("proc.kicker")} title={t("proc.title")} />
-        <ol className="relative mt-14 space-y-10 border-s-2 border-graphite-950/25 ps-8 lg:space-y-12">
-          {steps.map((s, i) => (
-            <Reveal as="li" key={i} delay={i * 90} className="relative">
-              <span className="absolute -start-8 top-0 flex h-8 w-8 -translate-x-1/2 items-center justify-center bg-graphite-950 font-display text-sm font-bold text-molten-400 rtl:translate-x-1/2" dir="ltr">
-                {i + 1}
-              </span>
-              <h3 className="font-display text-xl font-semibold uppercase tracking-wide text-graphite-950 sm:text-2xl">{s.t}</h3>
-              <p className="mt-1.5 max-w-xl text-sm leading-relaxed text-graphite-900/80">{s.d}</p>
-            </Reveal>
-          ))}
-        </ol>
+        <SectionHead tone="molten" align="center" kicker={t("proc.kicker")} title={t("proc.title")} />
+
+        <div className="relative mt-12">
+          <span
+            className="absolute inset-x-10 top-6 hidden h-0.5 bg-graphite-950/20 lg:block"
+            aria-hidden="true"
+          />
+          <ol className="relative grid gap-10 sm:grid-cols-2 lg:grid-cols-5 lg:gap-4">
+            {steps.map((s, i) => (
+              <Reveal as="li" key={i} delay={i * 90} className="group flex flex-col items-center text-center">
+                <span
+                  className="relative z-10 flex h-12 w-12 items-center justify-center bg-graphite-950 font-display text-lg font-bold text-molten-400 shadow-lg shadow-graphite-950/25 transition-transform duration-300 group-hover:scale-110"
+                  dir="ltr"
+                >
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <h3 className="mt-4 max-w-[12rem] font-display text-[0.95rem] font-semibold uppercase leading-snug tracking-wide text-graphite-950 transition-opacity duration-300 group-hover:opacity-75 lg:text-base">
+                  {s}
+                </h3>
+              </Reveal>
+            ))}
+          </ol>
+        </div>
       </div>
     </section>
   );
