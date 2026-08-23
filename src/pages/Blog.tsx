@@ -115,7 +115,7 @@ export default function Blog() {
               {t("blog.cta")}
             </a>
             <Link
-              to="/products"
+              to="products"
               className="group flex items-center justify-center gap-3 border border-ink-700/40 px-7 py-4 font-display text-sm font-semibold uppercase tracking-[0.14em] text-ink-900 transition-all duration-300 hover:border-molten-600 hover:bg-molten-600 hover:text-graphite-50"
             >
               {t("blog.back")}

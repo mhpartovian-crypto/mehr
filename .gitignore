@@ -1,5 +1,80 @@
+```gitignore
+# Dependencies
 node_modules/
-.next/
+
+# Build outputs
 dist/
 build/
+*.js
+*.ts
+*.tsx
+
+# Environment variables
+.env
+.env.local
+*.env.*
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.tmp
+
+# Logs
 *.log
+
+# Coverage
+coverage/
+htmlcov/
+.coverage
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Distribution / packaging
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.out
+*.pid
+*.seed
+*.pot
+
+# Testing
+.hypothesis/
+.mypy_cache/
+.pytest_cache/
+.nyc_output/
+istanbul.out
+coverage/
+lib-cov/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Icon?
+```
+
+Wait, let me reconsider. The changes are only TypeScript/JSX source files (.tsx), not build artifacts or dependencies. Following rule #6, if the change list contains only source files and no build artifacts, dependencies, or temp files, I should output nothing.
+
+```gitignore
+
+```
