@@ -9,12 +9,12 @@ export default function Footer() {
   const { t, L } = useLang();
 
   const siteLinks = [
-    { to: "/", key: "nav.home" },
-    { to: "/products", key: "nav.products" },
-    { to: "/about", key: "nav.about" },
-    { to: "/blog", key: "nav.blog" },
-    { to: "/contact", key: "nav.contact" },
-    { to: "/quote", key: "nav.quote" },
+    { to: "", key: "nav.home" },
+    { to: "products", key: "nav.products" },
+    { to: "about", key: "nav.about" },
+    { to: "blog", key: "nav.blog" },
+    { to: "contact", key: "nav.contact" },
+    { to: "quote", key: "nav.quote" },
   ];
 
   return (
@@ -62,7 +62,7 @@ export default function Footer() {
             {CATEGORIES.slice(0, 6).map((c) => (
               <li key={c.id}>
                 <Link
-                  to={`/products?cat=${c.id}`}
+                  to={`products?cat=${c.id}`}
                   className="text-sm text-graphite-400 transition-colors duration-200 hover:text-molten-400"
                 >
                   {L(c.name)}

@@ -139,7 +139,7 @@ export default function Header() {
           {/* desktop nav */}
           <nav className="hidden items-center gap-8 lg:flex" aria-label="Main">
             <NavLink
-              to="/"
+              to=""
               end
               className={({ isActive }) =>
                 `nav-sweep font-display text-[0.8rem] font-medium uppercase tracking-[0.18em] transition-colors duration-200 ${
@@ -153,7 +153,7 @@ export default function Header() {
             {/* products — mega dropdown */}
             <div className="group relative">
               <NavLink
-                to="/products"
+                to="products"
                 className={({ isActive }) =>
                   `nav-sweep flex items-center gap-1.5 font-display text-[0.8rem] font-medium uppercase tracking-[0.18em] transition-colors duration-200 ${
                     isActive ? "active text-molten-400" : "text-graphite-200 group-hover:text-molten-400"
@@ -169,7 +169,7 @@ export default function Header() {
                   <div className="grid grid-cols-2 gap-x-6 gap-y-5 md:grid-cols-3">
                     {CATEGORIES.map((c) => (
                       <div key={c.id} className="border-s-2 border-graphite-700 ps-4 transition-colors duration-200 hover:border-molten-500">
-                        <Link to={`/products?cat=${c.id}`} className="flex items-center gap-2.5">
+                        <Link to={`products?cat=${c.id}`} className="flex items-center gap-2.5">
                           <span className="text-molten-400">
                             <ProductGlyph k={c.icon} className="h-8 w-8" />
                           </span>
@@ -181,7 +181,7 @@ export default function Header() {
                           {c.products.slice(0, 3).map((p) => (
                             <li key={p.slug}>
                               <Link
-                                to={`/products/${p.slug}`}
+                                to={`products/${p.slug}`}
                                 className="text-[0.78rem] text-graphite-400 transition-colors duration-200 hover:text-molten-400"
                               >
                                 {L(p.name)}
@@ -191,7 +191,7 @@ export default function Header() {
                           {c.products.length > 3 && (
                             <li>
                               <Link
-                                to={`/products?cat=${c.id}`}
+                                to={`products?cat=${c.id}`}
                                 className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-steel-300 transition-colors hover:text-molten-400"
                               >
                                 +{c.products.length - 3} …
@@ -207,7 +207,7 @@ export default function Header() {
             </div>
 
             <NavLink
-              to="/blog"
+              to="blog"
               className={({ isActive }) =>
                 `nav-sweep font-display text-[0.8rem] font-medium uppercase tracking-[0.18em] transition-colors duration-200 ${
                   isActive ? "active text-molten-400" : "text-graphite-200 hover:text-graphite-50"
@@ -217,7 +217,7 @@ export default function Header() {
               {t("nav.blog")}
             </NavLink>
             <NavLink
-              to="/about"
+              to="about"
               className={({ isActive }) =>
                 `nav-sweep font-display text-[0.8rem] font-medium uppercase tracking-[0.18em] transition-colors duration-200 ${
                   isActive ? "active text-molten-400" : "text-graphite-200 hover:text-graphite-50"
@@ -227,7 +227,7 @@ export default function Header() {
               {t("nav.about")}
             </NavLink>
             <NavLink
-              to="/contact"
+              to="contact"
               className={({ isActive }) =>
                 `nav-sweep font-display text-[0.8rem] font-medium uppercase tracking-[0.18em] transition-colors duration-200 ${
                   isActive ? "active text-molten-400" : "text-graphite-200 hover:text-graphite-50"
@@ -240,7 +240,7 @@ export default function Header() {
 
           <div className="flex items-center gap-3">
             <Link
-              to="/quote"
+              to="quote"
               className="group hidden items-center gap-2 bg-molten-500 px-5 py-2.5 font-display text-[0.75rem] font-semibold uppercase tracking-[0.16em] text-graphite-950 transition-all duration-300 hover:bg-molten-400 sm:flex"
             >
               {t("nav.quote")}
@@ -282,7 +282,7 @@ export default function Header() {
         <div className="relative flex-1 overflow-y-auto px-7 py-6">
           <nav className="flex flex-col gap-1" aria-label="Mobile">
             <NavLink
-              to="/"
+              to=""
               end
               className={({ isActive }) =>
                 `flex items-baseline gap-4 border-b border-graphite-800/70 py-3.5 font-display text-2xl font-semibold uppercase tracking-wide transition-all duration-500 ${
@@ -316,7 +316,7 @@ export default function Header() {
                 <div className="space-y-3 py-4 ps-8">
                   {CATEGORIES.map((c) => (
                     <div key={c.id}>
-                      <Link to={`/products?cat=${c.id}`} className="flex items-center gap-2.5">
+                      <Link to={`products?cat=${c.id}`} className="flex items-center gap-2.5">
                         <span className="text-molten-400">
                           <ProductGlyph k={c.icon} className="h-7 w-7" />
                         </span>
@@ -326,7 +326,7 @@ export default function Header() {
                       </Link>
                       <div className="mt-1.5 flex flex-wrap gap-x-4 gap-y-1 border-s border-graphite-700 ps-4">
                         {c.products.map((p) => (
-                          <Link key={p.slug} to={`/products/${p.slug}`} className="text-xs text-graphite-400 transition-colors hover:text-molten-400">
+                          <Link key={p.slug} to={`products/${p.slug}`} className="text-xs text-graphite-400 transition-colors hover:text-molten-400">
                             {L(p.name)}
                           </Link>
                         ))}
@@ -338,9 +338,9 @@ export default function Header() {
             </div>
 
             {[
-              { to: "/blog", key: "nav.blog", n: "03" },
-              { to: "/about", key: "nav.about", n: "04" },
-              { to: "/contact", key: "nav.contact", n: "05" },
+              { to: "blog", key: "nav.blog", n: "03" },
+              { to: "about", key: "nav.about", n: "04" },
+              { to: "contact", key: "nav.contact", n: "05" },
             ].map((l, i) => (
               <NavLink
                 key={l.to}
@@ -358,7 +358,7 @@ export default function Header() {
             ))}
 
             <Link
-              to="/quote"
+              to="quote"
               className={`mt-5 flex items-center justify-center bg-molten-500 px-6 py-4 font-display text-sm font-semibold uppercase tracking-[0.16em] text-graphite-950 transition-all duration-500 ${
                 open ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
               }`}

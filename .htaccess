@@ -1,0 +1,15 @@
+RewriteEngine On
+
+# Handle language subdirectories and clean URLs
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([a-z]{2})/(.*)$ /index.html [QSA,L]
+RewriteRule ^([a-z]{2})$ /index.html [QSA,L]
+RewriteRule ^(.*)$ /index.html [QSA,L]
+
+# Security headers
+<IfModule mod_headers.c>
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set X-Content-Type-Options "nosniff"
+</IfModule>
