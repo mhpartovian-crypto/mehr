@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>دریافت خروجی سایت — Persis Metal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body {
+    background: #0b0e13;
+    background-image:
+      linear-gradient(to right, rgba(151,167,186,.06) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(151,167,186,.06) 1px, transparent 1px);
+    background-size: 44px 44px;
+    color: #dde4ec;
+    font-family: "Vazirmatn", "IBM Plex Sans", sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 16px;
+  }
+  .card {
+    width: 100%;
+    max-width: 700px;
+    background: #10151c;
+    border: 1px solid #243040;
+    position: relative;
+    padding: 36px 32px 32px;
+  }
+  .card::before, .card::after {
+    content: "";
+    position: absolute;
+    width: 22px; height: 22px;
+    border-color: #ff7d21;
+    border-style: solid;
+  }
+  .card::before { top: -1px; right: -1px; border-width: 3px 3px 0 0; }
+  .card::after { bottom: -1px; left: -1px; border-width: 0 0 3px 3px; }
+  .kicker {
+    color: #ff9a4d;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    font-family: "Oswald", sans-serif;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .kicker::before { content: ""; width: 34px; height: 1px; background: #ff7d21; }
+  h1 {
+    font-family: "Oswald", "Vazirmatn", sans-serif;
+    font-size: 28px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .04em;
+    margin: 14px 0 8px; color: #f0f3f7;
+  }
+  p.sub { font-size: 13.5px; line-height: 1.95; color: #97a7ba; }
+  .btn {
+    display: block; width: 100%; margin-top: 24px;
+    background: #ff7d21; color: #0b0e13; border: 0;
+    padding: 16px 20px; font-family: "Vazirmatn", sans-serif;
+    font-size: 16px; font-weight: 800; cursor: pointer;
+    transition: transform .2s, background .2s;
+  }
+  .btn:hover { background: #ff9a4d; transform: translateY(-2px); }
+  .btn:disabled { opacity: .5; cursor: wait; transform: none; }
+  .files { margin-top: 22px; border: 1px solid #243040; }
+  .file {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 14px; border-bottom: 1px solid #243040;
+    background: #141a23; flex-wrap: wrap;
+  }
+  .file:last-child { border-bottom: 0; }
+  .file .name {
+    font-family: "Oswald", monospace; font-size: 13px;
+    color: #c0cbd8; direction: ltr; text-align: left;
+    flex: 1 1 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .file .tag {
+    font-size: 10px; font-weight: 700; padding: 3px 8px;
+    background: #243040; color: #97a7ba;
+    letter-spacing: .08em; font-family: "Oswald", sans-serif;
+  }
+  .st {
+    font-family: "Oswald", monospace; font-size: 11px;
+    direction: ltr; white-space: nowrap; padding: 3px 9px; border: 1px solid #243040;
+  }
+  .st.check { color: #97a7ba; border-style: dashed; }
+  .st.ok { color: #23b858; border-color: rgba(35,184,88,.5); }
+  .st.bad { color: #ff6b6b; border-color: rgba(255,107,107,.5); }
+  .file button {
+    background: transparent; border: 1px solid #4b5a70; color: #dde4ec;
+    font-family: "Vazirmatn", sans-serif; font-size: 12px; font-weight: 700;
+    padding: 7px 12px; cursor: pointer; white-space: nowrap; transition: all .2s;
+  }
+  .file button:hover { border-color: #ff7d21; color: #ff9a4d; }
+  .file button:disabled { opacity: .4; cursor: not-allowed; }
+  .log {
+    margin-top: 18px; background: #0b0e13;
+    border: 1px dashed #33415499; padding: 14px 16px;
+    font-size: 12px; line-height: 2; color: #97a7ba;
+    max-height: 240px; overflow-y: auto; direction: ltr; text-align: left;
+    font-family: "Oswald", monospace; letter-spacing: .02em;
+  }
+  .log .ok { color: #23b858; }
+  .log .err { color: #ff6b6b; }
+  .log .warn { color: #ffc39a; }
+  .copylog {
+    margin-top: 10px; background: none; border: 1px solid #4b5a70; color: #97a7ba;
+    font-family: "Vazirmatn", sans-serif; font-size: 11.5px; padding: 6px 12px;
+    cursor: pointer; transition: all .2s;
+  }
+  .copylog:hover { border-color: #ff7d21; color: #ff9a4d; }
+  .alert {
+    display: none; margin-top: 18px; border: 1px solid #ff6b6b;
+    background: rgba(255,107,107,.07); padding: 16px 18px;
+    font-size: 13px; line-height: 2.05; color: #f0f3f7;
+  }
+  .alert b { color: #ff9a4d; }
+  .note { margin-top: 18px; font-size: 12.5px; line-height: 2; color: #6e7f95; }
+  .note b { color: #c0cbd8; }
+  .struct {
+    margin-top: 12px; background: #0b0e13; border: 1px solid #243040;
+    padding: 14px 18px; font-family: "Oswald", monospace; font-size: 12.5px;
+    color: #97a7ba; direction: ltr; text-align: left; line-height: 1.9;
+    white-space: pre; overflow-x: auto;
+  }
+  .struct b { color: #ff9a4d; font-weight: 600; }
+  details.guide { margin-top: 18px; border: 1px solid #243040; background: #141a23; }
+  details.guide summary {
+    cursor: pointer; padding: 14px 18px; font-size: 13.5px; font-weight: 700;
+    color: #ffc39a; list-style: none;
+  }
+  details.guide summary::-webkit-details-marker { display: none; }
+  details.guide .inner { padding: 0 18px 18px; font-size: 12.5px; line-height: 2.1; color: #97a7ba; }
+  details.guide code, .alert code {
+    direction: ltr; display: inline-block; background: #0b0e13;
+    border: 1px solid #243040; padding: 1px 8px; color: #ffc39a;
+    font-family: "Oswald", monospace; font-size: 11.5px;
+  }
+  details.guide ol { padding-right: 20px; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <p class="kicker">Persis Metal · Deployment Kit</p>
+    <h1>دریافت خروجی نهایی سایت</h1>
+    <p class="sub">
+      این صفحه به‌محض باز شدن، <b>به‌طور خودکار</b> هر ۳ فایل را از چند مسیر مختلف جستجو و
+      <b>اعتبارسنجی</b> می‌کند (حجم واقعی کنار هر فایل نمایش داده می‌شود —
+      اگر سبز شد یعنی فایل سالم است). سپس با یک کلیک دانلود کنید.
+    </p>
+
+    <button class="btn" id="allBtn" onclick="downloadAll()" disabled>در حال بررسی فایل‌ها…</button>
+
+    <div class="files">
+      <div class="file">
+        <span class="name" id="nm-html">index.html</span>
+        <span class="tag">HTML</span>
+        <span class="st check" id="st-html">در حال بررسی…</span>
+        <button id="dl-html" disabled onclick="download('html')">دانلود</button>
+        <button id="cp-html" disabled onclick="copyFile('html')">کپی</button>
+      </div>
+      <div class="file">
+        <span class="name" id="nm-css">—</span>
+        <span class="tag">CSS</span>
+        <span class="st check" id="st-css">در حال بررسی…</span>
+        <button id="dl-css" disabled onclick="download('css')">دانلود</button>
+        <button id="cp-css" disabled onclick="copyFile('css')">کپی</button>
+      </div>
+      <div class="file">
+        <span class="name" id="nm-js">—</span>
+        <span class="tag">JS</span>
+        <span class="st check" id="st-js">در حال بررسی…</span>
+        <button id="dl-js" disabled onclick="download('js')">دانلود</button>
+        <button id="cp-js" disabled onclick="copyFile('js')">کپی</button>
+      </div>
+    </div>
+
+    <div class="log" id="log">starting…</div>
+    <button class="copylog" onclick="copyLog()">📋 کپی گزارش وضعیت (برای ارسال به پشتیبانی)</button>
+
+    <div class="alert" id="alert"></div>
+
+    <p class="note">
+      <b>ساختار آپلود در هاست:</b> فایل <b>index.html</b> و پوشه‌های <b>assets</b> و <b>images</b> مستقیم داخل
+      <b>public_html</b> — و دو فایل <b>og-cover.png</b> و <b>logo.png</b> هم کنار index.html.
+      <br />
+      دانلود مستقیم تصاویر برند:
+      <a href="https://image.qwenlm.ai/generated-images/3acc4b45-f0b2-4bea-9046-4dd9e3041a5b/_result.png" target="_blank" style="color:#ff9a4d">og-cover.png</a> ·
+      <a href="https://image.qwenlm.ai/generated-images/6cd44843-c1bb-4073-a5fb-6846014d0d07/_result.png" target="_blank" style="color:#ff9a4d">logo.png</a>
+      — ده عکس دیگر هم در فایل <b>images/README.txt</b> لیست شده‌اند.
+    </p>
+    <div class="struct">public_html/
+├── <b>index.html</b>          (~4 KB)
+├── <b>og-cover.png</b> · <b>logo.png</b>
+├── <b>assets/</b>
+│   ├── <b id="cssName2">index-….css</b>   (~59 KB)
+│   └── <b id="jsName2">index-….js</b>    (~354 KB)
+└── <b>images/</b>  ← ده عکس سایت</div>
+
+    <details class="guide" id="guide">
+      <summary>⚙ راه جایگزین: ساخت خروجی روی کامپیوتر خودتان (۵ دقیقه — قطعی)</summary>
+      <div class="inner">
+        اگر همه مسیرهای بالا قرمز شدند، این محیط پیش‌نمایش به فایل‌های خروجی دسترسی نمی‌دهد. در این صورت:
+        <ol>
+          <li>برنامه <b>Node.js LTS</b> را از <span dir="ltr">nodejs.org</span> دانلود و نصب کنید (فقط Next بزنید).</li>
+          <li>سورس پروژه را از همین محیط بگیرید (اگر گزینه Export/Download ZIP در منوی پروژه هست) یا از گیت‌هاب.</li>
+          <li>در پوشه پروژه، یک ترمینال (CMD) باز کنید و این دو دستور را بزنید:
+            <br /><code>npm install</code> و سپس <code>npm run build</code>
+          </li>
+          <li>پوشه <code>dist</code> ساخته می‌شود — محتوای آن همان خروجی نهایی است؛ آپلودش کنید.</li>
+        </ol>
+      </div>
+    </details>
+  </div>
+
+<script>
+  /* نام فایل‌های آخرین بیلد */
+  var KNOWN = { css: "index-CTHeSASq.css", js: "index-BWr2w6-G.js" };
+  var names = { css: KNOWN.css, js: KNOWN.js };
+
+  /* مسیرهای جستجو برای هر فایل */
+  function pathsFor(kind) {
+    if (kind === "html") {
+      return ["dist/index.html", "/dist/index.html", "index.html", "/index.html"];
+    }
+    var n = names[kind];
+    return [
+      "dist/assets/" + n, "/dist/assets/" + n,
+      "assets/" + n, "/assets/" + n
+    ];
+  }
+
+  function isHtmlLike(text) {
+    return /^\s*<!doctype/i.test(text) || /^\s*<html/i.test(text);
+  }
+  function isValid(kind, text) {
+    if (!text) return false;
+    if (kind === "html") {
+      var hasAssets = text.indexOf("/assets/index-") !== -1;
+      var isDev = text.indexOf("/src/main.tsx") !== -1;
+      return text.length > 2000 && text.length < 40000 && hasAssets && !isDev;
+    }
+    if (kind === "css") return !isHtmlLike(text) && text.length > 20000;
+    return !isHtmlLike(text) && text.length > 100000; /* js */
+  }
+  function kb(n) { return (n / 1024).toFixed(1) + " KB"; }
+
+  function log(msg, cls) {
+    var el = document.getElementById("log");
+    var line = document.createElement("div");
+    if (cls) line.className = cls;
+    line.textContent = msg;
+    el.appendChild(line);
+    el.scrollTop = el.scrollHeight;
+  }
+  function copyLog() {
+    var el = document.getElementById("log");
+    try { navigator.clipboard.writeText(el.innerText); } catch (e) {}
+  }
+
+  var store = {}; /* kind -> { name, text } */
+
+  function setSt(kind, text, cls) {
+    var el = document.getElementById("st-" + kind);
+    el.textContent = text;
+    el.className = "st " + cls;
+  }
+
+  function findFile(kind) {
+    var list = pathsFor(kind);
+    var i = 0;
+    function next() {
+      if (i >= list.length) {
+        setSt(kind, "در دسترس نیست ✗", "bad");
+        log("✗ " + kind + ": all paths failed", "err");
+        return Promise.resolve(null);
+      }
+      var p = list[i];
+      log("→ trying " + p + " …");
+      return fetch(p, { cache: "no-store" })
+        .then(function (r) {
+          if (!r.ok) {
+            log("  · " + p + " → HTTP " + r.status, "warn");
+            i++;
+            return next();
+          }
+          return r.text().then(function (text) {
+            if (!isValid(kind, text)) {
+              log("  · " + p + " → returned HTML/wrong content (" + kb(text.length) + ") — rejected", "warn");
+              i++;
+              return next();
+            }
+            var name = kind === "html" ? "index.html" : names[kind];
+            store[kind] = { name: name, text: text };
+            setSt(kind, kb(text.length) + " ✓", "ok");
+            log("✓ " + kind + " found at " + p + " (" + kb(text.length) + ")", "ok");
+            document.getElementById("dl-" + kind).disabled = false;
+            document.getElementById("cp-" + kind).disabled = false;
+            return store[kind];
+          });
+        })
+        .catch(function () {
+          log("  · " + p + " → network error", "warn");
+          i++;
+          return next();
+        });
+    }
+    return next();
+  }
+
+  /* اگر dist/index.html در دسترس بود، نام فایل‌های واقعیِ همان بیلد را از آن می‌خوانیم */
+  function detectNames() {
+    return fetch("dist/index.html", { cache: "no-store" })
+      .then(function (r) { return r.ok ? r.text() : ""; })
+      .then(function (html) {
+        if (!html) return fetch("/dist/index.html", { cache: "no-store" }).then(function (r) { return r.ok ? r.text() : ""; });
+        return html;
+      })
+      .then(function (html) {
+        if (!html) return;
+        var re = /assets\/(index-[^"']+?\.(?:js|css))/g, m;
+        while ((m = re.exec(html)) !== null) {
+          if (/\.css$/.test(m[1])) names.css = m[1];
+          else names.js = m[1];
+        }
+        log("build detected: " + names.css + " / " + names.js, "ok");
+      })
+      .catch(function () { log("dist/index.html not reachable — using known names", "warn"); })
+      .then(function () {
+        document.getElementById("nm-css").textContent = "assets/" + names.css;
+        document.getElementById("nm-js").textContent = "assets/" + names.js;
+        document.getElementById("cssName2").textContent = names.css;
+        document.getElementById("jsName2").textContent = names.js;
+      });
+  }
+
+  function saveBlob(text, name, type) {
+    var blob = new Blob([text], { type: type });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 5000);
+  }
+
+  var TYPES = { html: "text/html", css: "text/css", js: "text/javascript" };
+
+  function download(kind) {
+    var get = store[kind] ? Promise.resolve(store[kind]) : findFile(kind);
+    return get.then(function (f) {
+      if (!f) { showFallback(); return; }
+      saveBlob(f.text, f.name, TYPES[kind]);
+      log("⬇ downloaded " + f.name + " (" + kb(f.text.length) + ")", "ok");
+    });
+  }
+
+  function copyFile(kind) {
+    var get = store[kind] ? Promise.resolve(store[kind]) : findFile(kind);
+    return get.then(function (f) {
+      if (!f) { showFallback(); return; }
+      try {
+        navigator.clipboard.writeText(f.text);
+        log("📋 " + f.name + " copied — paste it in Notepad and save as " + f.name + " (UTF-8)", "ok");
+      } catch (e) {
+        log("✗ clipboard blocked", "err");
+      }
+    });
+  }
+
+  function showFallback() {
+    document.getElementById("alert").style.display = "block";
+    document.getElementById("alert").innerHTML =
+      "<b>فایل‌های خروجی از این آدرس قابل دریافت نیستند.</b><br/>" +
+      "این صفحه نسخه پیش‌نمایش/توسعه است و سرور به‌جای فایل‌های نهایی، صفحه HTML می‌فرستد " +
+      "(به همین دلیل قبلاً فایل‌های ~4KB خراب دریافت می‌کردید).<br/>" +
+      "<b>راه حل قطعی:</b> راهنمای «ساخت خروجی روی کامپیوتر» در پایین همین صفحه را باز کنید — " +
+      "یا صفحه دانلود را از <b>لینک نسخه منتشرشده/Deploy</b> پروژه باز کنید.";
+    document.getElementById("guide").open = true;
+  }
+
+  function downloadAll() {
+    var btn = document.getElementById("allBtn");
+    btn.disabled = true;
+    btn.textContent = "در حال دانلود…";
+    download("html")
+      .then(function () { return new Promise(function (r) { setTimeout(r, 600); }); })
+      .then(function () { return download("css"); })
+      .then(function () { return new Promise(function (r) { setTimeout(r, 600); }); })
+      .then(function () { return download("js"); })
+      .then(function () {
+        var missing = ["html", "css", "js"].filter(function (k) { return !store[k]; });
+        if (missing.length) {
+          showFallback();
+          btn.textContent = "دانلود هر ۳ فایل";
+        } else {
+          btn.textContent = "✔ هر ۳ فایل دانلود شد — حجم‌ها را چک کنید";
+          log("✔ ALL DONE — check your Downloads folder. Expected: html ~4KB, css ~59KB, js ~354KB", "ok");
+        }
+        btn.disabled = false;
+      });
+  }
+
+  /* شروع خودکار بررسی به‌محض باز شدن صفحه */
+  detectNames().then(function () {
+    log("searching for build output…", "warn");
+    return findFile("html");
+  }).then(function () {
+    return findFile("css");
+  }).then(function () {
+    return findFile("js");
+  }).then(function () {
+    var btn = document.getElementById("allBtn");
+    var ready = store.html && store.css && store.js;
+    btn.disabled = false;
+    if (ready) {
+      btn.textContent = "⬇ دانلود هر ۳ فایل (سالم ✓)";
+    } else {
+      btn.textContent = "بررسی ناموفق بود — راهنمای پایین را ببینید";
+      showFallback();
+    }
+  });
+</script>
+</body>
+</html>

@@ -111,8 +111,8 @@ function LanguageLayout() {
 
 export default function App() {
   return (
-    <LangProvider>
-      <BrowserRouter>
+    <BrowserRouter>
+      <LangProvider>
         <ScrollToTop />
         <div className="noise min-h-screen bg-graphite-950 font-body text-graphite-100">
           <Header />
@@ -125,7 +125,7 @@ export default function App() {
           <Footer />
           <WaFloat />
         </div>
-      </BrowserRouter>
-    </LangProvider>
+      </LangProvider>
+    </BrowserRouter>
   );
 }
