@@ -1,4 +1,5 @@
 RewriteEngine On
+RewriteBase /
 
 # IMPORTANT: Serve existing files (CSS, JS, images) directly without rewriting
 # This prevents MIME type errors where assets return text/html instead of their proper type
@@ -11,17 +12,14 @@ RewriteRule ^ - [L]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]
 
-# Handle language subdirectories: /en/, /ru/, /ar/ and their sub-paths
-# These routes should be rewritten to index.html for React Router to handle
-RewriteRule ^(en|ru|ar)/?$ index.html [QSA,L]
-RewriteRule ^(en|ru|ar)/(.*)$ index.html [QSA,L]
-
 # Handle root path - redirect to /en/
 RewriteCond %{REQUEST_URI} ^/$
-RewriteRule ^ en/ [R=302,L]
+RewriteRule ^ /en/ [R=302,L]
 
-# Catch-all for any other route - serve index.html for React Router
-RewriteRule ^(.*)$ index.html [QSA,L]
+# Handle language subdirectories: /en/, /ru/, /ar/ and all their sub-paths
+# These routes should be rewritten to index.html for React Router to handle
+RewriteCond %{REQUEST_URI} ^/(en|ru|ar)(/.*)?$
+RewriteRule ^(.*)$ /index.html [QSA,L]
 
 # Security headers
 <IfModule mod_headers.c>
@@ -30,10 +28,10 @@ RewriteRule ^(.*)$ index.html [QSA,L]
     Header always set X-Content-Type-Options "nosniff"
     # Ensure correct MIME types for static assets
     <FilesMatch "\.(js|mjs)$">
-        Header set Content-Type "application/javascript"
+        Header set Content-Type "application/javascript; charset=utf-8"
     </FilesMatch>
     <FilesMatch "\.css$">
-        Header set Content-Type "text/css"
+        Header set Content-Type "text/css; charset=utf-8"
     </FilesMatch>
 </IfModule>
 
