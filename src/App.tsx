@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { BrowserRouter, Route, Routes, useLocation, useNavigate, useParams, useOutlet } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation, useNavigate, useParams } from "react-router-dom";
 import { LangProvider, LANGUAGES, useLang } from "./i18n";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -41,7 +41,7 @@ function LocalizedRoutes() {
 
 /**
  * LanguageLayout reads the lang from the URL param and sets it via context.
- * It also renders hreflang tags for SEO.
+ * It also updates hreflang tags for SEO via document.head manipulation.
  */
 function LanguageLayout() {
   const { langCode } = useParams<{ langCode: string }>();
@@ -66,34 +66,47 @@ function LanguageLayout() {
     }
   }, [location.pathname, navigate]);
 
-  return (
-    <>
-      {/* Hreflang tags for multilingual SEO */}
-      <HreflangTags />
-      <LocalizedRoutes />
-    </>
-  );
-}
+  // Update hreflang tags in document head
+  useEffect(() => {
+    const basePath = location.pathname.replace(/^\/(en|ru|ar)/, "") || "/";
+    const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'https://persismetal.com';
+    
+    const urls = {
+      en: `${baseUrl}/en${basePath}`,
+      ar: `${baseUrl}/ar${basePath}`,
+      ru: `${baseUrl}/ru${basePath}`,
+    };
 
-/** Renders hreflang link tags for all language variants of the current page */
-function HreflangTags() {
-  const location = useLocation();
-  const basePath = location.pathname.replace(/^\/(en|ar|ru)/, "") || "/";
-  
-  const urls = {
-    en: `https://persismetal.com/en${basePath}`,
-    ar: `https://persismetal.com/ar${basePath}`,
-    ru: `https://persismetal.com/ru${basePath}`,
-  };
+    // Remove existing hreflang tags
+    if (typeof document !== 'undefined') {
+      const existingTags = document.querySelectorAll('link[rel="alternate"]');
+      existingTags.forEach(tag => tag.remove());
 
-  return (
-    <>
-      <link rel="alternate" hrefLang="en" href={urls.en} />
-      <link rel="alternate" hrefLang="ar" href={urls.ar} />
-      <link rel="alternate" hrefLang="ru" href={urls.ru} />
-      <link rel="alternate" hrefLang="x-default" href={urls.en} />
-    </>
-  );
+      // Create new hreflang tags
+      const createLink = (hrefLang: string, href: string) => {
+        const link = document.createElement("link");
+        link.rel = "alternate";
+        link.hrefLang = hrefLang;
+        link.href = href;
+        document.head.appendChild(link);
+      };
+
+      createLink("en", urls.en);
+      createLink("ar", urls.ar);
+      createLink("ru", urls.ru);
+      createLink("x-default", urls.en);
+    }
+
+    // Cleanup on unmount
+    return () => {
+      if (typeof document !== 'undefined') {
+        const tags = document.querySelectorAll('link[rel="alternate"]');
+        tags.forEach(tag => tag.remove());
+      }
+    };
+  }, [location.pathname]);
+
+  return <LocalizedRoutes />;
 }
 
 export default function App() {

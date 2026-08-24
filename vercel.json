@@ -1,0 +1,39 @@
+{
+  "rewrites": [
+    {
+      "source": "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/en/(.*)",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/ar/(.*)",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/ru/(.*)",
+      "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        }
+      ]
+    }
+  ]
+}
