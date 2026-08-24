@@ -1,15 +1,49 @@
 RewriteEngine On
 
-# Handle language subdirectories and clean URLs
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^([a-z]{2})/(.*)$ /index.html [QSA,L]
-RewriteRule ^([a-z]{2})$ /index.html [QSA,L]
-RewriteRule ^(.*)$ /index.html [QSA,L]
+# IMPORTANT: Serve existing files (CSS, JS, images) directly without rewriting
+# This prevents MIME type errors where assets return text/html instead of their proper type
+
+# If the request is for an existing file, serve it directly
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^ - [L]
+
+# If the request is for an existing directory, serve it directly
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Handle language subdirectories: /en/, /ru/, /ar/ and their sub-paths
+# These routes should be rewritten to index.html for React Router to handle
+RewriteRule ^(en|ru|ar)/?$ index.html [QSA,L]
+RewriteRule ^(en|ru|ar)/(.*)$ index.html [QSA,L]
+
+# Handle root path - redirect to /en/
+RewriteCond %{REQUEST_URI} ^/$
+RewriteRule ^ en/ [R=302,L]
+
+# Catch-all for any other route - serve index.html for React Router
+RewriteRule ^(.*)$ index.html [QSA,L]
 
 # Security headers
 <IfModule mod_headers.c>
     Header always set X-Frame-Options "SAMEORIGIN"
     Header always set X-XSS-Protection "1; mode=block"
     Header always set X-Content-Type-Options "nosniff"
+    # Ensure correct MIME types for static assets
+    <FilesMatch "\.(js|mjs)$">
+        Header set Content-Type "application/javascript"
+    </FilesMatch>
+    <FilesMatch "\.css$">
+        Header set Content-Type "text/css"
+    </FilesMatch>
+</IfModule>
+
+# Disable content-type sniffing protection override for certain file types
+<IfModule mod_mime.c>
+    AddType application/javascript js mjs
+    AddType text/css css
+    AddType image/svg+xml svg
+    AddType image/png png
+    AddType image/jpeg jpg jpeg
+    AddType image/gif gif
+    AddType image/webp webp
 </IfModule>
