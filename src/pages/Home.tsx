@@ -53,7 +53,7 @@ function Hero() {
               {t("hero.ctaWa")}
             </a>
             <Link
-              to="/quote"
+              to="quote"
               className="group flex items-center justify-center gap-3 border border-graphite-500/60 px-7 py-4 font-display text-sm font-semibold uppercase tracking-[0.14em] text-graphite-100 transition-all duration-300 hover:border-molten-500 hover:text-molten-400"
             >
               {t("hero.ctaQuote")}
@@ -112,7 +112,7 @@ function Catalogue() {
           <SectionHead tone="light" kicker={t("cat.kicker")} title={t("cat.title")} sub={t("cat.sub")} />
           <Reveal delay={150}>
             <Link
-              to="/products"
+              to="products"
               className="group flex items-center gap-3 border border-ink-700/30 px-6 py-3.5 font-display text-xs font-semibold uppercase tracking-[0.18em] text-ink-700 transition-all duration-300 hover:border-molten-600 hover:bg-molten-600 hover:text-graphite-50"
             >
               {t("pr.details")}

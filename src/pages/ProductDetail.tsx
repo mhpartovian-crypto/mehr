@@ -79,7 +79,7 @@ export default function ProductDetail() {
     : t("seo.products");
   usePageMeta(title, found ? L(found.product.summary) : undefined);
 
-  if (!found) return <Navigate to="/products" replace />;
+  if (!found) return <Navigate to="products" replace />;
   const { product: p, category } = found;
   const rep = TEAM[p.rep];
   const pImg = productImage(p.slug, category.id);
@@ -96,7 +96,7 @@ export default function ProductDetail() {
           <nav className="anim-fade-up flex flex-wrap items-center gap-2 text-xs uppercase tracking-[0.14em] text-graphite-500" aria-label="Breadcrumb">
             <Link to="/" className="transition-colors hover:text-molten-400">{t("nav.home")}</Link>
             <span>/</span>
-            <Link to="/products" className="transition-colors hover:text-molten-400">{t("nav.products")}</Link>
+            <Link to="products" className="transition-colors hover:text-molten-400">{t("nav.products")}</Link>
             <span>/</span>
             <Link to={`/products?cat=${category.id}`} className="transition-colors hover:text-molten-400">
               {L(category.name)}
@@ -318,7 +318,7 @@ export default function ProductDetail() {
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <SectionHead kicker={L(category.name)} title={t("p.related")} />
-            <Link to="/products" className="mb-1 flex items-center gap-2 font-display text-xs font-semibold uppercase tracking-[0.18em] text-molten-400 transition-colors hover:text-molten-300">
+            <Link to="products" className="mb-1 flex items-center gap-2 font-display text-xs font-semibold uppercase tracking-[0.18em] text-molten-400 transition-colors hover:text-molten-300">
               {t("p.back")}
               <IconArrow className="h-4 w-4 rtl:-scale-x-100" />
             </Link>

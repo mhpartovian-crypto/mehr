@@ -5,8 +5,10 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export type Lang = "en" | "ru" | "ar";
+export const LANGUAGES: Lang[] = ["en", "ru", "ar"];
 export type Loc = { en: string; ru: string; ar: string };
 
 type Dict = Record<string, Loc>;
@@ -634,25 +636,52 @@ const Ctx = createContext<LangCtx>({
   L: (l) => l.en,
 });
 
+/**
+ * LangProvider now reads language from URL path instead of localStorage.
+ * The setLang function navigates to the equivalent page in the new language subdirectory.
+ */
 export function LangProvider({ children }: { children: ReactNode }) {
-  const [lang, setLangState] = useState<Lang>(() => {
-    const saved = localStorage.getItem("pm-lang");
-    return saved === "ru" || saved === "ar" || saved === "en" ? saved : "en";
-  });
+  const navigate = useNavigate();
+  const location = useLocation();
+  
+  // Extract language from URL path (e.g., /en/about -> "en")
+  const getLangFromPath = (): Lang => {
+    const match = location.pathname.match(/^\/(en|ru|ar)/);
+    if (match && (match[1] === "en" || match[1] === "ru" || match[1] === "ar")) {
+      return match[1];
+    }
+    return "en"; // default
+  };
+
+  const [lang, setLangState] = useState<Lang>(getLangFromPath);
+
+  // Sync state when URL changes (e.g., browser back/forward)
+  useEffect(() => {
+    const urlLang = getLangFromPath();
+    setLangState(urlLang);
+  }, [location.pathname]);
 
   useEffect(() => {
-    localStorage.setItem("pm-lang", lang);
     const dir = lang === "ar" ? "rtl" : "ltr";
     document.documentElement.setAttribute("dir", dir);
     document.documentElement.setAttribute("lang", lang);
     document.documentElement.setAttribute("data-lang", lang);
   }, [lang]);
 
+  /**
+   * Changes language by navigating to the equivalent page in the new language subdirectory.
+   * E.g., from /en/about to /ar/about
+   */
+  const setLang = (newLang: Lang) => {
+    const newPath = location.pathname.replace(/^\/(en|ru|ar)/, `/${newLang}`);
+    navigate(newPath);
+  };
+
   const t = (key: string) => D[key]?.[lang] ?? D[key]?.en ?? key;
   const L = (loc: Loc) => loc[lang] || loc.en;
 
   return (
-    <Ctx.Provider value={{ lang, setLang: setLangState, t, L }}>
+    <Ctx.Provider value={{ lang, setLang, t, L }}>
       {children}
     </Ctx.Provider>
   );

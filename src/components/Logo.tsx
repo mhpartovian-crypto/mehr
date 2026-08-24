@@ -70,7 +70,7 @@ export function LogoMark({
 
 export default function Logo({ variant = ACTIVE_LOGO }: { variant?: number }) {
   return (
-    <Link to="/" className="group flex items-center gap-3" aria-label="Persis Metal — home">
+    <Link to="" className="group flex items-center gap-3" aria-label="Persis Metal — home">
       <LogoMark size={38} variant={variant} className="transition-transform duration-300 group-hover:scale-105" />
       <span className="leading-none">
         <span className="block font-display text-[1.05rem] font-semibold uppercase tracking-[0.22em] text-graphite-50">
