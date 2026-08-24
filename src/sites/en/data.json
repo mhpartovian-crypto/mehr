@@ -1,0 +1,109 @@
+{
+  "site": {
+    "title": "Persis Metal — Iranian Steel, Copper & Aluminum Exporter",
+    "description": "Persis Metal exports Iranian steel billets, rebar, hot & cold rolled coils, iron ore pellets, DRI, copper cathode 99.99%, aluminum ingots and ferroalloys to Iraq, CIS, Afghanistan, Russia and China. MTC with every lot, FOB to DAP logistics, quotes in under 4 hours.",
+    "keywords": "steel billet export Iran, copper cathode 99.99, aluminum ingot supplier, iron ore pellet, sponge iron DRI, rebar A3 export, hot rolled coil, galvanized sheet, ferro silicon 75, Persis Metal",
+    "canonical": "https://www.persismetal.com/en/",
+    "ogLocale": "en_US"
+  },
+  "nav": {
+    "home": "Home",
+    "products": "Products",
+    "blog": "Blog",
+    "about": "About Us",
+    "contact": "Contact",
+    "quote": "Request a Quote"
+  },
+  "hero": {
+    "tag": "Export trading house — metals & minerals, Tehran",
+    "kicker": "Iranian metals & minerals · export desk",
+    "t1": "Iranian metals,",
+    "t2": "delivered to your market.",
+    "sub": "From iron ore to copper cathode — 20+ product lines sourced directly from Iranian mills and mines, exported with integrated logistics and full documentation.",
+    "ctaWa": "Chat on WhatsApp",
+    "ctaQuote": "Request a price",
+    "chip1": "Origin: Iran",
+    "chip2": "MTC EN 10204 3.1",
+    "chip3": "Fe · Cu · Al certified",
+    "imgCap": "Billet 5SP — ready for loading, Bandar Abbas",
+    "reply": "Average reply time"
+  },
+  "stats": {
+    "kicker": "Persis Metal in numbers",
+    "t1": "annual export capacity, t",
+    "t2": "active export markets",
+    "t3": "average reply time",
+    "t4": "shipments with MTC & full docs"
+  },
+  "catalogue": {
+    "kicker": "Catalogue",
+    "title": "Product range",
+    "sub": "Seven families, 23 export-ready specifications — every box below opens a full technical page with chemistry, dimensions and packing.",
+    "products": "products",
+    "open": "Open family"
+  },
+  "advantages": {
+    "kicker": "Why Persis Metal",
+    "c1": "Quote in under 4 hours",
+    "c2": "FOB → DAP, with real borders & transit days",
+    "c3": "MTC + CoO + packing list with every lot",
+    "c4": "EN · RU · AR sales desks"
+  },
+  "markets": [
+    {
+      "code": "IQ",
+      "name": "Iraq",
+      "demand": "Reconstruction demand for rebar, sections and wire rod.",
+      "mode": "Road & sea",
+      "transit": "7–12",
+      "gate": "Parvizkhan · Umm Qasr"
+    },
+    {
+      "code": "AF",
+      "name": "Afghanistan",
+      "demand": "Urgent need for rebar and beams; easy land borders from the east.",
+      "mode": "Road",
+      "transit": "5–9",
+      "gate": "Dogharoon · Islam Qala"
+    },
+    {
+      "code": "CIS",
+      "name": "CIS & Central Asia",
+      "demand": "Uzbekistan, Kazakhstan, Turkmenistan — large construction programs prefer nearby supply.",
+      "mode": "Rail",
+      "transit": "10–16",
+      "gate": "Sarakhs · Incheh Borun"
+    },
+    {
+      "code": "CN",
+      "name": "China",
+      "demand": "A traditional buyer of Iranian iron ore and pellet at sea-freight scale.",
+      "mode": "Sea",
+      "transit": "18–25",
+      "gate": "Bandar Abbas → Qingdao"
+    },
+    {
+      "code": "RU",
+      "name": "Russia",
+      "demand": "Billet, flats and ferroalloys via Caspian sea and rail — a native-language desk in Moscow hours.",
+      "mode": "Sea & rail",
+      "transit": "12–20",
+      "gate": "Bandar Abbas → Astrakhan"
+    }
+  ],
+  "footer": {
+    "desc": "B2B export trading house for Iranian steel, copper, aluminum and mineral products — from mill gate to your market.",
+    "links": "Site",
+    "cats": "Products",
+    "contact": "Contact",
+    "wa": "WhatsApp desk",
+    "rights": "All rights reserved.",
+    "tag": "Tehran · Bandar Abbas",
+    "note": "Persis Metal is an independent export trading house. Product photos on this site are illustrative of Iranian-origin material; exact specification is confirmed by MTC per lot."
+  },
+  "contact": {
+    "phone": "+98 21 9100 4510",
+    "salesEmail": "sales@persismetal.com",
+    "infoEmail": "info@persismetal.com"
+  }
+}

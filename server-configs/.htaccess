@@ -1,0 +1,105 @@
+# Apache .htaccess Configuration for Persis Metal Multi-Language SPA
+# Place this file in the root directory (/var/www/persismetal/.htaccess)
+# Handles root redirect and SPA fallback for /en/, /ar/, /ru/ subdirectories
+
+# Enable Rewrite Engine
+RewriteEngine On
+
+# ============================================
+# FORCE HTTPS (Optional - recommended for production)
+# ============================================
+# Uncomment the following lines to force HTTPS
+# RewriteCond %{HTTPS} off
+# RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# ============================================
+# REMOVE WWW OR ADD WWW (Choose one)
+# ============================================
+# Option 1: Remove www (use non-www canonical)
+# RewriteCond %{HTTP_HOST} ^www\.persismetal\.com$ [NC]
+# RewriteRule ^(.*)$ https://persismetal.com/$1 [R=301,L]
+
+# Option 2: Add www (use www canonical) - CURRENTLY ACTIVE
+RewriteCond %{HTTP_HOST} ^persismetal\.com$ [NC]
+RewriteRule ^(.*)$ https://www.persismetal.com/$1 [R=301,L]
+
+# ============================================
+# ROOT DOMAIN REDIRECT TO /en/
+# ============================================
+# Redirect exact root path to /en/
+RewriteRule ^$ /en/ [R=301,L]
+
+# Redirect any path that doesn't start with /en/, /ar/, or /ru/ to /en/
+RewriteCond %{REQUEST_URI} !^/en/ [NC]
+RewriteCond %{REQUEST_URI} !^/ar/ [NC]
+RewriteCond %{REQUEST_URI} !^/ru/ [NC]
+RewriteRule ^(.*)$ /en/$1 [R=301,L]
+
+# ============================================
+# ENGLISH SITE (/en/) - SPA FALLBACK
+# ============================================
+# If the request is for /en/ or /en/something, serve /en/index.html
+RewriteCond %{REQUEST_URI} ^/en/ [NC]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^en/(.*)$ /en/index.html [L,QSA]
+
+# ============================================
+# ARABIC SITE (/ar/) - SPA FALLBACK
+# ============================================
+# If the request is for /ar/ or /ar/something, serve /ar/index.html
+RewriteCond %{REQUEST_URI} ^/ar/ [NC]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ar/(.*)$ /ar/index.html [L,QSA]
+
+# ============================================
+# RUSSIAN SITE (/ru/) - SPA FALLBACK
+# ============================================
+# If the request is for /ru/ or /ru/something, serve /ru/index.html
+RewriteCond %{REQUEST_URI} ^/ru/ [NC]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ru/(.*)$ /ru/index.html [L,QSA]
+
+# ============================================
+# CACHE CONTROL FOR STATIC ASSETS
+# ============================================
+<IfModule mod_expires.c>
+    ExpiresActive On
+    
+    # Images
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    
+    # Fonts
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType font/woff "access plus 1 year"
+    ExpiresByType font/ttf "access plus 1 year"
+    ExpiresByType application/font-woff "access plus 1 year"
+    
+    # CSS and JavaScript
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType text/javascript "access plus 1 month"
+</IfModule>
+
+# Security Headers
+<IfModule mod_headers.c>
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-XSS-Protection "1; mode=block"
+</IfModule>
+
+# Gzip Compression
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE text/javascript
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/json
+    AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>

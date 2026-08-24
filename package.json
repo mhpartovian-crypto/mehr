@@ -3,8 +3,13 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "dev:en": "VITE_SITE=en vite --open src/sites/en/index.html",
+    "dev:ar": "VITE_SITE=ar vite --open src/sites/ar/index.html",
+    "dev:ru": "VITE_SITE=ru vite --open src/sites/ru/index.html",
+    "build:en": "VITE_SITE=en vite build --config vite.config.js --emptyOutDir",
+    "build:ar": "VITE_SITE=ar vite build --config vite.config.js --emptyOutDir",
+    "build:ru": "VITE_SITE=ru vite build --config vite.config.js --emptyOutDir",
+    "build:all": "npm run build:en && npm run build:ar && npm run build:ru",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
